@@ -23,6 +23,19 @@ public class Restaurant {
     public Restaurant() {
     }
 
+    public Restaurant(String name, String street, String city, String postCode, Genre genre, String url,
+                      String openTime, String closeTime, String phoneNumber){
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.postCode = postCode;
+        this.genre = genre;
+        this.url = url;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Long getId() {
         return id;
     }
