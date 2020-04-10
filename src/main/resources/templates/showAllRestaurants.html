@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All restaurants</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Genre</th>
+        <th>Street</th>
+        <th>City</th>
+        <th>Post code</th>
+        <th>Url</th>
+        <th>Open</th>
+        <th>Close</th>
+        <th>Phone number</th>
+    </tr>
+    <tr th:each="r : ${allRestaurants}">
+        <td th:text="*{r.name}"></td>
+        <td th:text="*{r.genre.getDescirption()}"></td>
+        <td th:text="*{r.street}"></td>
+        <td th:text="*{r.city}"></td>
+        <td th:text="*{r.postCode}"></td>
+        <td th:text="*{r.url}"></td>
+        <td th:text="*{r.openTime}"></td>
+        <td th:text="*{r.closeTime}"></td>
+        <td th:text="*{r.phoneNumber}"></td>
+    </tr>
+</table>
+<p><a th:href="@{/}">Main menu</a></p>
+</body>
+</html>

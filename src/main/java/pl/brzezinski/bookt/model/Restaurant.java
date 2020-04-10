@@ -3,8 +3,6 @@ package pl.brzezinski.bookt.model;
 import pl.brzezinski.bookt.model.enums.genre.Genre;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.util.Objects;
 
 @Entity
 public class Restaurant {
@@ -13,25 +11,24 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToOne
-    private Address address;
+    private String street;
+    private String city;
+    private String postCode;
     private Genre genre;
     private String url;
-    private Time openTime;
-    private Time closeTime;
+    private String openTime;
+    private String closeTime;
     private String phoneNumber;
 
     public Restaurant() {
     }
 
-    public Restaurant(String name, Address address, Genre genre, String url, Time openTime, Time closeTime, String phoneNumber) {
-        this.name = name;
-        this.address = address;
-        this.genre = genre;
-        this.url = url;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
-        this.phoneNumber = phoneNumber;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,12 +39,28 @@ public class Restaurant {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public Genre getGenre() {
@@ -66,19 +79,19 @@ public class Restaurant {
         this.url = url;
     }
 
-    public Time getOpenTime() {
+    public String getOpenTime() {
         return openTime;
     }
 
-    public void setOpenTime(Time openTime) {
+    public void setOpenTime(String openTime) {
         this.openTime = openTime;
     }
 
-    public Time getCloseTime() {
+    public String getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(Time closeTime) {
+    public void setCloseTime(String closeTime) {
         this.closeTime = closeTime;
     }
 
@@ -88,39 +101,5 @@ public class Restaurant {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address=" + address +
-                ", genre=" + genre +
-                ", url='" + url + '\'' +
-                ", openTime=" + openTime +
-                ", closeTime=" + closeTime +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Restaurant that = (Restaurant) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(address, that.address) &&
-                genre == that.genre &&
-                Objects.equals(url, that.url) &&
-                Objects.equals(openTime, that.openTime) &&
-                Objects.equals(closeTime, that.closeTime) &&
-                Objects.equals(phoneNumber, that.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, address, genre, url, openTime, closeTime, phoneNumber);
     }
 }

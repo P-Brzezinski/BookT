@@ -2,18 +2,18 @@ package pl.brzezinski.bookt.model.enums.genre;
 
 public enum Genre {
 
-    POLISH("Kuchnia polska"),
-    ITALIAN("Kuchnia włoska"),
-    GREEK("Kuchnia grecka"),
+    POLISH("Polish Cuisine"),
+    ITALIAN("Italian cuisine"),
+    GREEK("Greek cuisine"),
     SUSHI("Sushi");
 
-    private String polishName;
+    private String descirption;
 
-    Genre(String polishName) {
-        this.polishName = polishName;
+    Genre(String descirption) {
+        this.descirption = descirption;
     }
 
-    public String getPolishName() {
-        return polishName;
+    public String getDescirption() {
+        return descirption;
     }
 }
