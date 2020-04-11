@@ -3,6 +3,8 @@ package pl.brzezinski.bookt.model;
 import pl.brzezinski.bookt.model.enums.genre.Genre;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Restaurant {
@@ -19,6 +21,7 @@ public class Restaurant {
     private String openTime;
     private String closeTime;
     private String phoneNumber;
+    private List<Table> tables = new ArrayList<>();
 
     public Restaurant() {
     }
@@ -34,6 +37,14 @@ public class Restaurant {
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Table> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<Table> tables) {
+        this.tables = tables;
     }
 
     public Long getId() {
