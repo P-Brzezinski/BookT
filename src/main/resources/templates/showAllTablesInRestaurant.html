@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All tables</title>
+</head>
+<body>
+<h1>Tables in restaurant</h1>
+<table border="1">
+    <tr>
+        <th>Number</th>
+        <th>Places</th>
+        <th>Is it free?</th>
+    </tr>
+    <tr th:each="table : ${allTablesInRestaurant}">
+        <td th:text="*{table.id}"/>
+        <td th:text="*{table.places}"/>
+        <td th:text="*{table.isOccupied.getDescription()}"/>
+    </tr>
+</table>
+<p><a th:href="@{/}">Main menu</a></p>
+</body>
+</html>

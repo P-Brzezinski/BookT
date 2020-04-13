@@ -20,7 +20,7 @@
         Genre:
         <select th:field="*{genre}">
             <option value="">SELECT</option>
-            <option th:each="g : ${genres}" th:value="${g}" th:utext="${g.getDescirption()}"></option>
+            <option th:each="g : ${genres}" th:value="${g}" th:utext="${g.getDescription()}"></option>
         </select>
     </p>
     <p>

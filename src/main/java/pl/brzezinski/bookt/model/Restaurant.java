@@ -1,6 +1,6 @@
 package pl.brzezinski.bookt.model;
 
-import pl.brzezinski.bookt.model.enums.genre.Genre;
+import pl.brzezinski.bookt.model.enums.Genre;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "restaurant_id")
     private Long id;
     private String name;
     private String street;
@@ -21,7 +22,15 @@ public class Restaurant {
     private String openTime;
     private String closeTime;
     private String phoneNumber;
-    private List<Table> tables = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant",
+    fetch = FetchType.EAGER,
+    cascade = CascadeType.PERSIST)
+    private List<SingleTable> tables = new ArrayList<>();
+
+    public void addTable(SingleTable table){
+        table.setRestaurant(this);
+        getTables().add(table);
+    }
 
     public Restaurant() {
     }
@@ -39,11 +48,11 @@ public class Restaurant {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Table> getTables() {
+    public List<SingleTable> getTables() {
         return tables;
     }
 
-    public void setTables(List<Table> tables) {
+    public void setTables(List<SingleTable> tables) {
         this.tables = tables;
     }
 

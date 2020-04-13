@@ -16,10 +16,11 @@
         <th>Open</th>
         <th>Close</th>
         <th>Phone number</th>
+        <th>Tables</th>
     </tr>
     <tr th:each="r : ${allRestaurants}">
         <td th:text="*{r.name}"></td>
-        <td th:text="*{r.genre.getDescirption()}"></td>
+        <td th:text="*{r.genre.getDescription()}"></td>
         <td th:text="*{r.street}"></td>
         <td th:text="*{r.city}"></td>
         <td th:text="*{r.postCode}"></td>
@@ -27,6 +28,7 @@
         <td th:text="*{r.openTime}"></td>
         <td th:text="*{r.closeTime}"></td>
         <td th:text="*{r.phoneNumber}"></td>
+        <td><a th:href="@{/showAllTablesInRestaurant(restaurantId=${r.id})}">Show</a></td>
     </tr>
 </table>
 <p><a th:href="@{/}">Main menu</a></p>
