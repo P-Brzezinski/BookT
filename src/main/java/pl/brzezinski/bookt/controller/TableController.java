@@ -9,24 +9,28 @@ import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.repository.ReservationRepository;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
+import pl.brzezinski.bookt.service.RestaurantService;
+import pl.brzezinski.bookt.service.TableService;
 
 import java.util.List;
 
 @Controller
 public class TableController {
 
-    private RestaurantRepository restaurantDAO;
+    private TableService tableService;
+    private RestaurantService restaurantService;
 
     @Autowired
-    public TableController(RestaurantRepository restaurantDAO) {
-        this.restaurantDAO = restaurantDAO;
+    public TableController(TableService tableService, RestaurantService restaurantService) {
+        this.tableService = tableService;
+        this.restaurantService = restaurantService;
     }
 
     @GetMapping("/showAllTablesInRestaurant")
-    public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model){
-        Restaurant findRestaurant = restaurantDAO.getOne(restaurantId);
-        List<SingleTable> allTablesInRestaurants = findRestaurant.getTables();
-        model.addAttribute("allTablesInRestaurant", allTablesInRestaurants);
+    public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model) {
+        Restaurant findRestaurant = restaurantService.getRestaurant(restaurantId);
+        List<SingleTable> allTablesInRestaurant = findRestaurant.getTables();
+        model.addAttribute("allTablesInRestaurant", allTablesInRestaurant);
         model.addAttribute("restaurantId", restaurantId);
         return "showAllTablesInRestaurant";
     }
