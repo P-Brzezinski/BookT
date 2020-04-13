@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>BookT</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
+<div class="center-content">
     <h1>Welcome to BookT!</h1>
     <p><a th:href="@{/add}">Add restaurant</a></p>
-    <P><a th:href="@{/showAllRestaurants}">Show restaurants</a> </P>
-
+    <P><a th:href="@{/showAllRestaurants}">Show restaurants</a></P>
+</div>
 </body>
 </html>

@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>All restaurants</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Genre</th>
-        <th>Street</th>
-        <th>City</th>
-        <th>Post code</th>
-        <th>Url</th>
-        <th>Open</th>
-        <th>Close</th>
-        <th>Phone number</th>
-        <th>Tables</th>
-    </tr>
-    <tr th:each="r : ${allRestaurants}">
-        <td th:text="*{r.name}"></td>
-        <td th:text="*{r.genre.getDescription()}"></td>
-        <td th:text="*{r.street}"></td>
-        <td th:text="*{r.city}"></td>
-        <td th:text="*{r.postCode}"></td>
-        <td th:text="*{r.url}"></td>
-        <td th:text="*{r.openTime}"></td>
-        <td th:text="*{r.closeTime}"></td>
-        <td th:text="*{r.phoneNumber}"></td>
-        <td><a th:href="@{/showAllTablesInRestaurant(restaurantId=${r.id})}">Show</a></td>
-    </tr>
-</table>
-<p><a th:href="@{/}">Main menu</a></p>
+<div class="center-content">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>Post code</th>
+            <th>Url</th>
+            <th>Open</th>
+            <th>Close</th>
+            <th>Phone number</th>
+            <th>Tables</th>
+        </tr>
+        <tr th:each="restaurant : ${allRestaurants}">
+            <td th:text="*{restaurant.name}"></td>
+            <td th:text="*{restaurant.genre.getDescription()}"></td>
+            <td th:text="*{restaurant.street}"></td>
+            <td th:text="*{restaurant.city}"></td>
+            <td th:text="*{restaurant.postCode}"></td>
+            <td th:text="*{restaurant.url}"></td>
+            <td th:text="*{restaurant.openTime}"></td>
+            <td th:text="*{restaurant.closeTime}"></td>
+            <td th:text="*{restaurant.phoneNumber}"></td>
+            <td><a th:href="@{/chooseDate(restaurantId=${restaurant.id})}">Show</a></td>
+        </tr>
+    </table>
+    <p><a th:href="@{/}">Main menu</a></p>
+</div>
 </body>
 </html>

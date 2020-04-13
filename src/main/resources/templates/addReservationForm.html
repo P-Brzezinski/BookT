@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter details</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="center-content">
+    <h1 th:text="|Chosen restaurant is: ${newReservation.getRestaurant().getName()}| "></h1>
+    <h2 th:text="|Chosen table is for: ${newReservation.getTable().getPlaces()}|"></h2>
+
+    <form method="post" th:action="@{saveReservation}" th:object="${newReservation}">
+        <input type="hidden" th:field="*{restaurant}">
+        <input type="hidden" th:field="*{table}">
+
+        <p>Name: <input type="text" th:field="*{name}"></p>
+        <p>Number of persons: <input type="number" th:field="*{numberOfPersons}"></p>
+        <p>Phone number: <input type="number" th:field="*{phoneNumber}"></p>
+        <p><textarea th:field="*{notes}" placeholder="Any special wishes?"></textarea></p>
+        <p><input type="submit" value="Save"></p><br>
+
+    </form>
+    <button onclick="window.location.href = '/';">Main menu</button>
+</div>
+</body>
+</html>

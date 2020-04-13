@@ -5,13 +5,12 @@ import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.model.enums.Genre;
-import pl.brzezinski.bookt.model.enums.isTableOccupied;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
 import pl.brzezinski.bookt.repository.TableRepository;
 
 import javax.annotation.PostConstruct;
 
-import static pl.brzezinski.bookt.model.enums.isTableOccupied.FALSE;
+import java.time.LocalDateTime;
 
 @Service
 public class DataGenerator {
@@ -30,12 +29,12 @@ public class DataGenerator {
     private Restaurant restaurant3;
     private Restaurant restaurant4;
 
-    private SingleTable table1 = new SingleTable(2l, FALSE);
-    private SingleTable table2 = new SingleTable(2l, FALSE);
-    private SingleTable table3 = new SingleTable(4l, FALSE);
-    private SingleTable table4 = new SingleTable(4l, FALSE);
-    private SingleTable table5 = new SingleTable(6l, FALSE);
-    private SingleTable table6 = new SingleTable(8l, FALSE);
+    private SingleTable table1 = new SingleTable(2l, LocalDateTime.of(2020,12,12,12,12));
+    private SingleTable table2 = new SingleTable(2l, LocalDateTime.of(2020,12,12,12,12));
+    private SingleTable table3 = new SingleTable(4l, LocalDateTime.of(2020,12,12,12,12));
+    private SingleTable table4 = new SingleTable(4l, LocalDateTime.of(2020,12,15,12,12));
+    private SingleTable table5 = new SingleTable(6l, LocalDateTime.of(2020,12,16,12,12));
+    private SingleTable table6 = new SingleTable(8l, LocalDateTime.of(2020,12,17,12,12));
 
     @PostConstruct
     public void createRestaurantData(){

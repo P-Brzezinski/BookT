@@ -2,8 +2,8 @@ package pl.brzezinski.bookt.model.enums;
 
 public enum isTableOccupied {
 
-    TRUE("Table is free"),
-    FALSE("Table if occupied");
+    TRUE("Table is occupied"),
+    FALSE("Table if free");
 
     String description;
 

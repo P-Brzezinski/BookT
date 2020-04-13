@@ -6,9 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
 
@@ -25,14 +23,14 @@ public class RestaurantController {
     }
 
     @GetMapping("/add")
-    public String viewNameForm(Model model){
+    public String vieAddRestaurantForm(Model model){
         model.addAttribute("newRestaurant", new Restaurant());
         model.addAttribute("genres", List.of(Genre.values()));
-        return "addForm";
+        return "addRestaurantForm";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Restaurant newRestaurant){
+    public String saveRestaurant(@ModelAttribute Restaurant newRestaurant){
         restaurantDAO.save(newRestaurant);
         return "redirect:/";
     }
@@ -42,13 +40,5 @@ public class RestaurantController {
         List<Restaurant> allRestaurants = restaurantDAO.findAll();
         model.addAttribute("allRestaurants", allRestaurants);
         return "showAllRestaurants";
-    }
-
-    @GetMapping("/showAllTablesInRestaurant")
-    public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model){
-        Restaurant findRestaurant = restaurantDAO.getOne(restaurantId);
-        List<SingleTable> allTablesInRestaurants = findRestaurant.getTables();
-        model.addAttribute("allTablesInRestaurant", allTablesInRestaurants);
-        return "showAllTablesInRestaurant";
     }
 }

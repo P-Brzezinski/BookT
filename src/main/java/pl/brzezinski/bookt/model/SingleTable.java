@@ -1,8 +1,10 @@
 package pl.brzezinski.bookt.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.brzezinski.bookt.model.enums.isTableOccupied;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class SingleTable {
@@ -13,6 +15,8 @@ public class SingleTable {
     private Long id;
     private Long places;
     private isTableOccupied isOccupied;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime dateOfReservation;
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
@@ -20,9 +24,17 @@ public class SingleTable {
     public SingleTable() {
     }
 
-    public SingleTable(Long places, isTableOccupied isOccupied){
+    public SingleTable(Long places, LocalDateTime dateOfReservation){
         this.places = places;
-        this.isOccupied = isOccupied;
+        this.dateOfReservation = dateOfReservation;
+    }
+
+    public LocalDateTime getDateOfReservation() {
+        return dateOfReservation;
+    }
+
+    public void setDateOfReservation(LocalDateTime dateOfReservation) {
+        this.dateOfReservation = dateOfReservation;
     }
 
     public Long getId() {
@@ -55,5 +67,14 @@ public class SingleTable {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "SingleTable{" +
+                "id=" + id +
+                ", places=" + places +
+                ", isOccupied=" + isOccupied +
+                '}';
     }
 }

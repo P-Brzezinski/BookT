@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>All tables</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Tables in restaurant</h1>
-<table border="1">
-    <tr>
-        <th>Number</th>
-        <th>Places</th>
-        <th>Is it free?</th>
-    </tr>
-    <tr th:each="table : ${allTablesInRestaurant}">
-        <td th:text="*{table.id}"/>
-        <td th:text="*{table.places}"/>
-        <td th:text="*{table.isOccupied.getDescription()}"/>
-    </tr>
-</table>
-<p><a th:href="@{/}">Main menu</a></p>
+<div class="center-content">
+    <h1>Tables in restaurant</h1>
+    <table>
+        <tr>
+            <th>Places</th>
+            <th>Make a reservation</th>
+        </tr>
+        <tr th:each="table : ${allTablesInRestaurant}">
+            <td th:text="*{table.places}"/>
+            <td th:switch="*{table.isOccupied.name()}">
+                <th:block th:case="'FALSE'"><a th:href="@{/makeAReservation(tableId=*{table.id})}">Reserve</a>
+                </th:block>
+                <th:block th:case="'TRUE'" th:text="*{table.isOccupied.getDescription()}"></th:block>
+            </td>
+        </tr>
+    </table>
+    <p><a th:href="@{/}">Main menu</a></p>
+</div>
 </body>
 </html>

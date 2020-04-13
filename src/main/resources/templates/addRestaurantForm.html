@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new restaurant</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="center-content">
+    <h1>Enter new restaurant</h1>
+    <form method="post" action="#" th:action="@{/save}" th:object="${newRestaurant}">
+        <p>
+        <h2>Name: <input type="text" th:field="*{name}"/></h2>
+        </p>
+        <p>
+        <h3>Address: </h3>
+        Street: <input type="text" th:field="*{street}"/><br>
+        City: <input type="text" th:field="*{city}"/><br>
+        Post code: <input type="text" th:field="*{postCode}"/><br>
+        </p>
+        <p>
+            Genre:
+            <select th:field="*{genre}">
+                <option value="">SELECT</option>
+                <option th:each="g : ${genres}" th:value="${g}" th:utext="${g.getDescription()}"></option>
+            </select>
+        </p>
+        <p>
+            Open: <input type="time" th:field="*{openTime}"/>
+        </p>
+        <p>
+            Close: <input type="time" th:field="*{closeTime}"/>
+        </p>
+        <p>
+            Web page: <input type="text" th:field="*{url}"/>
+        </p>
+        <p>
+            Phone: <input type="text" th:field="*{phoneNumber}"/>
+        </p>
+        <p>
+            <input type="submit" value="Zapisz">
+        </p>
+    </form>
+    <p><a th:href="@{/}"/>Main menu</p>
+</div>
+</body>
+</html>
