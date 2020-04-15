@@ -30,29 +30,6 @@ public class TableController {
         this.schemaTableService = schemaTableService;
     }
 
-    @GetMapping("/addTableSchema")
-    public String addNewSchemaTable(@RequestParam Long restaurantId, Model model){
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        SchemaTable schemaTable = new SchemaTable();
-        schemaTable.setRestaurant(restaurant);
-        model.addAttribute("schemaTable", schemaTable);
-        return "addSchemaTable";
-    }
-
-    @PostMapping("/saveSchemaTable")
-    public String saveSchemaTable(@ModelAttribute SchemaTable schemaTable){
-        schemaTableService.saveSchemaTable(schemaTable);
-        return "redirect:/";
-    }
-
-    @GetMapping("/showSchemaTables")
-    public String showSchemaTables(@RequestParam Long restaurantId, Model model){
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        List<SchemaTable> schemaTables = schemaTableService.getAllSchemaTablesByRestaurant(restaurant);
-        model.addAttribute("schemaTables", schemaTables);
-        return "showAllSchemaTablesInRestaurant";
-    }
-
     @GetMapping("/showAllTablesInRestaurant")
     public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model) {
         Restaurant findRestaurant = restaurantService.getRestaurant(restaurantId);

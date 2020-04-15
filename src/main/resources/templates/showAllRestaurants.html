@@ -31,7 +31,7 @@
             <td th:text="*{restaurant.openTime}"></td>
             <td th:text="*{restaurant.closeTime}"></td>
             <td th:text="*{restaurant.phoneNumber}"></td>
-            <td><a th:href="@{/addTableSchema(restaurantId=${restaurant.id})}">Add</a></td>
+            <td><a th:href="@{/addNewTableSchema(restaurantId=${restaurant.id})}">Add</a></td>
             <td><a th:href="@{/showSchemaTables(restaurantId=${restaurant.id})}">Show</a></td>
         </tr>
     </table>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Make a reservation</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="center-content">
+    <form method="post" action="#" th:action="@{/checkIfPossible}" th:object="${newReservation}">
+        <p>Name: <input type="text" th:field="*{name}"></p>
+        <p>Number of persons: <input type="number" th:field="*{numberOfPersons}"></p>
+        <p>Phone number: <input type="number" th:field="*{phoneNumber}"></p>
+        <p>Notes: <textarea th:field="*{notes}"></textarea></p>
+        <p>Date and time: <input type="datetime-local" th:field="*{dateTime}"></p>
+        <p>Restaurant:<select th:field="*{restaurant}">
+            <option value="">SELECT</option>
+            <option th:each="restaurant : ${allRestaurants}" th:value="${restaurant.id}" th:utext="${restaurant.getName()}"></option>
+        </select>
+        </p>
+        <p><input type="submit" value="Check"></p>
+    </form>
+
+
+</div>
+</body>
+</html>

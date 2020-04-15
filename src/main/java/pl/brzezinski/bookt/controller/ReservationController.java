@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.brzezinski.bookt.model.Reservation;
+import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.Table;
 import pl.brzezinski.bookt.service.ReservationService;
 import pl.brzezinski.bookt.service.RestaurantService;
@@ -32,33 +33,17 @@ public class ReservationController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping("/chooseDate")
-    public String chooseDate(@RequestParam Long restaurantId, Model model){
-        model.addAttribute("restaurantId", restaurantId);
-        return "chooseDate";
-    }
-
-    @PostMapping("/check")
-    public String checkAvailableTables(@RequestParam Long restaurantId, @RequestParam String reservationDate, Model model) throws ParseException {
-        LocalDateTime dateTime = LocalDateTime.parse(reservationDate, DateTimeFormatter.ISO_DATE_TIME);
-        List<Table> listOfTables = tableService.findAvailableTablesInRestaurantByDateTime(restaurantId, dateTime);
-        model.addAttribute("allTablesInRestaurant", listOfTables);
-        return "showAllTablesInRestaurant";
-    }
-
     @GetMapping("/makeAReservation")
-    public String makeAReservation(@RequestParam Long tableId, Model model){
-        Table table = tableService.getTable(tableId);
-        Reservation newReservation = new Reservation();
-        reservationService.assignTableToReservation(newReservation, table);
-        model.addAttribute("newReservation", newReservation);
-        return "addReservationForm";
+    public String makeAReservation(Model model){
+        List<Restaurant> allRestaurants = restaurantService.getAll();
+        model.addAttribute("allRestaurants", allRestaurants);
+        model.addAttribute("newReservation", new Reservation());
+        return "makeAReservation";
     }
 
-    @PostMapping("/saveReservation")
-    public String saveReservation(@ModelAttribute Reservation newReservation){
-        tableService.changeOccupyOfTable(newReservation.getTable().getId());
-        reservationService.save(newReservation);
+    @PostMapping("/checkIfPossible")
+    public String checkIfPossible(@ModelAttribute Reservation newReservation){
+        System.out.println(newReservation.toString());
         return "redirect:/";
     }
 }

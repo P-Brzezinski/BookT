@@ -97,6 +97,7 @@ public class Reservation {
                 ", numberOfPersons=" + numberOfPersons +
                 ", phoneNumber=" + phoneNumber +
                 ", notes='" + notes + '\'' +
+                ", restaurant='" + restaurant.getName() + '\'' +
                 '}';
     }
 }
