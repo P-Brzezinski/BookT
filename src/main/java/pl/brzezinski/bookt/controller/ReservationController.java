@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.brzezinski.bookt.model.Reservation;
-import pl.brzezinski.bookt.model.SingleTable;
+import pl.brzezinski.bookt.model.Table;
 import pl.brzezinski.bookt.service.ReservationService;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.TableService;
@@ -41,14 +41,14 @@ public class ReservationController {
     @PostMapping("/check")
     public String checkAvailableTables(@RequestParam Long restaurantId, @RequestParam String reservationDate, Model model) throws ParseException {
         LocalDateTime dateTime = LocalDateTime.parse(reservationDate, DateTimeFormatter.ISO_DATE_TIME);
-        List<SingleTable> listOfTables = tableService.findAvailableTablesInRestaurantByDateTime(restaurantId, dateTime);
+        List<Table> listOfTables = tableService.findAvailableTablesInRestaurantByDateTime(restaurantId, dateTime);
         model.addAttribute("allTablesInRestaurant", listOfTables);
         return "showAllTablesInRestaurant";
     }
 
     @GetMapping("/makeAReservation")
     public String makeAReservation(@RequestParam Long tableId, Model model){
-        SingleTable table = tableService.getTable(tableId);
+        Table table = tableService.getTable(tableId);
         Reservation newReservation = new Reservation();
         reservationService.assignTableToReservation(newReservation, table);
         model.addAttribute("newReservation", newReservation);

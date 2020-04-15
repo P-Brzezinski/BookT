@@ -22,12 +22,13 @@ public class Restaurant {
     private String openTime;
     private String closeTime;
     private String phoneNumber;
-    @OneToMany(mappedBy = "restaurant",
-    fetch = FetchType.EAGER,
-    cascade = CascadeType.PERSIST)
-    private List<SingleTable> tables = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant")
+    private List<Table> tables = new ArrayList<>();
 
-    public void addTable(SingleTable table){
+    @OneToMany(mappedBy = "restaurant")
+    private List<SchemaTable> schemaTables = new ArrayList<>();
+
+    public void addTable(Table table){
         table.setRestaurant(this);
         getTables().add(table);
     }
@@ -48,11 +49,19 @@ public class Restaurant {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<SingleTable> getTables() {
+    public List<SchemaTable> getSchemaTables() {
+        return schemaTables;
+    }
+
+    public void setSchemaTables(List<SchemaTable> schemaTables) {
+        this.schemaTables = schemaTables;
+    }
+
+    public List<Table> getTables() {
         return tables;
     }
 
-    public void setTables(List<SingleTable> tables) {
+    public void setTables(List<Table> tables) {
         this.tables = tables;
     }
 

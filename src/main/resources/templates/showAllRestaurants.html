@@ -18,6 +18,7 @@
             <th>Open</th>
             <th>Close</th>
             <th>Phone number</th>
+            <th>Add table</th>
             <th>Tables</th>
         </tr>
         <tr th:each="restaurant : ${allRestaurants}">
@@ -30,7 +31,8 @@
             <td th:text="*{restaurant.openTime}"></td>
             <td th:text="*{restaurant.closeTime}"></td>
             <td th:text="*{restaurant.phoneNumber}"></td>
-            <td><a th:href="@{/chooseDate(restaurantId=${restaurant.id})}">Show</a></td>
+            <td><a th:href="@{/addTableSchema(restaurantId=${restaurant.id})}">Add</a></td>
+            <td><a th:href="@{/showSchemaTables(restaurantId=${restaurant.id})}">Show</a></td>
         </tr>
     </table>
     <p><a th:href="@{/}">Main menu</a></p>

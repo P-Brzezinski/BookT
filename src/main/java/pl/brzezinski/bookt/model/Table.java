@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class SingleTable {
+public class Table {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +21,13 @@ public class SingleTable {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    public SingleTable() {
+    @OneToOne
+    private Reservation reservation;
+
+    public Table() {
     }
 
-    public SingleTable(Long places, LocalDateTime dateOfReservation){
+    public Table(Long places, LocalDateTime dateOfReservation){
         this.places = places;
         this.dateOfReservation = dateOfReservation;
     }

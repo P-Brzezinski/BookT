@@ -19,8 +19,8 @@ public class Reservation {
     private LocalDateTime dateTime;
     @OneToOne
     private Restaurant restaurant;
-    @OneToOne
-    private SingleTable table;
+    @OneToOne(mappedBy = "reservation")
+    private Table table;
 
     public Reservation() {
     }
@@ -81,11 +81,11 @@ public class Reservation {
         this.restaurant = restaurant;
     }
 
-    public SingleTable getTable() {
+    public Table getTable() {
         return table;
     }
 
-    public void setTable(SingleTable table) {
+    public void setTable(Table table) {
         this.table = table;
     }
 
