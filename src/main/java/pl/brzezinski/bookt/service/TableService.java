@@ -26,7 +26,7 @@ public class TableService {
         this.reservationRepository = reservationRepository;
     }
 
-    public void saveTable(SingleTable table){
+    public void save(SingleTable table){
         tableRepository.save(table);
     }
 

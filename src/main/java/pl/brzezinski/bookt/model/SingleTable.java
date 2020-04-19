@@ -14,8 +14,8 @@ public class SingleTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long places;
     private Long tableNumber;
+    private Long places;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateOfReservation;
     @ManyToOne
