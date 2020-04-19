@@ -1,5 +1,6 @@
 package pl.brzezinski.bookt.model;
 
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reservation")
     private Long id;
     private String name;
     private Long numberOfPersons;
@@ -17,10 +19,16 @@ public class Reservation {
     private String notes;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateTime;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;
-    @OneToOne(mappedBy = "reservation")
-    private Table table;
+    @OneToOne
+    @JoinColumn(name = "id_single_table")
+    private SingleTable singleTable;
+
+    public void addSingleTable(SingleTable table){
+        table.setReservation(this);
+    }
 
     public Reservation() {
     }
@@ -81,12 +89,12 @@ public class Reservation {
         this.restaurant = restaurant;
     }
 
-    public Table getTable() {
-        return table;
+    public SingleTable getSingleTable() {
+        return singleTable;
     }
 
-    public void setTable(Table table) {
-        this.table = table;
+    public void setSingleTable(SingleTable singleTable) {
+        this.singleTable = singleTable;
     }
 
     @Override
@@ -97,7 +105,8 @@ public class Reservation {
                 ", numberOfPersons=" + numberOfPersons +
                 ", phoneNumber=" + phoneNumber +
                 ", notes='" + notes + '\'' +
-                ", restaurant='" + restaurant.getName() + '\'' +
+                ", dateTime=" + dateTime +
+                ", restaurant=" + restaurant.getName() +
                 '}';
     }
 }

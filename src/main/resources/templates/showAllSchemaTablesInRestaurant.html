@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All schema tables</title>
+    <title>All schema singleTables</title>
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
@@ -13,9 +13,9 @@
             <th>Number</th>
             <th>Places</th>
         </tr>
-        <tr th:each="table : ${schemaTables}">
-            <td th:text="*{table.number}"/>
-            <td th:text="*{table.places}"/>
+        <tr th:each="schemaTable : ${schemaTables}">
+            <td th:text="*{schemaTable.tableNumber}"/>
+            <td th:text="*{schemaTable.places}"/>
         </tr>
     </table>
     <p><a th:href="@{/}">Main menu</a></p>

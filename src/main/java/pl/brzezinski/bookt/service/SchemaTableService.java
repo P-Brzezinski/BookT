@@ -22,12 +22,14 @@ public class SchemaTableService {
         schemaTableRepository.save(schemaTable);
     }
 
-    public List<SchemaTable> getAllSchemaTables(){
+    public List<SchemaTable> findAllSchemaTables(){
         return schemaTableRepository.findAll();
     }
 
-    public List<SchemaTable> getAllSchemaTablesByRestaurant(Restaurant restaurant){
-        return schemaTableRepository.findAllByRestaurant(restaurant);
-    }
+    public List<SchemaTable> findAllByRestaurant(Restaurant restaurant){ return schemaTableRepository.findAllByRestaurant(restaurant);}
+
+    public List<SchemaTable> findAllByPlaces(Long places){ return schemaTableRepository.findAllByPlaces(places);}
+
+
 }
 

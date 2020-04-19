@@ -21,15 +21,21 @@ public class Restaurant {
     private String openTime;
     private String closeTime;
     private String phoneNumber;
-    @OneToMany(mappedBy = "restaurant")
-    private List<Table> tables = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant",
+    cascade = CascadeType.PERSIST)
+    private List<SingleTable> singleTables = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant",
+    cascade = CascadeType.PERSIST)
     private List<SchemaTable> schemaTables = new ArrayList<>();
 
-    public void addTable(Table table){
-        table.setRestaurant(this);
-        getTables().add(table);
+    @OneToMany(mappedBy = "restaurant",
+    cascade = CascadeType.PERSIST)
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public void addTable(SingleTable singleTable){
+        singleTable.setRestaurant(this);
+        getSingleTables().add(singleTable);
     }
 
     public Restaurant() {
@@ -56,12 +62,12 @@ public class Restaurant {
         this.schemaTables = schemaTables;
     }
 
-    public List<Table> getTables() {
-        return tables;
+    public List<SingleTable> getSingleTables() {
+        return singleTables;
     }
 
-    public void setTables(List<Table> tables) {
-        this.tables = tables;
+    public void setSingleTables(List<SingleTable> singleTables) {
+        this.singleTables = singleTables;
     }
 
     public Long getId() {

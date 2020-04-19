@@ -6,4 +6,5 @@ import pl.brzezinski.bookt.model.Restaurant;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+
 }

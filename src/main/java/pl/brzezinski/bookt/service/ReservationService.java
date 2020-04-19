@@ -3,7 +3,7 @@ package pl.brzezinski.bookt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
-import pl.brzezinski.bookt.model.Table;
+import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.repository.ReservationRepository;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
 import pl.brzezinski.bookt.repository.TableRepository;
@@ -26,9 +26,9 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
-    public Reservation assignTableToReservation(Reservation reservation, Table table) {
-        reservation.setRestaurant(table.getRestaurant());
-        reservation.setTable(table);
+    public Reservation assignTableToReservation(Reservation reservation, SingleTable singleTable) {
+        reservation.setRestaurant(singleTable.getRestaurant());
+        reservation.setSingleTable(singleTable);
         return reservation;
     }
 

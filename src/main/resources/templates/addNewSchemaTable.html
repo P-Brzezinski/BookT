@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add schema table</title>
+    <title>Add schema singleTable</title>
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <div class="center-content">
     <form method="post" action="#" th:action="@{/saveSchemaTable}" th:object="${schemaTable}">
         <input type="hidden" th:field="*{restaurant}">
-        <p>Number: <input type="number" th:field="*{number}"></p>
+        <p>Number: <input type="number" th:field="*{tableNumber}"></p>
         <p>Places: <input type="number" th:field="*{places}"></p>
         <p><input type="submit" value="Save"></p>
     </form>

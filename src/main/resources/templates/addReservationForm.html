@@ -8,11 +8,11 @@
 <body>
 <div class="center-content">
     <h1 th:text="|Chosen restaurant is: ${newReservation.getRestaurant().getName()}| "></h1>
-    <h2 th:text="|Chosen table is for: ${newReservation.getTable().getPlaces()}|"></h2>
+    <h2 th:text="|Chosen singleTable is for: ${newReservation.getTable().getPlaces()}|"></h2>
 
     <form method="post" th:action="@{saveReservation}" th:object="${newReservation}">
         <input type="hidden" th:field="*{restaurant}">
-        <input type="hidden" th:field="*{table}">
+        <input type="hidden" th:field="*{singleTable}">
 
         <p>Name: <input type="text" th:field="*{name}"></p>
         <p>Number of persons: <input type="number" th:field="*{numberOfPersons}"></p>

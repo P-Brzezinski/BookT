@@ -45,7 +45,7 @@ public class SchemaTableController {
     @GetMapping("/showSchemaTables")
     public String showSchemaTables(@RequestParam Long restaurantId, Model model){
         Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        List<SchemaTable> schemaTables = schemaTableService.getAllSchemaTablesByRestaurant(restaurant);
+        List<SchemaTable> schemaTables = schemaTableService.findAllByRestaurant(restaurant);
         model.addAttribute("schemaTables", schemaTables);
         return "showAllSchemaTablesInRestaurant";
     }

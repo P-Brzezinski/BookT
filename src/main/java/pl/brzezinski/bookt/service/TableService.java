@@ -3,7 +3,7 @@ package pl.brzezinski.bookt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.Table;
+import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.model.enums.isTableOccupied;
 import pl.brzezinski.bookt.repository.ReservationRepository;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
@@ -26,31 +26,25 @@ public class TableService {
         this.reservationRepository = reservationRepository;
     }
 
-    public Table getTable(Long id) {
+    public void saveTable(SingleTable table){
+        tableRepository.save(table);
+    }
+
+    public SingleTable getTable(Long id) {
         return tableRepository.getOne(id);
     }
 
-    public List<Table> findAvailableTablesInRestaurantByDateTime(Long restaurantId, LocalDateTime localDateTime) {
-        Restaurant findRestaurant = restaurantRepository.getOne(restaurantId);
-        List<Table> findTables = findRestaurant.getTables();
-        checkIfOccupied(findTables, localDateTime);
-        return findTables;
+    public List<SingleTable> getAllTables(){
+        return tableRepository.findAll();
     }
 
-    private List<Table> checkIfOccupied(List<Table> tables, LocalDateTime localDateTime) {
-        for (Table table : tables) {
-            if (table.getDateOfReservation().isEqual(localDateTime)) {
-                table.setIsOccupied(isTableOccupied.TRUE);
-            } else {
-                table.setIsOccupied(isTableOccupied.FALSE);
-            }
-        }
-        return tables;
+    public List<SingleTable> findALlByRestaurant(Restaurant restaurant){
+        return tableRepository.findAllByRestaurant(restaurant);
     }
 
-    public void changeOccupyOfTable(Long id) {
-        Table table = tableRepository.getOne(id);
-        table.setIsOccupied(isTableOccupied.TRUE);
-        tableRepository.save(table);
+    public List<SingleTable> findAllByPlacesAndDateOfReservationAndRestaurant(Long places, LocalDateTime dateOfReservation, Restaurant restaurant){
+        return tableRepository.findAllByPlacesAndDateOfReservationAndRestaurant(places, dateOfReservation, restaurant);
     }
+
+
 }

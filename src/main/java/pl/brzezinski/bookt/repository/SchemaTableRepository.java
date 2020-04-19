@@ -9,4 +9,5 @@ import java.util.List;
 public interface SchemaTableRepository extends JpaRepository<SchemaTable, Long> {
 
     List<SchemaTable> findAllByRestaurant(Restaurant restaurant);
+    List<SchemaTable> findAllByPlaces(Long places);
 }

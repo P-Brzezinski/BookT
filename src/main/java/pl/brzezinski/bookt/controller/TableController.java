@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.SchemaTable;
-import pl.brzezinski.bookt.model.Table;
+import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.SchemaTableService;
 import pl.brzezinski.bookt.service.TableService;
@@ -33,7 +30,7 @@ public class TableController {
     @GetMapping("/showAllTablesInRestaurant")
     public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model) {
         Restaurant findRestaurant = restaurantService.getRestaurant(restaurantId);
-        List<Table> allTablesInRestaurant = findRestaurant.getTables();
+        List<SingleTable> allTablesInRestaurant = findRestaurant.getSingleTables();
         model.addAttribute("allTablesInRestaurant", allTablesInRestaurant);
         model.addAttribute("restaurantId", restaurantId);
         return "showAllTablesInRestaurant";
