@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Success!</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="center-content" th:object="${newReservation}">
+    <h1 th:text="|Reservation for name *{name} is booked|"></h1>
+    <h3>Details:</h3>
+    <p th:text="|Date: *{dateTime.dayOfMonth}.*{dateTime.month.value}.*{dateTime.year}|"></p>
+    <p th:text="|Time: *{dateTime.hour}:*{dateTime.minute}|"></p>
+    <p th:text="|Restaurant: *{restaurant.getName()}|"></p>
+    <p th:text="|Table number: *{singleTable.getTableNumber()}|"></p>
+    <p th:text="|Notes: *{notes}|"></p>
+    <p><a th:href="@{/}">Main menu</a></p>
+</div>
+</body>
+</html>

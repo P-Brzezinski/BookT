@@ -57,10 +57,6 @@ public class SchemaTable {
     @Override
     public String toString() {
         return "SchemaTable{" +
-                "id=" + id +
-                ", tableNumber=" + tableNumber +
-                ", places=" + places +
-                ", restaurant=" + restaurant.getName() +
-                '}';
+                "id=" + id;
     }
 }

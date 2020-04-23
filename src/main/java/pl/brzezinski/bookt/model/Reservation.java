@@ -26,10 +26,6 @@ public class Reservation {
     @JoinColumn(name = "id_single_table")
     private SingleTable singleTable;
 
-    public void addSingleTable(SingleTable table){
-        table.setReservation(this);
-    }
-
     public Reservation() {
     }
 

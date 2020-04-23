@@ -90,10 +90,7 @@ public class SingleTable {
     public String toString() {
         return "SingleTable{" +
                 "id=" + id +
-                ", places=" + places +
-                ", tableNumber=" + tableNumber +
                 ", dateOfReservation=" + dateOfReservation +
-                ", restaurant=" + restaurant.getName() +
                 '}';
     }
 

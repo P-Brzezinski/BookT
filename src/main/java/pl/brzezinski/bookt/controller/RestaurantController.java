@@ -34,7 +34,7 @@ public class RestaurantController {
 
     @PostMapping("/save")
     public String saveRestaurant(@ModelAttribute Restaurant newRestaurant){
-        restaurantService.saveRestaurant(newRestaurant);
+        restaurantService.save(newRestaurant);
         return "redirect:/";
     }
 

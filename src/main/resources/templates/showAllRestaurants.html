@@ -23,7 +23,7 @@
         </tr>
         <tr th:each="restaurant : ${allRestaurants}">
             <td th:text="*{restaurant.name}"></td>
-            <td th:text="*{restaurant.genre.getDescription()}"></td>
+            <td th:text="*{restaurant.genre.description}"></td>
             <td th:text="*{restaurant.street}"></td>
             <td th:text="*{restaurant.city}"></td>
             <td th:text="*{restaurant.postCode}"></td>

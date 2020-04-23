@@ -28,7 +28,7 @@ public class SchemaTableController {
 
     @GetMapping("/addNewTableSchema")
     public String addNewSchemaTable(@RequestParam Long restaurantId, Model model){
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
+        Restaurant restaurant = restaurantService.get(restaurantId);
         SchemaTable schemaTable = new SchemaTable();
         schemaTable.setRestaurant(restaurant);
         model.addAttribute("schemaTable", schemaTable);
@@ -44,7 +44,7 @@ public class SchemaTableController {
 
     @GetMapping("/showSchemaTables")
     public String showSchemaTables(@RequestParam Long restaurantId, Model model){
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
+        Restaurant restaurant = restaurantService.get(restaurantId);
         List<SchemaTable> schemaTables = schemaTableService.findAllByRestaurant(restaurant);
         model.addAttribute("schemaTables", schemaTables);
         return "showAllSchemaTablesInRestaurant";

@@ -42,16 +42,22 @@ public class DataGenerator {
     public void addSchemaTables(){
         SchemaTable schemaTable1 = new SchemaTable(1l, 2l );
         SchemaTable schemaTable2 = new SchemaTable(2l, 2l );
-        SchemaTable schemaTable3 = new SchemaTable(3l, 4l );
-        SchemaTable schemaTable4 = new SchemaTable(4l, 6l );
+        SchemaTable schemaTable3 = new SchemaTable(3l, 2l );
+        SchemaTable schemaTable4 = new SchemaTable(4l, 2l );
+        SchemaTable schemaTable5 = new SchemaTable(5l, 4l );
+        SchemaTable schemaTable6 = new SchemaTable(6l, 6l );
         schemaTable1.setRestaurant(restaurant1);
         schemaTable2.setRestaurant(restaurant1);
         schemaTable3.setRestaurant(restaurant1);
         schemaTable4.setRestaurant(restaurant1);
+        schemaTable5.setRestaurant(restaurant1);
+        schemaTable6.setRestaurant(restaurant1);
         schemaTableRepository.save(schemaTable1);
         schemaTableRepository.save(schemaTable2);
         schemaTableRepository.save(schemaTable3);
         schemaTableRepository.save(schemaTable4);
+        schemaTableRepository.save(schemaTable5);
+        schemaTableRepository.save(schemaTable6);
 
     }
 //    @PostConstruct

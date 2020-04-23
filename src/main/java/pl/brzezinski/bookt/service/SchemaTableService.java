@@ -11,6 +11,8 @@ import java.util.List;
 @Service
 public class SchemaTableService {
 
+    private static Long AVG = 2l;
+
     private SchemaTableRepository schemaTableRepository;
 
     @Autowired
@@ -30,6 +32,12 @@ public class SchemaTableService {
 
     public List<SchemaTable> findAllByPlaces(Long places){ return schemaTableRepository.findAllByPlaces(places);}
 
+    public List<SchemaTable> findAllByRestaurantsAndByPlaces(Restaurant restaurant, Long places){
+        return schemaTableRepository.findAllByRestaurantAndPlaces(restaurant, places);
+    }
 
+//    public List<SchemaTable> findAllByRestaurantAndPlaces(Restaurant restaurant, Long places){
+//        return schemaTableRepository.findAllByRestaurantAndPlacesIsBetween(restaurant, places - AVG, places + AVG);
+//    }
 }
 

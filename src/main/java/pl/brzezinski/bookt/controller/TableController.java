@@ -29,7 +29,7 @@ public class TableController {
 
     @GetMapping("/showAllTablesInRestaurant")
     public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model) {
-        Restaurant findRestaurant = restaurantService.getRestaurant(restaurantId);
+        Restaurant findRestaurant = restaurantService.get(restaurantId);
         List<SingleTable> allTablesInRestaurant = findRestaurant.getSingleTables();
         model.addAttribute("allTablesInRestaurant", allTablesInRestaurant);
         model.addAttribute("restaurantId", restaurantId);

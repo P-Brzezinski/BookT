@@ -1,6 +1,5 @@
 package pl.brzezinski.bookt.controller;
 
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,31 +8,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.SchemaTable;
-import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.service.ReservationService;
 import pl.brzezinski.bookt.service.RestaurantService;
-import pl.brzezinski.bookt.service.SchemaTableService;
-import pl.brzezinski.bookt.service.TableService;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+
+import static pl.brzezinski.bookt.service.RestaurantService.*;
 
 @Controller
 public class ReservationController {
 
-    private TableService tableService;
-    private ReservationService reservationService;
     private RestaurantService restaurantService;
-    private SchemaTableService schemaTableService;
+    private ReservationService reservationService;
 
     @Autowired
-    public ReservationController(TableService tableService, ReservationService reservationService, RestaurantService restaurantService, SchemaTableService schemaTableService) {
-        this.tableService = tableService;
-        this.reservationService = reservationService;
+    public ReservationController(RestaurantService restaurantService, ReservationService reservationService) {
         this.restaurantService = restaurantService;
-        this.schemaTableService = schemaTableService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/askForReservation")
@@ -45,12 +36,18 @@ public class ReservationController {
     }
 
     @PostMapping("/checkIfPossible")
-    public String checkIfPossible(@ModelAttribute Reservation newReservation) {
-        boolean isPossible = restaurantService.isPossible(newReservation);
-//        if (isPossible) {
-//            return "summaryOfPossibleReservation";
-//        } else {
-//            return "summaryOfNotPossibleReservation";
+    public String checkIfPossible(@ModelAttribute Reservation newReservation, Model model) {
+        String isPossible = reservationService.isPossible(newReservation);
+        model.addAttribute("newReservation", newReservation);
+        System.out.println(isPossible);
+
+//        switch (isPossible) {
+//            case RESERVATION_AVAILABLE:
+//                return "success";
+//            case ALL_TABLES_ARE_OCCUPIED:
+//                return "findAnotherTable";
+//            case NO_TABLE_AVAILABLE_IN_RESTAURANT:
+//                return "findAnotherRestaurant";
 //        }
         return "redirect:/";
     }

@@ -1,7 +1,9 @@
 package pl.brzezinski.bookt.service;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.SingleTable;
 import pl.brzezinski.bookt.model.enums.isTableOccupied;
@@ -46,5 +48,16 @@ public class TableService {
         return tableRepository.findAllByPlacesAndDateOfReservationAndRestaurant(places, dateOfReservation, restaurant);
     }
 
+    public List<SingleTable> findAllByRestaurantPlacesAndDateTimeBetween(Restaurant restaurant, Long places, LocalDateTime down, LocalDateTime top){
+        return tableRepository.findAllByRestaurantAndPlacesAndAndDateOfReservationIsBetween(restaurant, places, down, top);
+    }
 
+    public SingleTable tableBefore(Reservation reservation){
+        return tableRepository.findFirstByRestaurantAndTableNumberAndAndDateOfReservationBefore(reservation.getRestaurant(), reservation.getNumberOfPersons(), reservation.getDateTime());
+    }
+
+
+    public SingleTable tableAfter(Reservation reservation){
+        return tableRepository.findFirstByRestaurantAndTableNumberAndAndDateOfReservationAfter(reservation.getRestaurant(), reservation.getNumberOfPersons(), reservation.getDateTime());
+    }
 }
