@@ -9,9 +9,7 @@ import pl.brzezinski.bookt.repository.SchemaTableRepository;
 import java.util.List;
 
 @Service
-public class SchemaTableService {
-
-    private static Long AVG = 2l;
+public class SchemaTableService implements GenericRepository<Long, SchemaTable> {
 
     private SchemaTableRepository schemaTableRepository;
 
@@ -20,24 +18,30 @@ public class SchemaTableService {
         this.schemaTableRepository = schemaTableRepository;
     }
 
-    public void saveSchemaTable(SchemaTable schemaTable){
+    @Override
+    public SchemaTable get(Long id) {
+        return schemaTableRepository.getOne(id);
+    }
+
+    @Override
+    public void add(SchemaTable schemaTable) {
         schemaTableRepository.save(schemaTable);
     }
 
-    public List<SchemaTable> findAllSchemaTables(){
+    @Override
+    public void remove(SchemaTable schemaTable) {
+        schemaTableRepository.delete(schemaTable);
+    }
+
+    @Override
+    public List<SchemaTable> getAll() {
         return schemaTableRepository.findAll();
     }
 
     public List<SchemaTable> findAllByRestaurant(Restaurant restaurant){ return schemaTableRepository.findAllByRestaurant(restaurant);}
 
-    public List<SchemaTable> findAllByPlaces(Long places){ return schemaTableRepository.findAllByPlaces(places);}
-
     public List<SchemaTable> findAllByRestaurantsAndByPlaces(Restaurant restaurant, Long places){
         return schemaTableRepository.findAllByRestaurantAndPlaces(restaurant, places);
     }
-
-//    public List<SchemaTable> findAllByRestaurantAndPlaces(Restaurant restaurant, Long places){
-//        return schemaTableRepository.findAllByRestaurantAndPlacesIsBetween(restaurant, places - AVG, places + AVG);
-//    }
 }
 

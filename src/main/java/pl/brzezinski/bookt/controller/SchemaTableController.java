@@ -37,7 +37,7 @@ public class SchemaTableController {
 
     @PostMapping("/saveSchemaTable")
     public String saveSchemaTable(@ModelAttribute SchemaTable schemaTable){
-        schemaTableService.saveSchemaTable(schemaTable);
+        schemaTableService.add(schemaTable);
         return "redirect:/";
     }
 

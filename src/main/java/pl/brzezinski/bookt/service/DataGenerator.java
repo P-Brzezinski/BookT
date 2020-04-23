@@ -7,7 +7,7 @@ import pl.brzezinski.bookt.model.SchemaTable;
 import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
 import pl.brzezinski.bookt.repository.SchemaTableRepository;
-import pl.brzezinski.bookt.repository.TableRepository;
+import pl.brzezinski.bookt.repository.ReservedTableRepository;
 
 import javax.annotation.PostConstruct;
 
@@ -15,11 +15,11 @@ import javax.annotation.PostConstruct;
 public class DataGenerator {
 
     private RestaurantRepository restaurantDAO;
-    private TableRepository tableDAO;
+    private ReservedTableRepository tableDAO;
     private SchemaTableRepository schemaTableRepository;
 
     @Autowired
-    public DataGenerator(RestaurantRepository restaurantDAO, TableRepository tableDAO, SchemaTableRepository schemaTableRepository) {
+    public DataGenerator(RestaurantRepository restaurantDAO, ReservedTableRepository tableDAO, SchemaTableRepository schemaTableRepository) {
         this.restaurantDAO = restaurantDAO;
         this.tableDAO = tableDAO;
         this.schemaTableRepository = schemaTableRepository;

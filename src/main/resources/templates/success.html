@@ -12,7 +12,7 @@
     <p th:text="|Date: *{dateTime.dayOfMonth}.*{dateTime.month.value}.*{dateTime.year}|"></p>
     <p th:text="|Time: *{dateTime.hour}:*{dateTime.minute}|"></p>
     <p th:text="|Restaurant: *{restaurant.getName()}|"></p>
-    <p th:text="|Table number: *{singleTable.getTableNumber()}|"></p>
+    <p th:text="|Table number: *{reservedTable.getTableNumber()}|"></p>
     <p th:text="|Notes: *{notes}|"></p>
     <p><a th:href="@{/}">Main menu</a></p>
 </div>

@@ -17,12 +17,10 @@ import java.util.List;
 public class RestaurantController {
 
     private RestaurantService restaurantService;
-    private SchemaTableService schemaTableService;
 
     @Autowired
-    public RestaurantController(RestaurantService restaurantService, SchemaTableService schemaTableService) {
+    public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
-        this.schemaTableService = schemaTableService;
     }
 
     @GetMapping("/addRestaurant")
@@ -34,7 +32,7 @@ public class RestaurantController {
 
     @PostMapping("/save")
     public String saveRestaurant(@ModelAttribute Restaurant newRestaurant){
-        restaurantService.save(newRestaurant);
+        restaurantService.add(newRestaurant);
         return "redirect:/";
     }
 

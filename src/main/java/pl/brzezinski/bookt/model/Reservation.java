@@ -1,6 +1,5 @@
 package pl.brzezinski.bookt.model;
 
-import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -24,7 +23,7 @@ public class Reservation {
     private Restaurant restaurant;
     @OneToOne
     @JoinColumn(name = "id_single_table")
-    private SingleTable singleTable;
+    private ReservedTable reservedTable;
 
     public Reservation() {
     }
@@ -85,12 +84,12 @@ public class Reservation {
         this.restaurant = restaurant;
     }
 
-    public SingleTable getSingleTable() {
-        return singleTable;
+    public ReservedTable getReservedTable() {
+        return reservedTable;
     }
 
-    public void setSingleTable(SingleTable singleTable) {
-        this.singleTable = singleTable;
+    public void setReservedTable(ReservedTable reservedTable) {
+        this.reservedTable = reservedTable;
     }
 
     @Override

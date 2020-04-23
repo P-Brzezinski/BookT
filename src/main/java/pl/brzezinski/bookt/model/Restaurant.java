@@ -23,7 +23,7 @@ public class Restaurant {
     private String phoneNumber;
     @OneToMany(mappedBy = "restaurant",
     cascade = CascadeType.PERSIST)
-    private List<SingleTable> singleTables = new ArrayList<>();
+    private List<ReservedTable> reservedTables = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant",
     cascade = CascadeType.PERSIST)
@@ -33,9 +33,9 @@ public class Restaurant {
     cascade = CascadeType.PERSIST)
     private List<Reservation> reservations = new ArrayList<>();
 
-    public void addTable(SingleTable singleTable){
-        singleTable.setRestaurant(this);
-        getSingleTables().add(singleTable);
+    public void addTable(ReservedTable reservedTable){
+        reservedTable.setRestaurant(this);
+        getReservedTables().add(reservedTable);
     }
 
     public Restaurant() {
@@ -62,12 +62,12 @@ public class Restaurant {
         this.schemaTables = schemaTables;
     }
 
-    public List<SingleTable> getSingleTables() {
-        return singleTables;
+    public List<ReservedTable> getReservedTables() {
+        return reservedTables;
     }
 
-    public void setSingleTables(List<SingleTable> singleTables) {
-        this.singleTables = singleTables;
+    public void setReservedTables(List<ReservedTable> reservedTables) {
+        this.reservedTables = reservedTables;
     }
 
     public Long getId() {

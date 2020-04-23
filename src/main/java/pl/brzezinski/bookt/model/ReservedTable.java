@@ -1,15 +1,14 @@
 package pl.brzezinski.bookt.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.brzezinski.bookt.model.enums.isTableOccupied;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "single_table")
-public class SingleTable {
+@Table(name = "reserved_table")
+public class ReservedTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +20,19 @@ public class SingleTable {
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToOne(mappedBy = "singleTable")
+    @OneToOne(mappedBy = "reservedTable")
     private Reservation reservation;
 
-    public SingleTable() {
+    public ReservedTable() {
     }
 
-    public SingleTable(Long tableNumber, Long places, LocalDateTime dateOfReservation){
+    public ReservedTable(Long tableNumber, Long places, LocalDateTime dateOfReservation){
         this.tableNumber = tableNumber;
         this.places = places;
         this.dateOfReservation = dateOfReservation;
     }
 
-    public SingleTable(Long places, LocalDateTime dateOfReservation){
+    public ReservedTable(Long places, LocalDateTime dateOfReservation){
         this.places = places;
         this.dateOfReservation = dateOfReservation;
     }
@@ -98,7 +97,7 @@ public class SingleTable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SingleTable table = (SingleTable) o;
+        ReservedTable table = (ReservedTable) o;
         return Objects.equals(places, table.places) &&
                 Objects.equals(tableNumber, table.tableNumber) &&
                 Objects.equals(dateOfReservation, table.dateOfReservation) &&

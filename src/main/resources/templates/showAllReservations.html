@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BookT</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="center-content">
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Restaurant</th>
+            <th>Table number</th>
+            <th>Date and time</th>
+            <th>Phone number</th>
+            <th>Notes</th>
+        </tr>
+        <tr th:each="reservation : ${allReservations}">
+            <td th:text="*{reservation.id}"></td>
+            <td th:text="*{reservation.name}"></td>
+            <td th:text="*{reservation.restaurant.name}"></td>
+            <td th:text="*{reservation.reservedTable.tableNumber}"></td>
+            <td th:text="*{reservation.dateTime}"></td>
+            <td th:text="*{reservation.phoneNumber}"></td>
+            <td th:text="*{reservation.notes}"></td>
+        </tr>
+    </table>
+    <p><a th:href="@{/}">Main menu</a></p>
+</div>
+
+</body>
+</html>

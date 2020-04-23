@@ -12,7 +12,7 @@
     <artifactId>book-t</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>book-t</name>
-    <description>Project for booking singleTables at restaurants</description>
+    <description>Project for booking reservedTables at restaurants</description>
 
     <properties>
         <java.version>11</java.version>
