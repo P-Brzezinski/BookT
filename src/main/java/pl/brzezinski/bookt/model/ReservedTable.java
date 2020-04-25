@@ -13,8 +13,8 @@ public class ReservedTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long tableNumber;
-    private Long places;
+    private int tableNumber;
+    private int places;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateOfReservation;
     @ManyToOne
@@ -26,22 +26,17 @@ public class ReservedTable {
     public ReservedTable() {
     }
 
-    public ReservedTable(Long tableNumber, Long places, LocalDateTime dateOfReservation){
+    public ReservedTable(int tableNumber, int places, LocalDateTime dateOfReservation){
         this.tableNumber = tableNumber;
         this.places = places;
         this.dateOfReservation = dateOfReservation;
     }
 
-    public ReservedTable(Long places, LocalDateTime dateOfReservation){
-        this.places = places;
-        this.dateOfReservation = dateOfReservation;
-    }
-
-    public Long getTableNumber() {
+    public int getTableNumber() {
         return tableNumber;
     }
 
-    public void setTableNumber(Long tableNumber) {
+    public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
     }
 
@@ -61,11 +56,11 @@ public class ReservedTable {
         this.id = id;
     }
 
-    public Long getPlaces() {
+    public int getPlaces() {
         return places;
     }
 
-    public void setPlaces(Long places) {
+    public void setPlaces(int places) {
         this.places = places;
     }
 

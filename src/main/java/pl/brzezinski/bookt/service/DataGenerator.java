@@ -29,35 +29,35 @@ public class DataGenerator {
     private Restaurant restaurant2;
     private Restaurant restaurant3;
     private Restaurant restaurant4;
-
-    @PostConstruct
-    public void createRestaurantData(){
-        restaurantDAO.save(restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "www.podfredra.pl", "10:00", "24:00", "899-998-323"));
-        restaurantDAO.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "www.ck.pl", "12:00", "02:00", "111-222-333"));
-        restaurantDAO.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "www.lascala.pl", "12:00", "23:00", "71-372-53-94"));
-        restaurantDAO.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "www.akropolis.wroc.pl", "10:00", "23:00", "71-343-14-13"));
-    }
-
-    @PostConstruct
-    public void addSchemaTables(){
-        SchemaTable schemaTable1 = new SchemaTable(1l, 2l );
-        SchemaTable schemaTable2 = new SchemaTable(2l, 2l );
-        SchemaTable schemaTable3 = new SchemaTable(3l, 2l );
-        SchemaTable schemaTable4 = new SchemaTable(4l, 2l );
-        SchemaTable schemaTable5 = new SchemaTable(5l, 4l );
-        SchemaTable schemaTable6 = new SchemaTable(6l, 6l );
-        schemaTable1.setRestaurant(restaurant1);
-        schemaTable2.setRestaurant(restaurant1);
-        schemaTable3.setRestaurant(restaurant1);
-        schemaTable4.setRestaurant(restaurant1);
-        schemaTable5.setRestaurant(restaurant1);
-        schemaTable6.setRestaurant(restaurant1);
-        schemaTableRepository.save(schemaTable1);
-        schemaTableRepository.save(schemaTable2);
-        schemaTableRepository.save(schemaTable3);
-        schemaTableRepository.save(schemaTable4);
-        schemaTableRepository.save(schemaTable5);
-        schemaTableRepository.save(schemaTable6);
+//
+//    @PostConstruct
+//    public void createRestaurantData(){
+//        restaurantDAO.save(restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl","10:00", "24:00", "899-998-323"));
+//        restaurantDAO.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl","12:00", "02:00", "111-222-333"));
+//        restaurantDAO.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", "12:00", "23:00", "71-372-53-94"));
+//        restaurantDAO.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", "10:00", "23:00", "71-343-14-13"));
+//    }
+//
+//    @PostConstruct
+//    public void addSchemaTables(){
+//        SchemaTable schemaTable1 = new SchemaTable(1, 2 );
+//        SchemaTable schemaTable2 = new SchemaTable(2, 2 );
+//        SchemaTable schemaTable3 = new SchemaTable(3, 2 );
+//        SchemaTable schemaTable4 = new SchemaTable(4, 2 );
+//        SchemaTable schemaTable5 = new SchemaTable(5, 4 );
+//        SchemaTable schemaTable6 = new SchemaTable(6, 6 );
+//        schemaTable1.setRestaurant(restaurant1);
+//        schemaTable2.setRestaurant(restaurant1);
+//        schemaTable3.setRestaurant(restaurant1);
+//        schemaTable4.setRestaurant(restaurant1);
+//        schemaTable5.setRestaurant(restaurant1);
+//        schemaTable6.setRestaurant(restaurant1);
+//        schemaTableRepository.save(schemaTable1);
+//        schemaTableRepository.save(schemaTable2);
+//        schemaTableRepository.save(schemaTable3);
+//        schemaTableRepository.save(schemaTable4);
+//        schemaTableRepository.save(schemaTable5);
+//        schemaTableRepository.save(schemaTable6);
 
     }
 //    @PostConstruct
@@ -75,4 +75,4 @@ public class DataGenerator {
 //        schemaTableRepository.save(schemaTable3);
 //        schemaTableRepository.save(schemaTable4);
 //    }
-}
+//}
