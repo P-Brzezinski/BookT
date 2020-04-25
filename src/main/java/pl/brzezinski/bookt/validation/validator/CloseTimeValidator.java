@@ -15,10 +15,10 @@ public class CloseTimeValidator implements ConstraintValidator<CloseTimeValid, R
 
     @Override
     public boolean isValid(Restaurant restaurant, ConstraintValidatorContext constraintValidatorContext) {
-//        if (restaurant.getOpenTime() != null && restaurant.getCloseTime() != null){
+        if (restaurant.getOpenTime() != null && restaurant.getCloseTime() != null){
             return restaurant.getOpenTime().isBefore(restaurant.getCloseTime());
-//        }else {
-//            return false;
+        }else {
+            return false;
         }
     }
-//}
+}
