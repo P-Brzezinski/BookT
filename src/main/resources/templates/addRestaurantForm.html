@@ -8,38 +8,39 @@
 <body>
 <div class="center-content">
     <h1>Enter new restaurant</h1>
-    <form method="post" action="#" th:action="@{/save}" th:object="${newRestaurant}">
-        <p>
+    <form method="post" action="#" th:action="@{/save}" th:object="${restaurant}">
         <h2>Name: <input type="text" th:field="*{name}"/></h2>
-        </p>
-        <p>
-        <h3>Address: </h3>
-        Street: <input type="text" th:field="*{street}"/><br>
-        City: <input type="text" th:field="*{city}"/><br>
-        Post code: <input type="text" th:field="*{postCode}"/><br>
-        </p>
-        <p>
-            Genre:
-            <select th:field="*{genre}">
+<!--        <div th:classappend="${#fields.hasErrors('name')} ? 'input-icon right' : ''">-->
+<!--            <i th:if="${#fields.hasErrors('name')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid restaurant name" data-container="body"></i>-->
+<!--            <input type="text" class="form-control" maxlength="32" th:field="*{name}" placeholder="Between 2 and 32 characters"/>-->
+<!--            <span th:if="${#fields.hasErrors('name')}" class="help-block" th:errors="*{name}"></span>-->
+<!--        </div>-->
+        <h5 th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></h5>
+        <h3>Address:</h3>
+        <p>Street: <input type="text" th:field="*{street}"/></p>
+        <h5 th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></h5>
+        <p>City: <input type="text" th:field="*{city}"/></p>
+        <h5 th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></h5>
+        <p>Post code: <input type="text" th:field="*{postCode}"/></p>
+        <h5 th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}"></h5>
+        <p>Genre:<select th:field="*{genre}">
                 <option value="">SELECT</option>
-                <option th:each="g : ${genres}" th:value="${g}" th:utext="${g.getDescription()}"></option>
-            </select>
-        </p>
-        <p>
-            Open: <input type="time" th:field="*{openTime}"/>
-        </p>
-        <p>
-            Close: <input type="time" th:field="*{closeTime}"/>
-        </p>
-        <p>
-            Web page: <input type="text" th:field="*{url}"/>
-        </p>
-        <p>
-            Phone: <input type="text" th:field="*{phoneNumber}"/>
-        </p>
-        <p>
-            <input type="submit" value="Zapisz">
-        </p>
+                <option th:each="g : ${genre}" th:value="${g}" th:utext="${g.getDescription()}"></option></select>
+        <h5 th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></h5></p>
+        <p>Open: <input type="time" th:field="*{openTime}"/></p>
+        <h5 th:if="${#fields.hasErrors('openTime')}" th:errors="*{openTime}"></h5>
+        <p>Close: <input type="time" th:field="*{closeTime}"/></p>
+        <h5 th:if="${#fields.hasErrors('closeTime')}" th:errors="*{closeTime}"></h5>
+        <h5 th:if="${#fields.hasGlobalErrors()}"
+            th:each="error : ${#fields.errors('global')}"
+            th:text="${error}"></h5>
+        <p>Web site: <input type="text" th:field="*{url}"/></p>
+        <h5 th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></h5>
+        <p>Email: <input type="text" th:field="*{email}"/></p>
+        <h5 th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></h5>
+        <p>Phone: <input type="text" th:field="*{phoneNumber}"/></p>
+        <h5 th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></h5>
+        <p><input type="submit" value="Zapisz"></p>
     </form>
     <p><a th:href="@{/}"/>Main menu</p>
 </div>

@@ -8,25 +8,25 @@ public class SchemaTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long tableNumber;
-    private Long places;
+    private int tableNumber;
+    private int places;
     @ManyToOne
     private Restaurant restaurant;
 
     public SchemaTable() {
     }
 
-    public SchemaTable(Long tableNumber, Long places){
+    public SchemaTable(int tableNumber, int places){
         this.tableNumber = tableNumber;
         this.places = places;
 
     }
 
-    public Long getTableNumber() {
+    public int getTableNumber() {
         return tableNumber;
     }
 
-    public void setTableNumber(Long number) {
+    public void setTableNumber(int number) {
         this.tableNumber = number;
     }
 
@@ -38,11 +38,11 @@ public class SchemaTable {
         this.id = id;
     }
 
-    public Long getPlaces() {
+    public int getPlaces() {
         return places;
     }
 
-    public void setPlaces(Long places) {
+    public void setPlaces(int places) {
         this.places = places;
     }
 

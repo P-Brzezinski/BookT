@@ -1,18 +1,21 @@
 package pl.brzezinski.bookt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.ReservedTable;
 import pl.brzezinski.bookt.service.ReservationService;
-import pl.brzezinski.bookt.service.ReservedTableService;
 import pl.brzezinski.bookt.service.RestaurantService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static pl.brzezinski.bookt.service.ReservationService.*;
@@ -33,15 +36,22 @@ public class ReservationController {
     public String askForReservation(Model model) {
         List<Restaurant> allRestaurants = restaurantService.getAll();
         model.addAttribute("allRestaurants", allRestaurants);
-        model.addAttribute("newReservation", new Reservation());
+        model.addAttribute("reservation", new Reservation());
         return "askForReservation";
     }
 
     @PostMapping("/checkIfPossible")
-    public String checkIfPossible(@ModelAttribute Reservation newReservation, Model model) {
-        String isPossible = reservationService.isPossible(newReservation);
-        model.addAttribute("newReservation", newReservation);
-
+    public String checkIfPossible(@Valid Reservation reservation, BindingResult result, Model model) {
+        if (result.hasErrors()){
+            List<ObjectError> errors = result.getAllErrors();
+            errors.forEach(err -> System.out.println(err.getDefaultMessage()));
+            List<Restaurant> allRestaurants = restaurantService.getAll();
+            model.addAttribute("allRestaurants", allRestaurants);
+            model.addAttribute("reservation", reservation);
+            return "askForReservation";
+        }
+        String isPossible = reservationService.isPossible(reservation);
+        model.addAttribute("reservation", reservation);
         switch (isPossible) {
             case RESERVATION_AVAILABLE:
                 return "success";

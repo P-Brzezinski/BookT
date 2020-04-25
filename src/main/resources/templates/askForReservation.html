@@ -7,17 +7,32 @@
 </head>
 <body>
 <div class="center-content">
-    <form method="post" action="#" th:action="@{/checkIfPossible}" th:object="${newReservation}">
-        <p>Name: <input type="text" th:field="*{name}"></p>
+    <form action="#" method="post" th:action="@{/checkIfPossible}" th:object="${reservation}">
+
+        <p>Name: <input type="text" th:field="*{name}" placeholder="Enter your name"></p>
+        <h5 th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Reservation name error</h5>
+
         <p>Number of persons: <input type="number" th:field="*{numberOfPersons}"></p>
+        <h5 th:if="${#fields.hasErrors('numberOfPersons')}" th:errors="*{numberOfPersons}">Number of persons error</h5>
+
         <p>Phone number: <input type="number" th:field="*{phoneNumber}"></p>
+        <h5 th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Phone number error</h5>
+
         <p>Notes: <textarea th:field="*{notes}"></textarea></p>
+        <h5 th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}">Notes error</h5>
+
+
         <p>Date and time: <input type="datetime-local" th:field="*{dateTime}"></p>
+        <h5 th:if="${#fields.hasErrors('dateTime')}" th:errors="*{dateTime}">Date or time error</h5>
+
+
         <p>Restaurant:<select th:field="*{restaurant}">
             <option value="">SELECT</option>
             <option th:each="restaurant : ${allRestaurants}" th:value="${restaurant.id}" th:utext="${restaurant.getName()}"></option>
         </select>
         </p>
+        <h5 th:if="${#fields.hasErrors('restaurant')}" th:errors="*{restaurant}">Choose a restaurant</h5>
+
         <p><input type="submit" value="Check"></p>
     </form>
 

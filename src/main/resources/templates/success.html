@@ -6,12 +6,12 @@
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<div class="center-content" th:object="${newReservation}">
+<div class="center-content" th:object="${reservation}">
     <h1 th:text="|Reservation for name *{name} is booked|"></h1>
+    <h2 th:text="|Restaurant: *{restaurant.getName()}|"></h2>
     <h3>Details:</h3>
     <p th:text="|Date: *{dateTime.dayOfMonth}.*{dateTime.month.value}.*{dateTime.year}|"></p>
     <p th:text="|Time: *{dateTime.hour}:*{dateTime.minute}|"></p>
-    <p th:text="|Restaurant: *{restaurant.getName()}|"></p>
     <p th:text="|Table number: *{reservedTable.getTableNumber()}|"></p>
     <p th:text="|Notes: *{notes}|"></p>
     <p><a th:href="@{/}">Main menu</a></p>

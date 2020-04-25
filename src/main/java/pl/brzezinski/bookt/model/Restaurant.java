@@ -1,25 +1,46 @@
 package pl.brzezinski.bookt.model;
 
+import org.hibernate.validator.constraints.URL;
 import pl.brzezinski.bookt.model.enums.Genre;
+import pl.brzezinski.bookt.validation.constraint.CloseTimeValid;
+import pl.brzezinski.bookt.validation.constraint.Phone;
+import pl.brzezinski.bookt.validation.constraint.TimeNotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+//@TimeNotNull(message = "{pl.brzezinski.bookt.Restaurant.TimeNotNull}")
+@CloseTimeValid(message = "{pl.brzezinski.bookt.Restaurant.OpenTime}")
 public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.name.NotBlank}")
     private String name;
+    @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.street.NotBlank}")
     private String street;
+    @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.city.NotBlank}")
     private String city;
+    @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.postCode.NotBlank}")
     private String postCode;
+    @NotNull(message = "{pl.brzezinski.bookt.Restaurant.genre.NotNull}")
     private Genre genre;
+    @URL(message = "{pl.brzezinski.bookt.Restaurant.url.URL}")
+    @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.url.NotBlank}")
     private String url;
-    private String openTime;
-    private String closeTime;
+    @Email(message = "{pl.brzezinski.bookt.Restaurant.email.Email}")
+    @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.email.NotBlank}")
+    private String email;
+    @Basic
+    private LocalTime openTime;
+    @Basic
+    private LocalTime closeTime;
+    @Phone(message = "{pl.brzezinski.bookt.Restaurant.phoneNumber.Phone}")
     private String phoneNumber;
     @OneToMany(mappedBy = "restaurant",
     cascade = CascadeType.PERSIST)
@@ -41,14 +62,15 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String name, String street, String city, String postCode, Genre genre, String url,
-                      String openTime, String closeTime, String phoneNumber){
+    public Restaurant(String name, String street, String city, String postCode, Genre genre, String url, String email,
+                      LocalTime openTime, LocalTime closeTime, String phoneNumber){
         this.name = name;
         this.street = street;
         this.city = city;
         this.postCode = postCode;
         this.genre = genre;
         this.url = url;
+        this.email = email;
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.phoneNumber = phoneNumber;
@@ -126,19 +148,19 @@ public class Restaurant {
         this.url = url;
     }
 
-    public String getOpenTime() {
+    public LocalTime getOpenTime() {
         return openTime;
     }
 
-    public void setOpenTime(String openTime) {
+    public void setOpenTime(LocalTime openTime) {
         this.openTime = openTime;
     }
 
-    public String getCloseTime() {
+    public LocalTime getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(String closeTime) {
+    public void setCloseTime(LocalTime closeTime) {
         this.closeTime = closeTime;
     }
 
@@ -148,6 +170,22 @@ public class Restaurant {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override

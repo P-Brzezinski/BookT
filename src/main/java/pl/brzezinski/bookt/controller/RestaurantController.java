@@ -3,6 +3,8 @@ package pl.brzezinski.bookt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,7 @@ import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.SchemaTableService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,14 +28,21 @@ public class RestaurantController {
 
     @GetMapping("/addRestaurant")
     public String addRestaurantForm(Model model){
-        model.addAttribute("newRestaurant", new Restaurant());
-        model.addAttribute("genres", List.of(Genre.values()));
+        model.addAttribute("restaurant", new Restaurant());
+        model.addAttribute("genre", List.of(Genre.values()));
         return "addRestaurantForm";
     }
 
     @PostMapping("/save")
-    public String saveRestaurant(@ModelAttribute Restaurant newRestaurant){
-        restaurantService.add(newRestaurant);
+    public String saveRestaurant(@Valid Restaurant restaurant, BindingResult result, Model model){
+        if (result.hasErrors()){
+            List<ObjectError> errors = result.getAllErrors();
+            errors.forEach(err -> System.out.println(err.getDefaultMessage()));
+            model.addAttribute("restaurant", restaurant);
+            model.addAttribute("genre", List.of(Genre.values()));
+            return "addRestaurantForm";
+        }
+        restaurantService.add(restaurant);
         return "redirect:/";
     }
 
