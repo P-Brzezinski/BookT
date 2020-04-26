@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.brzezinski.bookt.model.Reservation;
@@ -39,23 +38,20 @@ public class ReservationController {
 
     @PostMapping("/checkIfPossible")
     public String checkIfPossible(@Valid Reservation reservation, BindingResult result, Model model) {
+        model.addAttribute("reservation", reservation);
         if (result.hasErrors()){
             List<Restaurant> allRestaurants = restaurantService.getAll();
             model.addAttribute("allRestaurants", allRestaurants);
-            model.addAttribute("reservation", reservation);
             return "askForReservation";
         }
         String isPossible = reservationService.isPossible(reservation);
-        model.addAttribute("reservation", reservation);
+        model.addAttribute("reason", isPossible);
         switch (isPossible) {
             case RESERVATION_AVAILABLE:
                 return "success";
-            case ALL_TABLES_ARE_OCCUPIED:
-                return "findAnotherTable";
-            case NO_SUCH_TABLE_AVAILABLE_IN_RESTAURANT:
-                return "findAnotherRestaurant";
+            default:
+                return "failed";
         }
-        return "redirect:/";
     }
 
     @GetMapping("/showAllReservations")

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
+import pl.brzezinski.bookt.model.SchemaTable;
 import pl.brzezinski.bookt.repository.ReservationRepository;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
 import pl.brzezinski.bookt.repository.ReservedTableRepository;
@@ -40,5 +41,9 @@ public class ReservedTableService implements GenericRepository<Long, ReservedTab
     @Override
     public List<ReservedTable> getAll() {
         return reservedTableRepository.findAll();
+    }
+
+    public List<ReservedTable> findAllByPlaces(int places){
+        return reservedTableRepository.findAllByPlaces(places);
     }
 }

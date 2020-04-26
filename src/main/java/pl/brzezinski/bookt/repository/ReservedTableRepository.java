@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface ReservedTableRepository extends JpaRepository<ReservedTable, Long> {
 
+    List<ReservedTable> findAllByPlaces(int places);
+
 }
 

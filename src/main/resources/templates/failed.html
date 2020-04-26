@@ -6,10 +6,10 @@
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<div class="center-content" th:object="${newReservation}">
+<div class="center-content" th:object="${reservation}">
     <h1>We are sorry!</h1><br>
-    <h2 th:text="|Your reservation for name *{name} persons is not possible in restaurant *{restaurant.getName()}|"></h2><br>
-    <h2 th:text="|Reson: there is no table for *{numberOfPersons} people|"></h2><br>
+    <h2 th:text="|Your reservation for name *{name} is not possible in restaurant *{restaurant.getName()}|"></h2><br>
+    <h2 th:text="|Reason ${reason.toString()}|"></h2>
     <p>Try to find in other restaurants: <a th:href="@{/showAllRestaurants}">Link</a></p>
     <p><a th:href="@{/}">Main menu</a></p>
 </div>
