@@ -17,22 +17,10 @@ import java.util.List;
 public class TableController {
 
     private ReservedTableService reservedTableService;
-    private RestaurantService restaurantService;
-    private SchemaTableService schemaTableService;
 
     @Autowired
-    public TableController(ReservedTableService reservedTableService, RestaurantService restaurantService, SchemaTableService schemaTableService) {
+    public TableController(ReservedTableService reservedTableService) {
         this.reservedTableService = reservedTableService;
-        this.restaurantService = restaurantService;
-        this.schemaTableService = schemaTableService;
     }
 
-    @GetMapping("/showAllTablesInRestaurant")
-    public String showAllTablesInRestaurant(@RequestParam Long restaurantId, Model model) {
-        Restaurant findRestaurant = restaurantService.get(restaurantId);
-        List<ReservedTable> allTablesInRestaurant = findRestaurant.getReservedTables();
-        model.addAttribute("allTablesInRestaurant", allTablesInRestaurant);
-        model.addAttribute("restaurantId", restaurantId);
-        return "showAllTablesInRestaurant";
-    }
 }

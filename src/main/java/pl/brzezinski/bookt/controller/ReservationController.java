@@ -1,14 +1,11 @@
 package pl.brzezinski.bookt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.Restaurant;
@@ -43,8 +40,6 @@ public class ReservationController {
     @PostMapping("/checkIfPossible")
     public String checkIfPossible(@Valid Reservation reservation, BindingResult result, Model model) {
         if (result.hasErrors()){
-            List<ObjectError> errors = result.getAllErrors();
-            errors.forEach(err -> System.out.println(err.getDefaultMessage()));
             List<Restaurant> allRestaurants = restaurantService.getAll();
             model.addAttribute("allRestaurants", allRestaurants);
             model.addAttribute("reservation", reservation);

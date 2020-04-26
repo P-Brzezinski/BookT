@@ -1,7 +1,9 @@
 package pl.brzezinski.bookt.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.brzezinski.bookt.validation.constraint.OpenHours;
 import pl.brzezinski.bookt.validation.constraint.NotBadWord;
+import pl.brzezinski.bookt.validation.constraint.Phone;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 import static pl.brzezinski.bookt.validation.validator.lang.Lang.*;
 
 @Entity
+@OpenHours(message = "{pl.brzezinski.bookt.Reservation.IfInWorkingHours}")
 public class Reservation {
 
     @Id
@@ -23,7 +26,7 @@ public class Reservation {
     @Min(value = 1, message = "{pl.brzezinski.bookt.Reservation.numberOfPersons.Min}")
     private int numberOfPersons;
 
-    @Size(min = 13, message = "{pl.brzezinski.bookt.Reservation.phoneNumber.Digits}")
+    @Phone(message = "{pl.brzezinski.bookt.Reservation.phoneNumber.Phone}")
     private String phoneNumber;
 
     @NotBadWord(lang = {PL, ENG}, message = "{pl.brzezinski.bookt.Reservation.notes.NotBadWord}")

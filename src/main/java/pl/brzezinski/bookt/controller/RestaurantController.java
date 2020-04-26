@@ -36,8 +36,6 @@ public class RestaurantController {
     @PostMapping("/save")
     public String saveRestaurant(@Valid Restaurant restaurant, BindingResult result, Model model){
         if (result.hasErrors()){
-            List<ObjectError> errors = result.getAllErrors();
-            errors.forEach(err -> System.out.println(err.getDefaultMessage()));
             model.addAttribute("restaurant", restaurant);
             model.addAttribute("genre", List.of(Genre.values()));
             return "addRestaurantForm";

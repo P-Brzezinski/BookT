@@ -15,7 +15,7 @@
         <p>Number of persons: <input type="number" th:field="*{numberOfPersons}"></p>
         <h5 th:if="${#fields.hasErrors('numberOfPersons')}" th:errors="*{numberOfPersons}">Number of persons error</h5>
 
-        <p>Phone number: <input type="number" th:field="*{phoneNumber}"></p>
+        <p>Phone number: <input type="text" th:field="*{phoneNumber}"></p>
         <h5 th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Phone number error</h5>
 
         <p>Notes: <textarea th:field="*{notes}"></textarea></p>
@@ -24,7 +24,9 @@
 
         <p>Date and time: <input type="datetime-local" th:field="*{dateTime}"></p>
         <h5 th:if="${#fields.hasErrors('dateTime')}" th:errors="*{dateTime}">Date or time error</h5>
-
+        <h5 th:if="${#fields.hasGlobalErrors()}"
+            th:each="error : ${#fields.errors('global')}"
+            th:text="|${error} (${reservation.getRestaurant().getOpenTime()} - ${reservation.getRestaurant().getCloseTime()})|"></h5>
 
         <p>Restaurant:<select th:field="*{restaurant}">
             <option value="">SELECT</option>

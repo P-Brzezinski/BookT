@@ -2,9 +2,8 @@ package pl.brzezinski.bookt.model;
 
 import org.hibernate.validator.constraints.URL;
 import pl.brzezinski.bookt.model.enums.Genre;
-import pl.brzezinski.bookt.validation.constraint.CloseTimeValid;
+import pl.brzezinski.bookt.validation.constraint.TimeValid;
 import pl.brzezinski.bookt.validation.constraint.Phone;
-import pl.brzezinski.bookt.validation.constraint.TimeNotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -13,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@TimeNotNull(message = "{pl.brzezinski.bookt.Restaurant.TimeNotNull}")
-@CloseTimeValid(message = "{pl.brzezinski.bookt.Restaurant.OpenTime}")
+@TimeValid(message = "{pl.brzezinski.bookt.Restaurant.TimeValid}")
 public class Restaurant {
+
+    public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS = 3;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
