@@ -7,7 +7,10 @@ import pl.brzezinski.bookt.model.ReservedTable;
 import pl.brzezinski.bookt.model.SchemaTable;
 import pl.brzezinski.bookt.repository.ReservationRepository;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS;
@@ -52,7 +55,7 @@ public class ReservationService implements GenericRepository<Long, Reservation> 
         return reservationRepository.findAll();
     }
 
-    public String isPossible(Reservation reservation) {
+    public String checkIfPossible(Reservation reservation) {
         String result;
         List<SchemaTable> availableSchemaTables = schemaTableService.findAllByRestaurantsAndByPlaces(reservation.getRestaurant(), reservation.getNumberOfPersons());
         List<ReservedTable> allReservations = reservedTableService.getAll();
@@ -64,7 +67,7 @@ public class ReservationService implements GenericRepository<Long, Reservation> 
             if (availableSchemaTables.isEmpty()) {
                 result = ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME;
             } else {
-                makeAReservationOnTable(reservation, availableSchemaTables.get(0));
+                addReservationOnTable(reservation, availableSchemaTables.get(0));
                 result = RESERVATION_AVAILABLE;
             }
         }
@@ -72,40 +75,22 @@ public class ReservationService implements GenericRepository<Long, Reservation> 
     }
 
     private List<SchemaTable> checkWhichTablesAreFreeInRestaurant(List<SchemaTable> availableSchemaTables, List<ReservedTable> allReservationsInThisDay, Reservation reservation) {
-        List<SchemaTable> occupiedTablesFromAvailableTables = new ArrayList<>();
+        List<SchemaTable> tablesNotFree = new ArrayList<>();
 
         for (SchemaTable availableTable : availableSchemaTables) {
             for (ReservedTable reservedTable : allReservationsInThisDay) {
                 if ((availableTable.getTableNumber() == reservedTable.getTableNumber())
                         && (!reservedTable.getDateOfReservation().isAfter(reservation.getDateTime().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).minusMinutes(1))
                         && (!reservedTable.getDateOfReservation().isBefore(reservation.getDateTime().minusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).plusHours(1))))) {
-                    occupiedTablesFromAvailableTables.add(availableTable);
+                    tablesNotFree.add(availableTable);
                 }
             }
         }
-        availableSchemaTables.removeAll(occupiedTablesFromAvailableTables);
+        availableSchemaTables.removeAll(tablesNotFree);
         return availableSchemaTables;
     }
 
-    private List<SchemaTable> checkWhichTablesAreFreeInOtherRestaurants(Reservation reservation) {
-        List<SchemaTable> getAllInEveryRestaurant = schemaTableService.findAllByPlaces(reservation.getNumberOfPersons());
-        List<ReservedTable> allReservationsInThisDay = reservedTableService.findAllByPlaces(reservation.getNumberOfPersons());
-        List<SchemaTable> occupiedTablesFromAvailableTables = new ArrayList<>();
-
-        for (SchemaTable availableTable : getAllInEveryRestaurant) {
-            for (ReservedTable reservedTable : allReservationsInThisDay) {
-                if ((availableTable.getTableNumber() == reservedTable.getTableNumber())
-                        && (!reservedTable.getDateOfReservation().isAfter(reservation.getDateTime().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).minusMinutes(1))
-                        && (!reservedTable.getDateOfReservation().isBefore(reservation.getDateTime().minusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).plusHours(1))))) {
-                    occupiedTablesFromAvailableTables.add(availableTable);
-                }
-            }
-        }
-        getAllInEveryRestaurant.removeAll(occupiedTablesFromAvailableTables);
-        return getAllInEveryRestaurant;
-    }
-
-    private void makeAReservationOnTable(Reservation reservation, SchemaTable schemaTable) {
+    public void addReservationOnTable(Reservation reservation, SchemaTable schemaTable) {
         ReservedTable reservedTable = new ReservedTable(
                 schemaTable.getTableNumber(),
                 schemaTable.getPlaces(),
@@ -116,5 +101,19 @@ public class ReservationService implements GenericRepository<Long, Reservation> 
         reservedTableService.add(reservedTable);
         reservation.setReservedTable(reservedTable);
         reservationRepository.save(reservation);
+    }
+
+    public ReservedTable findShortTermTable(Reservation reservation) {
+        List<ReservedTable> shortTermTables = reservedTableService.findShortTermTables(reservation.getRestaurant(), reservation.getNumberOfPersons(), reservation.getDateTime(), reservation.getDateTime().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS));
+        System.out.println("ALL TABLES " + shortTermTables.toString());
+        shortTermTables.sort(Comparator.comparing(ReservedTable::getDateOfReservation));
+        //take table with latest time before your reservation
+        return shortTermTables.get(shortTermTables.size() - 1);
+    }
+
+    public Long checkTimeBetween(LocalDateTime reservation, LocalDateTime dateOfReservation) {
+        Duration duration = Duration.between(reservation, dateOfReservation);
+        Long durationInMinutes = duration.toMinutes();
+        return durationInMinutes;
     }
 }

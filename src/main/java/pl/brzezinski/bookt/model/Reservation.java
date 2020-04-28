@@ -1,18 +1,19 @@
 package pl.brzezinski.bookt.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.brzezinski.bookt.validation.constraint.OpenHours;
-import pl.brzezinski.bookt.validation.constraint.NotBadWord;
-import pl.brzezinski.bookt.validation.constraint.Phone;
+import pl.brzezinski.bookt.validation.constraint.*;
+import pl.brzezinski.bookt.validation.constraint.groupSequences.FirstValidation;
+import pl.brzezinski.bookt.validation.constraint.groupSequences.SecondValidation;
 
 import javax.persistence.*;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 import static pl.brzezinski.bookt.validation.validator.lang.Lang.*;
 
 @Entity
-@OpenHours(message = "{pl.brzezinski.bookt.Reservation.IfInWorkingHours}")
+@OpenHoursForReservation(groups = SecondValidation.class, message = "{pl.brzezinski.bookt.Reservation.OpenHoursForReservation}")
 public class Reservation {
 
     @Id
@@ -20,26 +21,26 @@ public class Reservation {
     @Column(name = "id_reservation")
     private Long id;
 
-    @Size(min = 2, max = 20, message = "{pl.brzezinski.bookt.Reservation.name.Size}")
+    @Size(groups = FirstValidation.class, min = 2, max = 20, message = "{pl.brzezinski.bookt.Reservation.name.Size}")
     private String name;
 
-    @Min(value = 1, message = "{pl.brzezinski.bookt.Reservation.numberOfPersons.Min}")
+    @Min(groups = FirstValidation.class, value = 1, message = "{pl.brzezinski.bookt.Reservation.numberOfPersons.Min}")
     private int numberOfPersons;
 
-    @Phone(message = "{pl.brzezinski.bookt.Reservation.phoneNumber.Phone}")
+    @Phone(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.phoneNumber.Phone}")
     private String phoneNumber;
 
-    @NotBadWord(lang = {PL, ENG}, message = "{pl.brzezinski.bookt.Reservation.notes.NotBadWord}")
+//    @NotBadWord(groups = FirstValidation.class, lang = {PL, ENG}, message = "{pl.brzezinski.bookt.Reservation.notes.NotBadWord}")
     private String notes;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @NotNull(message = "{pl.brzezinski.bookt.Reservation.dateTime.NotNull}")
-    @Future(message = "{pl.brzezinski.bookt.Reservation.dateTime.Future}")
+    @NotNull(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.dateTime.NotNull}")
+    @Future(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.dateTime.Future}")
     private LocalDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
-    @NotNull(message = "{pl.brzezinski.bookt.Reservation.restaurant.NotNul;l}")
+    @NotNull(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.restaurant.NotNull}")
     private Restaurant restaurant;
 
     @OneToOne

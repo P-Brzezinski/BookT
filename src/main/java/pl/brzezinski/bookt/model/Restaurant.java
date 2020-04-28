@@ -2,7 +2,7 @@ package pl.brzezinski.bookt.model;
 
 import org.hibernate.validator.constraints.URL;
 import pl.brzezinski.bookt.model.enums.Genre;
-import pl.brzezinski.bookt.validation.constraint.TimeValid;
+import pl.brzezinski.bookt.validation.constraint.OpenHoursForRestaurant;
 import pl.brzezinski.bookt.validation.constraint.Phone;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@TimeValid(message = "{pl.brzezinski.bookt.Restaurant.TimeValid}")
+@OpenHoursForRestaurant(message = "{pl.brzezinski.bookt.Restaurant.OpenHoursForRestaurant}")
 public class Restaurant {
 
     public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS = 3;

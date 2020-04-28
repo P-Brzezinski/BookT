@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="center-content">
-    <form action="#" method="post" th:action="@{/checkIfPossible}" th:object="${reservation}">
+    <form action="#" method="post" th:action="@{/firstValidation}" th:object="${reservation}">
 
         <p>Name: <input type="text" th:field="*{name}" placeholder="Enter your name"></p>
         <h5 th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Reservation name error</h5>

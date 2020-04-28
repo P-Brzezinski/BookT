@@ -1,6 +1,6 @@
 package pl.brzezinski.bookt.validation.constraint;
 
-import pl.brzezinski.bookt.validation.validator.OpenHoursValidator;
+import pl.brzezinski.bookt.validation.validator.OpenHoursForReservationValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,8 +12,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target(TYPE)
 @Retention(RUNTIME)
-@Constraint(validatedBy = {OpenHoursValidator.class})
-public @interface OpenHours {
+@Constraint(validatedBy = {OpenHoursForReservationValidator.class})
+public @interface OpenHoursForReservation {
     String message();
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

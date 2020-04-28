@@ -45,5 +45,9 @@ public class SchemaTableService implements GenericRepository<Long, SchemaTable> 
     public List<SchemaTable> findAllByRestaurantsAndByPlaces(Restaurant restaurant, int places){
         return schemaTableRepository.findAllByRestaurantAndPlaces(restaurant, places);
     }
+
+    public SchemaTable findByRestaurantAndTableNumber(Restaurant restaurant, int tableNumber){
+        return schemaTableRepository.findByRestaurantAndAndTableNumber(restaurant, tableNumber);
+    }
 }
 

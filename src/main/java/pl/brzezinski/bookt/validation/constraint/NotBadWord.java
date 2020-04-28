@@ -1,6 +1,5 @@
 package pl.brzezinski.bookt.validation.constraint;
 
-import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.validation.validator.lang.Lang;
 import pl.brzezinski.bookt.validation.validator.BadWordValidator;
 

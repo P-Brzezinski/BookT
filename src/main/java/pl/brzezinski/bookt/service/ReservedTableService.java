@@ -1,5 +1,6 @@
 package pl.brzezinski.bookt.service;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
@@ -45,5 +46,9 @@ public class ReservedTableService implements GenericRepository<Long, ReservedTab
 
     public List<ReservedTable> findAllByPlaces(int places){
         return reservedTableRepository.findAllByPlaces(places);
+    }
+
+    public List<ReservedTable> findShortTermTables(Restaurant restaurant, int places, LocalDateTime reservationStart, LocalDateTime reservationEnd){
+        return reservedTableRepository.findAllByRestaurantAndPlacesAndDateOfReservationBetween(restaurant, places, reservationStart,reservationEnd);
     }
 }

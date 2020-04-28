@@ -82,7 +82,7 @@ public class ReservedTable {
 
     @Override
     public String toString() {
-        return "SingleTable{" +
+        return "ReservedTable{" +
                 "id=" + id +
                 ", dateOfReservation=" + dateOfReservation +
                 '}';

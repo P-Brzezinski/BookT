@@ -1,15 +1,15 @@
 package pl.brzezinski.bookt.validation.validator;
 
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.validation.constraint.TimeValid;
+import pl.brzezinski.bookt.validation.constraint.OpenHoursForRestaurant;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class TimeValidator implements ConstraintValidator<TimeValid, Restaurant> {
+public class OpenHoursForRestaurantValidator implements ConstraintValidator<OpenHoursForRestaurant, Restaurant> {
 
     @Override
-    public void initialize(TimeValid constraintAnnotation) {
+    public void initialize(OpenHoursForRestaurant constraintAnnotation) {
 
     }
 
