@@ -62,25 +62,22 @@ public class DataGenerator {
         schemaTable3 = new SchemaTable(3, 2);
         schemaTable4 = new SchemaTable(4, 2);
         schemaTable5 = new SchemaTable(5, 4);
-        schemaTable6 = new SchemaTable(6, 6);
-        schemaTable7 = new SchemaTable(1, 2);
-//        SchemaTable schemaTable8 = new SchemaTable(2, 2 );
+        schemaTable6 = new SchemaTable(6, 4);
+        schemaTable7 = new SchemaTable(7, 6);
         schemaTable1.setRestaurant(restaurant1);
-//        schemaTable2.setRestaurant(restaurant1);
-//        schemaTable3.setRestaurant(restaurant1);
-//        schemaTable4.setRestaurant(restaurant1);
+        schemaTable2.setRestaurant(restaurant1);
+        schemaTable3.setRestaurant(restaurant1);
+        schemaTable4.setRestaurant(restaurant1);
         schemaTable5.setRestaurant(restaurant1);
         schemaTable6.setRestaurant(restaurant1);
-        schemaTable7.setRestaurant(restaurant2);
-//        schemaTable8.setRestaurant(restaurant2);
+        schemaTable7.setRestaurant(restaurant1);
         schemaTableRepository.save(schemaTable1);
         schemaTableRepository.save(schemaTable2);
-//        schemaTableRepository.save(schemaTable3);
-//        schemaTableRepository.save(schemaTable4);
+        schemaTableRepository.save(schemaTable3);
+        schemaTableRepository.save(schemaTable4);
         schemaTableRepository.save(schemaTable5);
         schemaTableRepository.save(schemaTable6);
         schemaTableRepository.save(schemaTable7);
-//        schemaTableRepository.save(schemaTable8);
     }
 
     @PostConstruct

@@ -18,6 +18,8 @@ public class Restaurant {
     public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS = 3;
     public static int ESTIMATED_TIME_BETWEEN_RESERVATIONS_IN_MINUTES = 15;
     public static int ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES = 60;
+    public static int TABLE_WITH_MINIMUM_PLACES = 0;
+    public static int TABLE_WITH_MAX_PLACES = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

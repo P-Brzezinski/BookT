@@ -12,6 +12,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Restaurant</th>
+            <th>Persons</th>
             <th>Table number</th>
             <th>Date and time</th>
             <th>Phone number</th>
@@ -21,8 +22,9 @@
             <td th:text="*{reservation.id}"></td>
             <td th:text="*{reservation.name}"></td>
             <td th:text="*{reservation.restaurant.name}"></td>
+            <td th:text="*{reservation.getNumberOfPersons()}"></td>
             <td th:text="*{reservation.reservedTable.tableNumber}"></td>
-            <td th:text="*{reservation.dateTime}"></td>
+            <td th:text="*{reservation.dateTime.format(formatter)}"></td>
             <td th:text="*{reservation.phoneNumber}"></td>
             <td th:text="*{reservation.notes}"></td>
         </tr>

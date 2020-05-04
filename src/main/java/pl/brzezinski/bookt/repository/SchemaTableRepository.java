@@ -11,5 +11,6 @@ public interface SchemaTableRepository extends JpaRepository<SchemaTable, Long> 
     List<SchemaTable> findAllByRestaurant(Restaurant restaurant);
     List<SchemaTable> findAllByPlaces(int places);
     List<SchemaTable> findAllByRestaurantAndPlaces(Restaurant restaurant, int places);
+    List<SchemaTable> findAllByRestaurantAndPlacesBetween(Restaurant restaurant, int min, int max);
     SchemaTable findByRestaurantAndAndTableNumber(Restaurant restaurant, int tableNumber);
 }

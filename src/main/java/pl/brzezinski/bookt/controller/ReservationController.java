@@ -14,13 +14,11 @@ import pl.brzezinski.bookt.model.SchemaTable;
 import pl.brzezinski.bookt.service.ReservationService;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.SchemaTableService;
-import pl.brzezinski.bookt.validation.constraint.groupSequences.CompleteValidation;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.FirstValidation;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.SecondValidation;
 
-import javax.validation.Valid;
-import java.time.LocalTime;
-import java.util.ArrayDeque;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import static pl.brzezinski.bookt.service.ReservationService.*;
@@ -104,7 +102,7 @@ public class ReservationController {
     @GetMapping("/saveReservation")
     public String saveReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam int schemaTableNumber, Model model, SessionStatus status) {
         SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), schemaTableNumber);
-        reservationService.addReservationOnTable(reservation, schemaTable);
+        reservationService.saveReservationOnTable(reservation, schemaTable);
         status.setComplete();
         return "success";
     }
@@ -112,6 +110,8 @@ public class ReservationController {
     @GetMapping("/showAllReservations")
     public String showAlReservations(Model model) {
         List<Reservation> allReservations = reservationService.getAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd LLLL yyyy" );
+        model.addAttribute("formatter", formatter);
         model.addAttribute("allReservations", allReservations);
         return "showAllReservations";
     }
