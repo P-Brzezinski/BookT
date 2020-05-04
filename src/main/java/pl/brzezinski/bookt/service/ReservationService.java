@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_BETWEEN_RESERVATIONS_IN_MINUTES;
 import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS;
 
 @Service
@@ -104,16 +105,44 @@ public class ReservationService implements GenericRepository<Long, Reservation> 
     }
 
     public ReservedTable findShortTermTable(Reservation reservation) {
-        List<ReservedTable> shortTermTables = reservedTableService.findShortTermTables(reservation.getRestaurant(), reservation.getNumberOfPersons(), reservation.getDateTime(), reservation.getDateTime().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS));
-        System.out.println("ALL TABLES " + shortTermTables.toString());
-        shortTermTables.sort(Comparator.comparing(ReservedTable::getDateOfReservation));
-        //take table with latest time before your reservation
-        return shortTermTables.get(shortTermTables.size() - 1);
+        List<SchemaTable> schemaTables = schemaTableService.findAllByRestaurantsAndByPlaces(reservation.getRestaurant(), reservation.getNumberOfPersons());
+        ReservedTable reservedTable = null;
+
+        System.out.println("SCHEMA TABLES: " + schemaTables.toString());
+
+        for (SchemaTable schemaTable : schemaTables) {
+
+            List<ReservedTable> findAllBefore = reservedTableService.findAllBefore(reservation, schemaTable.getTableNumber());
+            findAllBefore.sort(Comparator.comparing(ReservedTable::getDateOfReservation).reversed());
+            System.out.println("-----------------------------------");
+            System.out.println("TABLE NUMBER " + schemaTable.getTableNumber());
+            System.out.println("BEFORE:");
+            System.out.println(findAllBefore.toString());
+
+            List<ReservedTable> findAllAfter = reservedTableService.findAllAfter(reservation, schemaTable.getTableNumber());
+            findAllAfter.sort(Comparator.comparing(ReservedTable::getDateOfReservation));
+            System.out.println("AFTER: ");
+            System.out.println(findAllAfter.toString());
+
+            ReservedTable checkIfInTheSameTime = reservedTableService.findIfAnyOnTheSameTime(reservation, schemaTable.getTableNumber());
+
+            if (reservation.getDateTime().isAfter(findAllBefore.get(0).getDateOfReservation().plusHours(3))
+            && reservation.getDateTime().isBefore(findAllAfter.get(0).getDateOfReservation().plusHours(1))) {
+                if (checkIfInTheSameTime == null) {
+                    System.out.println("MOŻLIWY STOLIK " + schemaTable.getTableNumber());
+                    reservedTable = findAllAfter.get(0);
+                } else {
+                    System.out.println("TE SAME GODZINY");
+                    System.out.println("STOLIK ZAREZERWOWANY O TEJ GODZINIE :" + checkIfInTheSameTime.toString());
+                }
+            }
+        }
+        return reservedTable;
     }
 
-    public Long checkTimeBetween(LocalDateTime reservation, LocalDateTime dateOfReservation) {
-        Duration duration = Duration.between(reservation, dateOfReservation);
-        Long durationInMinutes = duration.toMinutes();
+    public Long checkTimeBetween(LocalDateTime reservation, LocalDateTime nextReservation) {
+        Duration duration = Duration.between(reservation, nextReservation);
+        Long durationInMinutes = duration.toMinutes() - ESTIMATED_TIME_BETWEEN_RESERVATIONS_IN_MINUTES;
         return durationInMinutes;
     }
 }

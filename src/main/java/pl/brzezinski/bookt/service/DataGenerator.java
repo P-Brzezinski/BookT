@@ -66,7 +66,7 @@ public class DataGenerator {
         schemaTable7 = new SchemaTable(1, 2);
 //        SchemaTable schemaTable8 = new SchemaTable(2, 2 );
         schemaTable1.setRestaurant(restaurant1);
-        schemaTable2.setRestaurant(restaurant1);
+//        schemaTable2.setRestaurant(restaurant1);
 //        schemaTable3.setRestaurant(restaurant1);
 //        schemaTable4.setRestaurant(restaurant1);
         schemaTable5.setRestaurant(restaurant1);
@@ -82,63 +82,64 @@ public class DataGenerator {
         schemaTableRepository.save(schemaTable7);
 //        schemaTableRepository.save(schemaTable8);
     }
+
+    @PostConstruct
+    public void addReservations() {
+        Reservation reservation1 = new Reservation();
+        reservation1.setName("Rezerwacja 1");
+        reservation1.setNumberOfPersons(2);
+        reservation1.setPhoneNumber("999-000-333");
+        reservation1.setNotes("Nice table please");
+        reservation1.setDateTime(LocalDateTime.of(2020, 12, 12, 16, 00));
+        reservation1.setRestaurant(restaurant1);
+
+        ReservedTable reservedTable1 = new ReservedTable(
+                schemaTable1.getTableNumber(),
+                schemaTable1.getPlaces(),
+                reservation1.getDateTime());
+        reservationRepository.save(reservation1);
+        reservedTable1.setReservation(reservation1);
+        reservedTable1.setRestaurant(reservation1.getRestaurant());
+        reservedTableService.add(reservedTable1);
+        reservation1.setReservedTable(reservedTable1);
+        reservationRepository.save(reservation1);
+
+        Reservation reservation2 = new Reservation();
+        reservation2.setName("Rezerwacja 2");
+        reservation2.setNumberOfPersons(2);
+        reservation2.setPhoneNumber("222-000-111");
+        reservation2.setNotes("By the window please");
+        reservation2.setDateTime(LocalDateTime.of(2020, 12, 12, 10, 00));
+        reservation2.setRestaurant(restaurant1);
+
+        ReservedTable reservedTable2 = new ReservedTable(
+                schemaTable1.getTableNumber(),
+                schemaTable1.getPlaces(),
+                reservation2.getDateTime());
+        reservationRepository.save(reservation2);
+        reservedTable2.setReservation(reservation2);
+        reservedTable2.setRestaurant(reservation2.getRestaurant());
+        reservedTableService.add(reservedTable2);
+        reservation2.setReservedTable(reservedTable2);
+        reservationRepository.save(reservation2);
+
+        Reservation reservation3 = new Reservation();
+        reservation3.setName("Rezerwacja 3");
+        reservation3.setNumberOfPersons(2);
+        reservation3.setPhoneNumber("555-000-555");
+        reservation3.setNotes("Sweet table please");
+        reservation3.setDateTime(LocalDateTime.of(2020, 12, 12, 20, 00));
+        reservation3.setRestaurant(restaurant1);
+
+        ReservedTable reservedTable3 = new ReservedTable(
+                schemaTable1.getTableNumber(),
+                schemaTable1.getPlaces(),
+                reservation3.getDateTime());
+        reservationRepository.save(reservation3);
+        reservedTable3.setReservation(reservation3);
+        reservedTable3.setRestaurant(reservation3.getRestaurant());
+        reservedTableService.add(reservedTable3);
+        reservation3.setReservedTable(reservedTable3);
+        reservationRepository.save(reservation3);
+    }
 }
-//    @PostConstruct
-//    public void addReservations() {
-//        Reservation reservation1 = new Reservation();
-//        reservation1.setName("Rezerwacja 1");
-//        reservation1.setNumberOfPersons(2);
-//        reservation1.setPhoneNumber("999-000-333");
-//        reservation1.setNotes("Nice table please");
-//        reservation1.setDateTime(LocalDateTime.of(2020, 12, 12, 12, 00));
-//        reservation1.setRestaurant(restaurant1);
-//
-//        ReservedTable reservedTable1 = new ReservedTable(
-//                schemaTable1.getTableNumber(),
-//                schemaTable1.getPlaces(),
-//                reservation1.getDateTime());
-//        reservationRepository.save(reservation1);
-//        reservedTable1.setReservation(reservation1);
-//        reservedTable1.setRestaurant(reservation1.getRestaurant());
-//        reservedTableService.add(reservedTable1);
-//        reservation1.setReservedTable(reservedTable1);
-//        reservationRepository.save(reservation1);
-//
-//        Reservation reservation2 = new Reservation();
-//        reservation2.setName("Rezerwacja 2");
-//        reservation2.setNumberOfPersons(2);
-//        reservation2.setPhoneNumber("222-000-111");
-//        reservation2.setNotes("By the window please");
-//        reservation2.setDateTime(LocalDateTime.of(2020, 12, 12, 18, 00));
-//        reservation2.setRestaurant(restaurant1);
-//
-//        ReservedTable reservedTable2 = new ReservedTable(
-//                schemaTable1.getTableNumber(),
-//                schemaTable1.getPlaces(),
-//                reservation2.getDateTime());
-//        reservationRepository.save(reservation2);
-//        reservedTable2.setReservation(reservation2);
-//        reservedTable2.setRestaurant(reservation2.getRestaurant());
-//        reservedTableService.add(reservedTable2);
-//        reservation2.setReservedTable(reservedTable2);
-//        reservationRepository.save(reservation2);
-//
-//        Reservation reservation3 = new Reservation();
-//        reservation3.setName("Rezerwacja 3");
-//        reservation3.setNumberOfPersons(2);
-//        reservation3.setPhoneNumber("555-000-555");
-//        reservation3.setNotes("Sweet table please");
-//        reservation3.setDateTime(LocalDateTime.of(2020, 12, 12, 16, 00));
-//        reservation3.setRestaurant(restaurant1);
-//
-//        ReservedTable reservedTable3 = new ReservedTable(
-//                schemaTable2.getTableNumber(),
-//                schemaTable2.getPlaces(),
-//                reservation3.getDateTime());
-//        reservationRepository.save(reservation3);
-//        reservedTable3.setReservation(reservation3);
-//        reservedTable3.setRestaurant(reservation3.getRestaurant());
-//        reservedTableService.add(reservedTable3);
-//        reservation3.setReservedTable(reservedTable3);
-//        reservationRepository.save(reservation3);
-//    }

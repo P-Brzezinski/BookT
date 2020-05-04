@@ -30,7 +30,7 @@ public class Reservation {
     @Phone(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.phoneNumber.Phone}")
     private String phoneNumber;
 
-//    @NotBadWord(groups = FirstValidation.class, lang = {PL, ENG}, message = "{pl.brzezinski.bookt.Reservation.notes.NotBadWord}")
+    @NotBadWord(groups = FirstValidation.class, lang = {PL, ENG}, message = "{pl.brzezinski.bookt.Reservation.notes.NotBadWord}")
     private String notes;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

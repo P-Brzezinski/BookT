@@ -1,5 +1,6 @@
 package pl.brzezinski.bookt.repository;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.brzezinski.bookt.model.ReservedTable;
@@ -11,9 +12,9 @@ import java.util.List;
 @Repository
 public interface ReservedTableRepository extends JpaRepository<ReservedTable, Long> {
 
-    List<ReservedTable> findAllByPlaces(int places);
-
-    List<ReservedTable> findAllByRestaurantAndPlacesAndDateOfReservationBetween(Restaurant restaurant, int places, LocalDateTime reservationDate, LocalDateTime reservationFinish);
+    List<ReservedTable> findAllByRestaurantAndTableNumberAndDateOfReservationIsBefore(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
+    List<ReservedTable> findAllByRestaurantAndTableNumberAndDateOfReservationIsAfter(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
+    ReservedTable findByRestaurantAndTableNumberAndDateOfReservation(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
 
 }
 

@@ -44,11 +44,15 @@ public class ReservedTableService implements GenericRepository<Long, ReservedTab
         return reservedTableRepository.findAll();
     }
 
-    public List<ReservedTable> findAllByPlaces(int places){
-        return reservedTableRepository.findAllByPlaces(places);
+    public List<ReservedTable> findAllBefore(Reservation reservation, int tableNumber){
+        return reservedTableRepository.findAllByRestaurantAndTableNumberAndDateOfReservationIsBefore(reservation.getRestaurant(), tableNumber, reservation.getDateTime());
     }
 
-    public List<ReservedTable> findShortTermTables(Restaurant restaurant, int places, LocalDateTime reservationStart, LocalDateTime reservationEnd){
-        return reservedTableRepository.findAllByRestaurantAndPlacesAndDateOfReservationBetween(restaurant, places, reservationStart,reservationEnd);
+    public List<ReservedTable> findAllAfter(Reservation reservation, int tableNumber){
+        return reservedTableRepository.findAllByRestaurantAndTableNumberAndDateOfReservationIsAfter(reservation.getRestaurant(), tableNumber, reservation.getDateTime());
+    }
+
+    public ReservedTable findIfAnyOnTheSameTime(Reservation reservation, int tableNumber) {
+        return reservedTableRepository.findByRestaurantAndTableNumberAndDateOfReservation(reservation.getRestaurant(), tableNumber, reservation.getDateTime());
     }
 }

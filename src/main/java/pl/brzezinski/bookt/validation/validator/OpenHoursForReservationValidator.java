@@ -16,8 +16,8 @@ public class OpenHoursForReservationValidator implements ConstraintValidator<Ope
     @Override
     public boolean isValid(Reservation reservation, ConstraintValidatorContext constraintValidatorContext) {
         LocalTime reservationTime = reservation.getDateTime().toLocalTime();
-        return reservationTime.isAfter(reservation.getRestaurant().getOpenTime())
-                && reservationTime.isBefore(reservation.getRestaurant().getCloseTime().minusHours(reservation.getRestaurant().ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).plusMinutes(1));
+        return reservationTime.isAfter(reservation.getRestaurant().getOpenTime().minusMinutes(1))
+                && reservationTime.isBefore(reservation.getRestaurant().getCloseTime());
     }
 }
 

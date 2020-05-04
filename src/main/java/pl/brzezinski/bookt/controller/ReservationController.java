@@ -49,14 +49,13 @@ public class ReservationController {
     }
 
     @PostMapping("/firstValidation")
-    public String firstValidation(@Validated(FirstValidation.class) Reservation reservation, BindingResult result, Model model){
+    public String firstValidation(@Validated(FirstValidation.class) Reservation reservation, BindingResult result, Model model) {
         model.addAttribute("reservation", reservation);
         if (result.hasErrors()) {
             List<Restaurant> allRestaurants = restaurantService.getAll();
             model.addAttribute("allRestaurants", allRestaurants);
             return "askForReservation";
         }
-        System.out.println(reservation.toString());
         return "redirect:checkIfPossible";
     }
 
@@ -82,21 +81,30 @@ public class ReservationController {
 
     @GetMapping("/findShortTermTable")
     public String findShortTermTable(@ModelAttribute("reservation") Reservation reservation, Model model) {
-        //finds table which is reserved after your table with the longest duration between both
+        //check on which table there is a possibility for short term reservation
         ReservedTable reservedTable = reservationService.findShortTermTable(reservation);
-        //"convert" it to schema table
-        SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), reservedTable.getTableNumber());
-        Long duration = reservationService.checkTimeBetween(reservation.getDateTime(), reservedTable.getDateOfReservation());
-        model.addAttribute("schemaTable", schemaTable);
-        model.addAttribute("duration", duration);
-        return "proposeShortTermTable";
+        if (reservedTable == null) {
+            model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
+            return "failed";
+        } else {
+            Long duration = reservationService.checkTimeBetween(reservation.getDateTime(), reservedTable.getDateOfReservation());
+            if (duration < Restaurant.ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES) {
+                model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
+                return "failed";
+            } else {
+                //"convert" it to schema table
+                SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), reservedTable.getTableNumber());
+                model.addAttribute("schemaTable", schemaTable);
+                model.addAttribute("duration", duration);
+                return "proposeShortTermTable";
+            }
+        }
     }
 
     @GetMapping("/saveReservation")
     public String saveReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam int schemaTableNumber, Model model, SessionStatus status) {
         SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), schemaTableNumber);
         reservationService.addReservationOnTable(reservation, schemaTable);
-//        model.addAttribute("reservation", reservation);
         status.setComplete();
         return "success";
     }

@@ -10,11 +10,6 @@
     <h1>Enter new restaurant</h1>
     <form method="post" action="#" th:action="@{/save}" th:object="${restaurant}">
         <h2>Name: <input type="text" th:field="*{name}"/></h2>
-<!--        <div th:classappend="${#fields.hasErrors('name')} ? 'input-icon right' : ''">-->
-<!--            <i th:if="${#fields.hasErrors('name')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid restaurant name" data-container="body"></i>-->
-<!--            <input type="text" class="form-control" maxlength="32" th:field="*{name}" placeholder="Between 2 and 32 characters"/>-->
-<!--            <span th:if="${#fields.hasErrors('name')}" class="help-block" th:errors="*{name}"></span>-->
-<!--        </div>-->
         <h5 th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></h5>
         <h3>Address:</h3>
         <p>Street: <input type="text" th:field="*{street}"/></p>
