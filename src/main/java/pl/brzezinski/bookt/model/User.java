@@ -1,82 +1,74 @@
 package pl.brzezinski.bookt.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.Size;
+import java.util.*;
 
 @Entity
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String firstName;
-    private String lastName;
+@Table(name="users")
+public class User
+{
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer id;
+    @Column(nullable=false)
+    @NotEmpty()
+    private String name;
+    @Column(nullable=false, unique=true)
     @NotEmpty
+    @Email(message="{errors.invalid_email}")
     private String email;
+    @Column(nullable=false)
     @NotEmpty
+    @Size(min=4)
     private String password;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Set<UserRole> roles = new HashSet<>();
 
-    public Long getId() {
+    @ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(
+            name="user_role",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    private List<Role> roles;
+
+    public Integer getId()
+    {
         return id;
     }
-
-    public void setId(Long id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
-
-    public String getFirstName() {
-        return firstName;
+    public String getName()
+    {
+        return name;
     }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name)
+    {
+        this.name = name;
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
-
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
-
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
-
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
-
-    public Set<UserRole> getRoles() {
+    public List<Role> getRoles()
+    {
         return roles;
     }
-
-    public void setRoles(Set<UserRole> roles) {
+    public void setRoles(List<Role> roles)
+    {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
     }
 }

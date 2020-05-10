@@ -9,8 +9,7 @@
 <div class="center-content">
     <h1>Registration Form</h1>
     <form action="#" method="post" th:action="@{/register}" th:object="${user}">
-        <input th:field="*{firstName}" placeholder="First Name"><br>
-        <input th:field="*{lastName}" placeholder="Last Name"><br>
+        <input th:field="*{name}" placeholder="First Name"><br>
         <input th:field="*{email}" type="email" placeholder="Email"><br>
         <p th:errors="*{email}">Email Errors</p>
         <input th:field="*{password}" type="password" placeholder="Password"><br>

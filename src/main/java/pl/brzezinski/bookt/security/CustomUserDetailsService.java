@@ -2,47 +2,38 @@ package pl.brzezinski.bookt.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import pl.brzezinski.bookt.model.User;
-import pl.brzezinski.bookt.model.UserRole;
+import pl.brzezinski.bookt.model.Role;
 import pl.brzezinski.bookt.repository.UserRepository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if (user == null){
-            throw new UsernameNotFoundException("User not found");
-        }
-        org.springframework.security.core.userdetails.User userDetails =
-                new org.springframework.security.core.userdetails.User(
-                        user.getEmail(),
-                        user.getPassword(),
-                        convertAuthorities(user.getRoles()));
-        return userDetails;
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(userName)
+                .orElseThrow(() -> new UsernameNotFoundException("Email " + userName + " not found"));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                getAuthorities(user));
     }
 
-    private Set<GrantedAuthority> convertAuthorities(Set<UserRole> userRoles){
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        for (UserRole userRole : userRoles) {
-            authorities.add(new SimpleGrantedAuthority(userRole.getRole()));
-        }
+    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
+        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
         return authorities;
     }
 }

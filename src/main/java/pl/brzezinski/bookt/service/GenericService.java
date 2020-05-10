@@ -2,7 +2,7 @@ package pl.brzezinski.bookt.service;
 
 import java.util.List;
 
-public interface GenericRepository<K, T> {
+public interface GenericService<K, T> {
 
     T get(K id);
 

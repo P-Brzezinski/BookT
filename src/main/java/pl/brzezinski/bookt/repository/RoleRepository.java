@@ -2,10 +2,10 @@ package pl.brzezinski.bookt.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.brzezinski.bookt.model.UserRole;
+import pl.brzezinski.bookt.model.Role;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    UserRole findByRole(String role);
+    Role findByName(String name);
 }

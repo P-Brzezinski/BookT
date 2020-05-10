@@ -9,7 +9,7 @@ import pl.brzezinski.bookt.repository.SchemaTableRepository;
 import java.util.List;
 
 @Service
-public class SchemaTableService implements GenericRepository<Long, SchemaTable> {
+public class SchemaTableService implements GenericService<Long, SchemaTable> {
 
     private SchemaTableRepository schemaTableRepository;
 

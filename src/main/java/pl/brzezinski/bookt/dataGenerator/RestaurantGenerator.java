@@ -1,4 +1,4 @@
-package pl.brzezinski.bookt.service;
+package pl.brzezinski.bookt.dataGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,13 +11,14 @@ import pl.brzezinski.bookt.repository.ReservationRepository;
 import pl.brzezinski.bookt.repository.RestaurantRepository;
 import pl.brzezinski.bookt.repository.SchemaTableRepository;
 import pl.brzezinski.bookt.repository.ReservedTableRepository;
+import pl.brzezinski.bookt.service.ReservedTableService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Service
-public class DataGenerator {
+public class RestaurantGenerator {
 
     private RestaurantRepository restaurantDAO;
     private ReservedTableRepository tableDAO;
@@ -26,7 +27,7 @@ public class DataGenerator {
     private ReservedTableService reservedTableService;
 
     @Autowired
-    public DataGenerator(RestaurantRepository restaurantDAO, ReservedTableRepository tableDAO, SchemaTableRepository schemaTableRepository, ReservationRepository reservationRepository, ReservedTableService reservedTableService) {
+    public RestaurantGenerator(RestaurantRepository restaurantDAO, ReservedTableRepository tableDAO, SchemaTableRepository schemaTableRepository, ReservationRepository reservationRepository, ReservedTableService reservedTableService) {
         this.restaurantDAO = restaurantDAO;
         this.tableDAO = tableDAO;
         this.schemaTableRepository = schemaTableRepository;

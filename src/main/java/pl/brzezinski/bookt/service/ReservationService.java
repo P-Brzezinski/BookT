@@ -18,7 +18,7 @@ import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_BETWEEN_RESERV
 import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS;
 
 @Service
-public class ReservationService implements GenericRepository<Long, Reservation> {
+public class ReservationService implements GenericService<Long, Reservation> {
 
     public static final String RESERVATION_AVAILABLE = "reservation available";
     public static final String NO_SUCH_TABLE_AVAILABLE_IN_RESTAURANT = "no table available for this number of persons";

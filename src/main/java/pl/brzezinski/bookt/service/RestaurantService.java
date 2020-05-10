@@ -8,7 +8,7 @@ import pl.brzezinski.bookt.repository.RestaurantRepository;
 import java.util.List;
 
 @Service
-public class RestaurantService implements GenericRepository<Long, Restaurant> {
+public class RestaurantService implements GenericService<Long, Restaurant> {
 
     private RestaurantRepository restaurantRepository;
 

@@ -6,12 +6,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return passwordEncoder;
     }
@@ -22,8 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/register").permitAll()
-                    .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                  .formLogin()
+                    .successHandler(myAuthenticationSuccessHandler());
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
+        return new MySimpleURLAuthenticationSuccessHandler();
     }
 }
