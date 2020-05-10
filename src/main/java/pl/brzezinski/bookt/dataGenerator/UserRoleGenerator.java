@@ -12,18 +12,18 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 @Service
-public class UserRoleAndPrivilegeGenerator {
+public class UserRoleGenerator {
 
-    public static String ADMIN_ROLE = "ROLE_ADMIN";
-    public static String USER_ROLE = "ROLE_USER";
-    public static String RESTAURATEUR_ROLE = "ROLE_RESTAURATEUR";
+    public static String ROLE_ADMIN = "ROLE_ADMIN";
+    public static String ROLE_USER = "ROLE_USER";
+    public static String ROLE_RESTAURATEUR = "ROLE_RESTAURATEUR";
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserRoleAndPrivilegeGenerator(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserRoleGenerator(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -31,11 +31,13 @@ public class UserRoleAndPrivilegeGenerator {
 
     @PostConstruct
     public void createData(){
-        createRoleIfNotFound(ADMIN_ROLE);
-        createRoleIfNotFound(USER_ROLE);
-        createRoleIfNotFound(RESTAURATEUR_ROLE);
+        createRoleIfNotFound(ROLE_ADMIN);
+        createRoleIfNotFound(ROLE_USER);
+        createRoleIfNotFound(ROLE_RESTAURATEUR);
 
-        Role adminRole = roleRepository.findByName(ADMIN_ROLE);
+        Role adminRole = roleRepository.findByName(ROLE_ADMIN);
+        Role userRole = roleRepository.findByName(ROLE_USER);
+
         User admin = new User();
         admin.setName("admin");
         admin.setPassword(passwordEncoder.encode("adminPassword"));
@@ -43,14 +45,18 @@ public class UserRoleAndPrivilegeGenerator {
         admin.setRoles(Arrays.asList(adminRole));
         userRepository.save(admin);
 
-        Role userRole = roleRepository.findByName(USER_ROLE);
+        System.out.println(admin.toString());
+
         User user = new User();
         user.setName("Pawel");
         user.setPassword(passwordEncoder.encode("userPassword"));
         user.setEmail("user@user.com");
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
+
+        System.out.println(user.toString());
     }
+
 
     private Role createRoleIfNotFound(String name){
         Role role = roleRepository.findByName(name);

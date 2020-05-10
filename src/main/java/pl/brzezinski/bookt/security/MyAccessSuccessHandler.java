@@ -9,7 +9,6 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MySimpleURLAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class MyAccessSuccessHandler implements AuthenticationSuccessHandler {
 
     protected Log logger = LogFactory.getLog(this.getClass());
 
@@ -50,7 +49,6 @@ public class MySimpleURLAuthenticationSuccessHandler implements AuthenticationSu
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
-            System.out.println(authorityName);
             if(roleTargetUrlMap.containsKey(authorityName)) {
                 return roleTargetUrlMap.get(authorityName);
             }

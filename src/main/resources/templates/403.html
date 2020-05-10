@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add schema reservedTable</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="center-content">
+    <h1>403 - Access is denied</h1>
+    <div th:inline="text">Hello '[[${#httpServletRequest.remoteUser}]]',
+        you do not have permission to access this page.</div>
+</div>
+</body>
+</html>

@@ -8,13 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import pl.brzezinski.bookt.model.User;
 import pl.brzezinski.bookt.model.Role;
+import pl.brzezinski.bookt.model.User;
 import pl.brzezinski.bookt.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -32,8 +31,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-        return authorities;
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        for (Role role : user.getRoles()) {
+            list.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return list;
     }
 }
