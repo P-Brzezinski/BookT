@@ -17,7 +17,7 @@ public class LastReservationAvailableValidator implements ConstraintValidator<La
     public boolean isValid(Reservation reservation, ConstraintValidatorContext constraintValidatorContext) {
         LocalTime reservationTime = reservation.getDateTime().toLocalTime();
         LocalTime closeTimeForRestaurant = reservation.getRestaurant().getCloseTime();
-        int estimatedTimeForOneReservation = reservation.getRestaurant().ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS;
+        int estimatedTimeForOneReservation = reservation.getRestaurant().ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES;
         return reservationTime.isBefore(closeTimeForRestaurant.minusHours(estimatedTimeForOneReservation).plusMinutes(1));
     }
 }

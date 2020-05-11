@@ -1,12 +1,12 @@
 package pl.brzezinski.bookt.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.validation.constraint.*;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.FirstValidation;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.SecondValidation;
 
 import javax.persistence.*;
-import javax.validation.GroupSequence;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
@@ -44,7 +44,7 @@ public class Reservation {
     private Restaurant restaurant;
 
     @OneToOne
-    @JoinColumn(name = "id_single_table")
+    @JoinColumn(name = "id_reserved_table")
     private ReservedTable reservedTable;
 
     public Reservation() {

@@ -8,9 +8,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import pl.brzezinski.bookt.model.Reservation;
-import pl.brzezinski.bookt.model.ReservedTable;
+import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.SchemaTable;
+import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.service.ReservationService;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.SchemaTableService;
@@ -18,7 +18,6 @@ import pl.brzezinski.bookt.validation.constraint.groupSequences.FirstValidation;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.SecondValidation;
 
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 
 import static pl.brzezinski.bookt.service.ReservationService.*;
@@ -39,10 +38,18 @@ public class ReservationController {
     }
 
     @GetMapping("/askForReservation")
-    public String askForReservation(Model model) {
+    public String askForReservation(@RequestParam(required = false) Long restaurantId, Model model) {
+        if (restaurantId != null){
+            Reservation reservation = new Reservation();
+            Restaurant restaurant = restaurantService.get(restaurantId);
+            reservation.setRestaurant(restaurant);
+            model.addAttribute("reservation", reservation);
+            model.addAttribute("restaurant", restaurant);
+        }else {
+            model.addAttribute("reservation", new Reservation());
+        }
         List<Restaurant> allRestaurants = restaurantService.getAll();
         model.addAttribute("allRestaurants", allRestaurants);
-        model.addAttribute("reservation", new Reservation());
         return "askForReservation";
     }
 
@@ -69,7 +76,7 @@ public class ReservationController {
         model.addAttribute("reason", isPossible);
         switch (isPossible) {
             case RESERVATION_AVAILABLE:
-                return "success";
+                return "reservationSuccess";
             case ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME:
                 return "redirect:/findShortTermTable";
             default:
@@ -104,7 +111,7 @@ public class ReservationController {
         SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), schemaTableNumber);
         reservationService.saveReservationOnTable(reservation, schemaTable);
         status.setComplete();
-        return "success";
+        return "reservationSuccess";
     }
 
     @GetMapping("/showAllReservations")

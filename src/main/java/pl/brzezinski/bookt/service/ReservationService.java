@@ -3,9 +3,9 @@ package pl.brzezinski.bookt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
-import pl.brzezinski.bookt.model.ReservedTable;
+import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.SchemaTable;
+import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.repository.ReservationRepository;
 
 import java.time.Duration;
@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_BETWEEN_RESERVATIONS_IN_MINUTES;
-import static pl.brzezinski.bookt.model.Restaurant.ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS;
+import static pl.brzezinski.bookt.model.Restaurant.*;
 
 @Service
 public class ReservationService implements GenericService<Long, Reservation> {
@@ -86,8 +85,8 @@ public class ReservationService implements GenericService<Long, Reservation> {
         for (SchemaTable availableTable : availableSchemaTables) {
             for (ReservedTable reservedTable : allReservations) {
                 if ((availableTable.getTableNumber() == reservedTable.getTableNumber())
-                        && (!reservedTable.getDateOfReservation().isAfter(reservation.getDateTime().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).minusMinutes(1))
-                        && (!reservedTable.getDateOfReservation().isBefore(reservation.getDateTime().minusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS).plusHours(1))))) {
+                        && (!reservedTable.getDateOfReservation().isAfter(reservation.getDateTime().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES).minusMinutes(1))
+                        && (!reservedTable.getDateOfReservation().isBefore(reservation.getDateTime().minusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES).plusHours(1))))) {
                     tablesNotFree.add(availableTable);
                 }
             }
@@ -99,38 +98,60 @@ public class ReservationService implements GenericService<Long, Reservation> {
     public ReservedTable findShortTermTable(Reservation reservation) {
         List<SchemaTable> schemaTables = findPossibleSchemaTables(reservation);
         ReservedTable reservedTable = null;
-
+        List<ReservedTable> findAllBefore = null;
+        List<ReservedTable> findAllAfter = null;
+        ReservedTable reservationOnSameTime = null;
         System.out.println("SCHEMA TABLES: " + schemaTables.toString());
 
         for (SchemaTable schemaTable : schemaTables) {
 
-            List<ReservedTable> findAllBefore = reservedTableService.findAllBefore(reservation, schemaTable.getTableNumber());
+            findAllBefore = reservedTableService.findAllBefore(reservation, schemaTable.getTableNumber());
             findAllBefore.sort(Comparator.comparing(ReservedTable::getDateOfReservation).reversed());
             System.out.println("-----------------------------------");
             System.out.println("TABLE NUMBER " + schemaTable.getTableNumber());
             System.out.println("BEFORE:");
             System.out.println(findAllBefore.toString());
 
-            List<ReservedTable> findAllAfter = reservedTableService.findAllAfter(reservation, schemaTable.getTableNumber());
+            findAllAfter = reservedTableService.findAllAfter(reservation, schemaTable.getTableNumber());
             findAllAfter.sort(Comparator.comparing(ReservedTable::getDateOfReservation));
             System.out.println("AFTER: ");
             System.out.println(findAllAfter.toString());
 
-            ReservedTable checkIfInTheSameTime = reservedTableService.findIfAnyOnTheSameTime(reservation, schemaTable.getTableNumber());
+            reservationOnSameTime = reservedTableService.findIfAnyOnTheSameTime(reservation, schemaTable.getTableNumber());
+        }
 
-            if (reservation.getDateTime().isAfter(findAllBefore.get(0).getDateOfReservation().plusHours(3))
-            && reservation.getDateTime().isBefore(findAllAfter.get(0).getDateOfReservation().plusHours(1))) {
-                if (checkIfInTheSameTime == null) {
-                    System.out.println("MOŻLIWY STOLIK " + schemaTable.getTableNumber());
-                    reservedTable = findAllAfter.get(0);
-                } else {
-                    System.out.println("TE SAME GODZINY");
-                    System.out.println("STOLIK ZAREZERWOWANY O TEJ GODZINIE :" + checkIfInTheSameTime.toString());
-                }
+        if (reservationOnSameTime != null) {
+            System.out.println(reservationOnSameTime.toString());
+            return reservedTable;
+        } else if (findAllBefore.size() == 0 && findAllAfter.size() != 0) {
+            ReservedTable tableAfter = findAllAfter.get(0);
+            if (reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES))) {
+                reservedTable = tableAfter;
+            }
+        } else if ((findAllBefore.size() != 0 && findAllAfter.size() == 0)) {
+            ReservedTable tableBefore = findAllBefore.get(0);
+            if (reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES))) {
+                reservedTable = tableBefore;
             }
         }
+
         return reservedTable;
     }
+
+
+//            if (reservation.getDateTime().isAfter(findAllBefore.get(0).getDateOfReservation().plusHours(ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS))
+//            && reservation.getDateTime().isBefore(findAllAfter.get(0).getDateOfReservation().plusMinutes(ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES))) {
+//                if (reservationOnSameTIme == null) {
+//                    System.out.println("MOŻLIWY STOLIK " + schemaTable.getTableNumber());
+//                    reservedTable = findAllAfter.get(0);
+//                } else {
+//                    System.out.println("TE SAME GODZINY");
+//                    System.out.println("STOLIK ZAREZERWOWANY O TEJ GODZINIE :" + reservationOnSameTIme.toString());
+//                }
+//            }
+//        }
+//        return reservedTable;
+//    }
 
     public void saveReservationOnTable(Reservation reservation, SchemaTable schemaTable) {
         ReservedTable reservedTable = new ReservedTable(

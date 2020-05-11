@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.brzezinski.bookt.model.Restaurant;
-import pl.brzezinski.bookt.model.SchemaTable;
+import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.SchemaTableService;
 

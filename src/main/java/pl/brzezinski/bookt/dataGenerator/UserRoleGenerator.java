@@ -3,8 +3,8 @@ package pl.brzezinski.bookt.dataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.brzezinski.bookt.model.Role;
-import pl.brzezinski.bookt.model.User;
+import pl.brzezinski.bookt.model.users.Role;
+import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.repository.RoleRepository;
 import pl.brzezinski.bookt.repository.UserRepository;
 
@@ -37,6 +37,7 @@ public class UserRoleGenerator {
 
         Role adminRole = roleRepository.findByName(ROLE_ADMIN);
         Role userRole = roleRepository.findByName(ROLE_USER);
+        Role restaurateurRole = roleRepository.findByName(ROLE_RESTAURATEUR);
 
         User admin = new User();
         admin.setName("admin");
@@ -45,8 +46,6 @@ public class UserRoleGenerator {
         admin.setRoles(Arrays.asList(adminRole));
         userRepository.save(admin);
 
-        System.out.println(admin.toString());
-
         User user = new User();
         user.setName("Pawel");
         user.setPassword(passwordEncoder.encode("userPassword"));
@@ -54,7 +53,12 @@ public class UserRoleGenerator {
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
 
-        System.out.println(user.toString());
+        User restaurateur = new User();
+        restaurateur.setName("Restaurateur");
+        restaurateur.setPassword(passwordEncoder.encode("restaurateurPassword"));
+        restaurateur.setEmail("restaurant@podfreda.com");
+        restaurateur.setRoles(Arrays.asList(restaurateurRole));
+        userRepository.save(restaurateur);
     }
 
 

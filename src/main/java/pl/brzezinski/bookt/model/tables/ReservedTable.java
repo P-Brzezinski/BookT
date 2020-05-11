@@ -1,6 +1,8 @@
-package pl.brzezinski.bookt.model;
+package pl.brzezinski.bookt.model.tables;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.brzezinski.bookt.model.Reservation;
+import pl.brzezinski.bookt.model.Restaurant;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,4 +1,6 @@
-package pl.brzezinski.bookt.model;
+package pl.brzezinski.bookt.model.tables;
+
+import pl.brzezinski.bookt.model.Restaurant;
 
 import javax.persistence.*;
 

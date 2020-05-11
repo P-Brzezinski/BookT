@@ -1,4 +1,6 @@
-package pl.brzezinski.bookt.model;
+package pl.brzezinski.bookt.model.users;
+
+import pl.brzezinski.bookt.model.users.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

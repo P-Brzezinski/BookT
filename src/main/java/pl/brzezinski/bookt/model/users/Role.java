@@ -1,6 +1,4 @@
-package pl.brzezinski.bookt.model;
-
-import org.hibernate.annotations.Fetch;
+package pl.brzezinski.bookt.model.users;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -16,7 +14,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List< User > users;
+    private List<User> users;
 
     public Role(){}
 

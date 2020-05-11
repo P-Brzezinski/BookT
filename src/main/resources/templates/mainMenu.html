@@ -2,7 +2,6 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
 <head>
     <meta charset="UTF-8">
     <title>BookT</title>
@@ -13,6 +12,7 @@
     <h1>Welcome to BookT!</h1>
     <p><a th:href="@{/askForReservation}">Reserve table</a></p>
     <p><a th:href="@{/showAllRestaurants}">Show restaurants</a></p>
+    <div sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}">Admin panel</a></div>
     <p><a th:href="@{/logout}">Sign Out</a></p>
 </div>
 </body>

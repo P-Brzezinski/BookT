@@ -28,17 +28,20 @@
             th:each="error : ${#fields.errors('global')}"
             th:text="|${error} (${reservation.getRestaurant().getOpenTime()} - ${reservation.getRestaurant().getCloseTime()})|"></h5>
 
-        <p>Restaurant:<select th:field="*{restaurant}">
-            <option value="">SELECT</option>
-            <option th:each="restaurant : ${allRestaurants}" th:value="${restaurant.id}" th:utext="${restaurant.getName()}"></option>
-        </select>
-        </p>
-        <h5 th:if="${#fields.hasErrors('restaurant')}" th:errors="*{restaurant}">Choose a restaurant</h5>
+        <div>
+            <div th:if="${restaurant} != null">
+                <input type="hidden" th:field="*{restaurant}">
+                <p th:text="|Choosen restaurant: ${restaurant.name}|"></p></div>
+            <div th:if="${restaurant} == null"><p>Restaurant:<select th:field="*{restaurant}">
+                <option value="">SELECT</option>
+                <option th:each="restaurant : ${allRestaurants}" th:value="${restaurant.id}" th:utext="${restaurant.getName()}"></option>
+                </select></p>
+                <h5 th:if="${#fields.hasErrors('restaurant')}" th:errors="*{restaurant}">Choose a restaurant</h5>
+            </div>
+        </div>
 
         <p><input type="submit" value="Check"></p>
     </form>
-
-
 </div>
 </body>
 </html>

@@ -1,9 +1,8 @@
 package pl.brzezinski.bookt.repository;
 
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.brzezinski.bookt.model.ReservedTable;
+import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
 
 import java.time.LocalDateTime;

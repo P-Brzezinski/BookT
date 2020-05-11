@@ -2,14 +2,13 @@ package pl.brzezinski.bookt.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import pl.brzezinski.bookt.model.Role;
-import pl.brzezinski.bookt.model.User;
+import pl.brzezinski.bookt.model.users.Role;
+import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> list = new ArrayList<>();
         for (Role role : user.getRoles()) {
             list.add(new SimpleGrantedAuthority(role.getName()));
         }

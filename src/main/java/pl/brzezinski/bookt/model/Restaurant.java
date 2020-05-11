@@ -1,7 +1,11 @@
 package pl.brzezinski.bookt.model;
 
 import org.hibernate.validator.constraints.URL;
+import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.enums.Genre;
+import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
+import pl.brzezinski.bookt.model.tables.ReservedTable;
+import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.validation.constraint.OpenHoursForRestaurant;
 import pl.brzezinski.bookt.validation.constraint.Phone;
 
@@ -15,7 +19,7 @@ import java.util.List;
 @OpenHoursForRestaurant(message = "{pl.brzezinski.bookt.Restaurant.OpenHoursForRestaurant}")
 public class Restaurant {
 
-    public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_HOURS = 3;
+    public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES = 180;
     public static int ESTIMATED_TIME_BETWEEN_RESERVATIONS_IN_MINUTES = 15;
     public static int ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES = 60;
     public static int TABLE_WITH_MINIMUM_PLACES = 0;
@@ -57,6 +61,10 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant",
     cascade = CascadeType.PERSIST)
     private List<Reservation> reservations = new ArrayList<>();
+
+    @OneToOne(mappedBy = "restaurant",
+    cascade = CascadeType.PERSIST)
+    private RestaurantMenu restaurantMenu;
 
     public void addTable(ReservedTable reservedTable){
         reservedTable.setRestaurant(this);
@@ -190,6 +198,14 @@ public class Restaurant {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public RestaurantMenu getRestaurantMenu() {
+        return restaurantMenu;
+    }
+
+    public void setRestaurantMenu(RestaurantMenu restaurantMenu) {
+        this.restaurantMenu = restaurantMenu;
     }
 
     @Override

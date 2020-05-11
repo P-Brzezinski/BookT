@@ -3,8 +3,8 @@ package pl.brzezinski.bookt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.brzezinski.bookt.model.User;
-import pl.brzezinski.bookt.model.Role;
+import pl.brzezinski.bookt.model.users.User;
+import pl.brzezinski.bookt.model.users.Role;
 import pl.brzezinski.bookt.repository.UserRepository;
 import pl.brzezinski.bookt.repository.RoleRepository;
 

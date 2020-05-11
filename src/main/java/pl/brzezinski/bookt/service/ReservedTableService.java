@@ -3,7 +3,7 @@ package pl.brzezinski.bookt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
-import pl.brzezinski.bookt.model.ReservedTable;
+import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.repository.ReservedTableRepository;
 
 import java.util.List;
