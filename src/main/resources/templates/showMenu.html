@@ -7,18 +7,19 @@
 </head>
 <body>
 <div class="center-content">
-    <h1>Tables in restaurant</h1>
+    <h1 th:text="|Menu from ${restaurant.name}|"></h1>
     <table>
         <tr>
-            <th>Number</th>
-            <th>Places</th>
+            <th>Name</th>
+            <th>Price</th>
         </tr>
-        <tr th:each="schemaTable : ${schemaTables}">
-            <td th:text="*{schemaTable.tableNumber}"/>
-            <td th:text="*{schemaTable.places}"/>
+        <tr th:each="meal : ${meals}">
+            <td th:text="*{meal.name}"/>
+            <td th:text="*{meal.price}"/>
         </tr>
     </table>
-    <p><a th:href="@{/mainMenu}">Main menu</a></p>
+    <p><a th:href="@{/showAllRestaurants}">Back</a></p>
 </div>
+
 </body>
 </html>

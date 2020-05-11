@@ -20,6 +20,7 @@
             <th>Open</th>
             <th>Close</th>
             <th>Phone number</th>
+            <th>Show Menu</th>
             <div sec:authorize="hasRole('ROLE_USER')"><th>Make a reservation</th></div>
             <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><th>Add table</th></div>
             <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><th>Tables</th></div>
@@ -34,6 +35,7 @@
             <td th:text="*{restaurant.openTime}"></td>
             <td th:text="*{restaurant.closeTime}"></td>
             <td th:text="*{restaurant.phoneNumber}"></td>
+            <td><a th:href="@{/showMenu(restaurantId=${restaurant.id})}">Menu</a></td>
             <div sec:authorize="hasRole('ROLE_USER')"><td><a th:href="@{/askForReservation(restaurantId=${restaurant.id})}">Reserve</a></td></div>
             <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><td><a th:href="@{/addNewTableSchema(restaurantId=${restaurant.id})}">Add</a></td></div>
             <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><td><a th:href="@{/showSchemaTables(restaurantId=${restaurant.id})}">Show</a></td></div>

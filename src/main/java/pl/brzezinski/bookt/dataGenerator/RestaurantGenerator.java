@@ -3,35 +3,41 @@ package pl.brzezinski.bookt.dataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
+import pl.brzezinski.bookt.model.restaurantMenu.Meal;
+import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
 import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.model.enums.Genre;
-import pl.brzezinski.bookt.repository.ReservationRepository;
-import pl.brzezinski.bookt.repository.RestaurantRepository;
-import pl.brzezinski.bookt.repository.SchemaTableRepository;
-import pl.brzezinski.bookt.repository.ReservedTableRepository;
+import pl.brzezinski.bookt.repository.*;
 import pl.brzezinski.bookt.service.ReservedTableService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RestaurantGenerator {
 
-    private RestaurantRepository restaurantDAO;
-    private ReservedTableRepository tableDAO;
+    private RestaurantRepository restaurantRepository;
+    private ReservedTableRepository reservedTableRepository;
     private SchemaTableRepository schemaTableRepository;
     private ReservationRepository reservationRepository;
+    private RestaurantMenuRepository restaurantMenuRepository;
+    private MealRepository mealRepository;
+
     private ReservedTableService reservedTableService;
 
     @Autowired
-    public RestaurantGenerator(RestaurantRepository restaurantDAO, ReservedTableRepository tableDAO, SchemaTableRepository schemaTableRepository, ReservationRepository reservationRepository, ReservedTableService reservedTableService) {
-        this.restaurantDAO = restaurantDAO;
-        this.tableDAO = tableDAO;
+    public RestaurantGenerator(RestaurantRepository restaurantRepository, ReservedTableRepository reservedTableRepository, SchemaTableRepository schemaTableRepository, ReservationRepository reservationRepository, RestaurantMenuRepository restaurantMenuRepository, MealRepository mealRepository, ReservedTableService reservedTableService) {
+        this.restaurantRepository = restaurantRepository;
+        this.reservedTableRepository = reservedTableRepository;
         this.schemaTableRepository = schemaTableRepository;
         this.reservationRepository = reservationRepository;
+        this.restaurantMenuRepository = restaurantMenuRepository;
+        this.mealRepository = mealRepository;
         this.reservedTableService = reservedTableService;
     }
 
@@ -50,10 +56,10 @@ public class RestaurantGenerator {
 
     @PostConstruct
     public void createRestaurantData() {
-        restaurantDAO.save(restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323"));
-        restaurantDAO.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333"));
-        restaurantDAO.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "71-372-53-94"));
-        restaurantDAO.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "71-343-14-13"));
+        restaurantRepository.save(restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323"));
+        restaurantRepository.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333"));
+        restaurantRepository.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "71-372-53-94"));
+        restaurantRepository.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "71-343-14-13"));
     }
 
     @PostConstruct
@@ -139,5 +145,28 @@ public class RestaurantGenerator {
         reservedTableService.add(reservedTable3);
         reservation3.setReservedTable(reservedTable3);
         reservationRepository.save(reservation3);
+    }
+
+    @PostConstruct
+    public void addMenu(){
+        RestaurantMenu restaurantMenu = new RestaurantMenu();
+        restaurantMenuRepository.save(restaurantMenu);
+
+        Meal meal1 = new Meal("Duck with apples", 49.0);
+        Meal meal2 = new Meal("Rabbit with cream sauce", 59.0);
+        Meal meal3 = new Meal("Beefsteak", 89.0);
+        meal1.setRestaurantMenu(restaurantMenu);
+        meal2.setRestaurantMenu(restaurantMenu);
+        meal3.setRestaurantMenu(restaurantMenu);
+        mealRepository.save(meal1);
+        mealRepository.save(meal2);
+        mealRepository.save(meal3);
+
+        restaurantMenu.setMeals(mealRepository.findAll());
+        restaurantMenu.setRestaurant(restaurant1);
+        restaurantMenuRepository.save(restaurantMenu);
+
+        restaurant1.setRestaurantMenu(restaurantMenu);
+        restaurantRepository.save(restaurant1);
     }
 }

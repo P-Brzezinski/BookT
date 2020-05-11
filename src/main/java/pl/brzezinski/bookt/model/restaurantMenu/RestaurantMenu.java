@@ -14,7 +14,7 @@ public class RestaurantMenu {
     @OneToOne
     private Restaurant restaurant;
     @OneToMany(mappedBy = "restaurantMenu")
-    private List<Meal> meal;
+    private List<Meal> meals;
 
     public RestaurantMenu() {
     }
@@ -35,12 +35,12 @@ public class RestaurantMenu {
         this.restaurant = restaurant;
     }
 
-    public List<Meal> getMeal() {
-        return meal;
+    public List<Meal> getMeals() {
+        return meals;
     }
 
-    public void setMeal(List<Meal> meal) {
-        this.meal = meal;
+    public void setMeals(List<Meal> meal) {
+        this.meals = meal;
     }
 
     @Override
