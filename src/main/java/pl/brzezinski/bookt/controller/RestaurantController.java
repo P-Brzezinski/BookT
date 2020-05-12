@@ -1,6 +1,8 @@
 package pl.brzezinski.bookt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,10 +13,13 @@ import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.model.restaurantMenu.Meal;
 import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
+import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.service.RestaurantMenuService;
 import pl.brzezinski.bookt.service.RestaurantService;
+import pl.brzezinski.bookt.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -22,29 +27,37 @@ public class RestaurantController {
 
     private RestaurantService restaurantService;
     private RestaurantMenuService restaurantMenuService;
+    private UserService userService;
 
     @Autowired
-    public RestaurantController(RestaurantService restaurantService, RestaurantMenuService restaurantMenuService) {
+    public RestaurantController(RestaurantService restaurantService, RestaurantMenuService restaurantMenuService, UserService userService) {
         this.restaurantService = restaurantService;
         this.restaurantMenuService = restaurantMenuService;
+        this.userService = userService;
     }
 
     @GetMapping("/addRestaurant")
-    public String addRestaurantForm(Model model){
-        model.addAttribute("restaurant", new Restaurant());
+    public String addRestaurantForm(Restaurant restaurant, Model model){
+        model.addAttribute("restaurant", restaurant);
         model.addAttribute("genre", List.of(Genre.values()));
         return "addRestaurantForm";
     }
 
     @PostMapping("/save")
-    public String saveRestaurant(@Valid Restaurant restaurant, BindingResult result, Model model){
+    public String saveRestaurant(@Valid Restaurant restaurant, BindingResult result, Principal principal, Model model){
         if (result.hasErrors()){
+            System.out.println(result.toString());
             model.addAttribute("restaurant", restaurant);
             model.addAttribute("genre", List.of(Genre.values()));
             return "addRestaurantForm";
         }
+        User restaurantOwner = userService.findByEmail(principal.getName());
+        restaurant.setRestaurantOwner(restaurantOwner);
+        userService.add(restaurantOwner);
         restaurantService.add(restaurant);
-        return "redirect:/";
+        System.out.println(restaurantOwner.toString());
+        System.out.println(restaurant.toString());
+        return "redirect:/restaurateurPanel";
     }
 
     @GetMapping("/showAllRestaurants")
@@ -57,11 +70,8 @@ public class RestaurantController {
     @GetMapping("/showMenu")
     public String showMenu(@RequestParam Long restaurantId, Model model){
         Restaurant restaurant = restaurantService.get(restaurantId);
-        System.out.println(restaurant);
         RestaurantMenu restaurantMenu = restaurantMenuService.findByRestaurant(restaurant);
-        System.out.println(restaurantMenu);
         List<Meal> meals = restaurantMenu.getMeals();
-        System.out.println(meals);
         model.addAttribute("meals", meals);
         model.addAttribute("restaurant", restaurant);
         return "showMenu";

@@ -9,6 +9,7 @@
 <div class="center-content">
     <h1>Enter new restaurant</h1>
     <form method="post" action="#" th:action="@{/save}" th:object="${restaurant}">
+
         <h2>Name: <input type="text" th:field="*{name}"/></h2>
         <h5 th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></h5>
         <h3>Address:</h3>
@@ -37,7 +38,7 @@
         <h5 th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></h5>
         <p><input type="submit" value="Zapisz"></p>
     </form>
-    <p><a th:href="@{/}"/>Main menu</p>
+    <p><a th:href="@{/restaurateurPanel}"/>Main menu</p>
 </div>
 </body>
 </html>

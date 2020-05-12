@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 public class HomeController {
@@ -24,6 +25,11 @@ public class HomeController {
 
     @RequestMapping("/admin")
     public String admin(){return "admin";}
+
+    @RequestMapping("/restaurateurPanel")
+    public String restaurateur(Principal principal, Model model){
+        model.addAttribute("principal", principal);
+        return "restaurateurPanel";}
 
     @RequestMapping("/403")
     public String error403(){

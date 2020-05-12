@@ -1,6 +1,6 @@
 package pl.brzezinski.bookt.model.users;
 
-import pl.brzezinski.bookt.model.users.Role;
+import pl.brzezinski.bookt.model.Restaurant;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -9,69 +9,80 @@ import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
-@Table(name="users")
-public class User
-{
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable=false)
-    @NotEmpty()
+    @Column(nullable = false)
+    @NotEmpty
     private String name;
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     @NotEmpty
-    @Email(message="{errors.invalid_email}")
+    @Email
     private String email;
-    @Column(nullable=false)
+    @Column(nullable = false)
     @NotEmpty
-    @Size(min=4)
+    @Size(min = 4)
     private String password;
 
-    @ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
-            name="user_role",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-    private List<Role> roles;
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
+    private List<Role> roles = new ArrayList<>();
 
-    public Integer getId()
-    {
+    @OneToMany(mappedBy = "restaurantOwner")
+    private List<Restaurant> restaurants = new ArrayList<>();
+
+    public Integer getId() {
         return id;
     }
-    public void setId(Integer id)
-    {
+
+    public void setId(Integer id) {
         this.id = id;
     }
-    public String getName()
-    {
+
+    public String getName() {
         return name;
     }
-    public void setName(String name)
-    {
+
+    public void setName(String name) {
         this.name = name;
     }
-    public String getEmail()
-    {
+
+    public String getEmail() {
         return email;
     }
-    public void setEmail(String email)
-    {
+
+    public void setEmail(String email) {
         this.email = email;
     }
-    public String getPassword()
-    {
+
+    public String getPassword() {
         return password;
     }
-    public void setPassword(String password)
-    {
+
+    public void setPassword(String password) {
         this.password = password;
     }
-    public List<Role> getRoles()
-    {
+
+    public List<Role> getRoles() {
         return roles;
     }
-    public void setRoles(List<Role> roles)
-    {
+
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
     }
 
     @Override
@@ -82,6 +93,7 @@ public class User
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
+                ", restaurants=" + restaurants +
                 '}';
     }
 }

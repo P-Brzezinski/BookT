@@ -14,9 +14,9 @@ import java.util.Arrays;
 @Service
 public class UserRoleGenerator {
 
-    public static String ROLE_ADMIN = "ROLE_ADMIN";
-    public static String ROLE_USER = "ROLE_USER";
-    public static String ROLE_RESTAURATEUR = "ROLE_RESTAURATEUR";
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+    private static final String ROLE_USER = "ROLE_USER";
+    private static final String ROLE_RESTAURATEUR = "ROLE_RESTAURATEUR";
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;

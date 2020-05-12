@@ -13,7 +13,8 @@ import java.util.List;
 @Service
 public class UserService implements GenericService<Long, User>{
 
-    private static final String DEFAULT_ROLE = "ROLE_USER";
+    private static final String ROLE_USER = "ROLE_USER";
+    private static final String ROLE_RESTAURATEUR = "ROLE_RESTAURATEUR";
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -46,9 +47,21 @@ public class UserService implements GenericService<Long, User>{
         return userRepository.findAll();
     }
 
-    public void addWithDefaultRole(User user){
-        Role defaultRole = roleRepository.findByName(DEFAULT_ROLE);
-        user.getRoles().add(defaultRole);
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public void addWithUserRole(User user){
+        Role userRole = roleRepository.findByName(ROLE_USER);
+        user.getRoles().add(userRole);
+        String passwordHash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordHash);
+        userRepository.save(user);
+    }
+
+    public void addWithRestaurateurRole(User user) {
+        Role restaurateurRole = roleRepository.findByName(ROLE_RESTAURATEUR);
+        user.getRoles().add(restaurateurRole);
         String passwordHash = passwordEncoder.encode(user.getPassword());
         user.setPassword(passwordHash);
         userRepository.save(user);

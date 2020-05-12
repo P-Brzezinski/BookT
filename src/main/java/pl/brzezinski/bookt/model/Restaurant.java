@@ -6,6 +6,7 @@ import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
 import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.tables.SchemaTable;
+import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.validation.constraint.OpenHoursForRestaurant;
 import pl.brzezinski.bookt.validation.constraint.Phone;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Entity
 @OpenHoursForRestaurant(message = "{pl.brzezinski.bookt.Restaurant.OpenHoursForRestaurant}")
+@Table(name = "restaurants")
 public class Restaurant {
 
     public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES = 180;
@@ -66,10 +68,9 @@ public class Restaurant {
     cascade = CascadeType.PERSIST)
     private RestaurantMenu restaurantMenu;
 
-    public void addTable(ReservedTable reservedTable){
-        reservedTable.setRestaurant(this);
-        getReservedTables().add(reservedTable);
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User restaurantOwner;
 
     public Restaurant() {
     }
@@ -208,6 +209,14 @@ public class Restaurant {
         this.restaurantMenu = restaurantMenu;
     }
 
+    public User getRestaurantOwner() {
+        return restaurantOwner;
+    }
+
+    public void setRestaurantOwner(User restaurantOwner) {
+        this.restaurantOwner = restaurantOwner;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
@@ -218,9 +227,11 @@ public class Restaurant {
                 ", postCode='" + postCode + '\'' +
                 ", genre=" + genre +
                 ", url='" + url + '\'' +
-                ", openTime='" + openTime + '\'' +
-                ", closeTime='" + closeTime + '\'' +
+                ", email='" + email + '\'' +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", restaurantOwner=" + restaurantOwner.getEmail() +
                 '}';
     }
 }
