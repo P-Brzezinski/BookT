@@ -22,15 +22,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/register").permitAll()
-                    .antMatchers("/admin").hasAnyRole("ADMIN")
+                    .antMatchers("/admin/*").hasAnyRole("ADMIN")
+                    .antMatchers("/h2/**").permitAll()
+                    .antMatchers("/restaurateurPanel/*").hasAnyRole("RESTAURATEUR", "ADMIN")
                     .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .successHandler(myAuthenticationSuccessHandler())
-                .and()
-                .logout().permitAll().deleteCookies("JSESSIONID")
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .and().formLogin().successHandler(myAuthenticationSuccessHandler())
+                .and().csrf().ignoringAntMatchers("/h2/**")
+                .and().headers().frameOptions().disable()
+                .and().logout().permitAll().deleteCookies("JSESSIONID")
+                .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Bean

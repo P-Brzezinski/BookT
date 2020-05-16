@@ -38,7 +38,7 @@ public class SchemaTableController {
     @PostMapping("/saveSchemaTable")
     public String saveSchemaTable(@ModelAttribute SchemaTable schemaTable){
         schemaTableService.add(schemaTable);
-        return "redirect:/";
+        return "redirect:/restaurateurPanel";
     }
 
 

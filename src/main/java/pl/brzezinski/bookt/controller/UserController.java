@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.service.UserService;
 
@@ -44,4 +41,12 @@ public class UserController {
         model.addAttribute("user", user);
         return "registerSuccess";
     }
+
+
+    @RequestMapping("/mainMenu")
+    public String mainMenu() {
+        return "mainMenu";
+    }
+
+
 }

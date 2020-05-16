@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Add new restaurant</title>
@@ -9,7 +11,10 @@
 <div class="center-content">
     <h1>RESTAURATEUR PAGE</h1>
 </div>
-<h1>HI!</h1>
-<p><a th:href="@{/addRestaurant}">Add restaurant</a></p>
+<h1 th:text="${principal.name}"></h1>
+<p><a th:href="@{/restaurateurPanel/addRestaurant}">Add restaurant</a></p>
+<p><a th:href="@{/restaurateurPanel/showAllRestaurants}">Show restaurants</a></p>
+<p><a th:href="@{/logout}">Sign Out</a></p>
+<div sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}">Admin panel</a></div>
 </body>
 </html>

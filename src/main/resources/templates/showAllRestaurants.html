@@ -43,6 +43,7 @@
     </table>
     <div sec:authorize="hasRole('ROLE_USER')"><p><a th:href="@{/mainMenu}">Main menu</a></p></div>
     <div sec:authorize="hasRole('ROLE_ADMIN')"><p><a th:href="@{/admin}">Main menu</a></p></div>
+    <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><p><a th:href="@{/restaurateurPanel}">Main menu</a></p></div>
 </div>
 </body>
 </html>

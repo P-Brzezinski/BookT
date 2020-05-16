@@ -1,6 +1,7 @@
 package pl.brzezinski.bookt.dataGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.restaurantMenu.Meal;
@@ -9,6 +10,8 @@ import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.model.enums.Genre;
+import pl.brzezinski.bookt.model.users.Role;
+import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.repository.*;
 import pl.brzezinski.bookt.service.ReservedTableService;
 
@@ -16,10 +19,16 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class RestaurantGenerator {
+public class GenerateSomeData {
+
+
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+    private static final String ROLE_USER = "ROLE_USER";
+    private static final String ROLE_RESTAURATEUR = "ROLE_RESTAURATEUR";
 
     private RestaurantRepository restaurantRepository;
     private ReservedTableRepository reservedTableRepository;
@@ -27,11 +36,13 @@ public class RestaurantGenerator {
     private ReservationRepository reservationRepository;
     private RestaurantMenuRepository restaurantMenuRepository;
     private MealRepository mealRepository;
-
+    private UserRepository userRepository;
     private ReservedTableService reservedTableService;
+    private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RestaurantGenerator(RestaurantRepository restaurantRepository, ReservedTableRepository reservedTableRepository, SchemaTableRepository schemaTableRepository, ReservationRepository reservationRepository, RestaurantMenuRepository restaurantMenuRepository, MealRepository mealRepository, ReservedTableService reservedTableService) {
+    public GenerateSomeData(RestaurantRepository restaurantRepository, ReservedTableRepository reservedTableRepository, SchemaTableRepository schemaTableRepository, ReservationRepository reservationRepository, RestaurantMenuRepository restaurantMenuRepository, MealRepository mealRepository, ReservedTableService reservedTableService, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.restaurantRepository = restaurantRepository;
         this.reservedTableRepository = reservedTableRepository;
         this.schemaTableRepository = schemaTableRepository;
@@ -39,12 +50,19 @@ public class RestaurantGenerator {
         this.restaurantMenuRepository = restaurantMenuRepository;
         this.mealRepository = mealRepository;
         this.reservedTableService = reservedTableService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    private Restaurant restaurant1;
-    private Restaurant restaurant2;
-    private Restaurant restaurant3;
-    private Restaurant restaurant4;
+    Restaurant restaurant1;
+    Restaurant restaurant2;
+    Restaurant restaurant3;
+    Restaurant restaurant4;
+
+    User user;
+    User admin;
+    User restaurateur;
 
     SchemaTable schemaTable1;
     SchemaTable schemaTable2;
@@ -54,9 +72,54 @@ public class RestaurantGenerator {
     SchemaTable schemaTable6;
     SchemaTable schemaTable7;
 
+
+    @PostConstruct
+    public void createData(){
+        createRoleIfNotFound(ROLE_ADMIN);
+        createRoleIfNotFound(ROLE_USER);
+        createRoleIfNotFound(ROLE_RESTAURATEUR);
+
+        Role adminRole = roleRepository.findByName(ROLE_ADMIN);
+        Role userRole = roleRepository.findByName(ROLE_USER);
+        Role restaurateurRole = roleRepository.findByName(ROLE_RESTAURATEUR);
+
+        admin = new User();
+        admin.setName("admin");
+        admin.setPassword(passwordEncoder.encode("adminPassword"));
+        admin.setEmail("admin@admin.com");
+        admin.setRoles(Arrays.asList(adminRole));
+        userRepository.save(admin);
+
+        user = new User();
+        user.setName("Pawel");
+        user.setPassword(passwordEncoder.encode("userPassword"));
+        user.setEmail("user@user.com");
+        user.setRoles(Arrays.asList(userRole));
+        userRepository.save(user);
+
+        restaurateur = new User();
+        restaurateur.setName("Restaurateur");
+        restaurateur.setPassword(passwordEncoder.encode("restaurateurPassword"));
+        restaurateur.setEmail("restaurant@podfreda.com");
+        restaurateur.setRoles(Arrays.asList(restaurateurRole));
+        userRepository.save(restaurateur);
+    }
+
+
+    private Role createRoleIfNotFound(String name){
+        Role role = roleRepository.findByName(name);
+        if (role == null){
+            role = new Role(name);
+            roleRepository.save(role);
+        }
+        return role;
+    }
+
+
     @PostConstruct
     public void createRestaurantData() {
         restaurantRepository.save(restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323"));
+        restaurant1.setRestaurantOwner(restaurateur);
         restaurantRepository.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333"));
         restaurantRepository.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "71-372-53-94"));
         restaurantRepository.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "71-343-14-13"));

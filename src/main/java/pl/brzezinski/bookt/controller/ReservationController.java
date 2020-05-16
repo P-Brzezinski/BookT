@@ -114,7 +114,7 @@ public class ReservationController {
         return "reservationSuccess";
     }
 
-    @GetMapping("/showAllReservations")
+    @GetMapping("/admin/showAllReservations")
     public String showAlReservations(Model model) {
         List<Reservation> allReservations = reservationService.getAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd LLLL yyyy" );

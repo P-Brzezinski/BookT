@@ -5,12 +5,12 @@ import org.springframework.stereotype.Controller;
 import pl.brzezinski.bookt.service.ReservedTableService;
 
 @Controller
-public class TableController {
+public class ReservedTableController {
 
     private ReservedTableService reservedTableService;
 
     @Autowired
-    public TableController(ReservedTableService reservedTableService) {
+    public ReservedTableController(ReservedTableService reservedTableService) {
         this.reservedTableService = reservedTableService;
     }
 
