@@ -43,6 +43,11 @@ public class UserService implements GenericService<Long, User>{
     }
 
     @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
     public List<User> getAll() {
         return userRepository.findAll();
     }

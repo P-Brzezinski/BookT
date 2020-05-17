@@ -34,6 +34,11 @@ public class SchemaTableService implements GenericService<Long, SchemaTable> {
     }
 
     @Override
+    public void deleteById(Long id) {
+        schemaTableRepository.deleteById(id);
+    }
+
+    @Override
     public List<SchemaTable> getAll() {
         return schemaTableRepository.findAll();
     }

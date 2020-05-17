@@ -57,6 +57,7 @@ public class RestaurateurController {
         restaurant.setRestaurantOwner(restaurantOwner);
         userService.add(restaurantOwner);
         restaurantService.add(restaurant);
+        System.out.println(restaurant.toString());
         return "redirect:/restaurateurPanel";
     }
 

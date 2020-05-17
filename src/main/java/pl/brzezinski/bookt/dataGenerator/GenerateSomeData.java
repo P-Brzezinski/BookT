@@ -118,11 +118,17 @@ public class GenerateSomeData {
 
     @PostConstruct
     public void createRestaurantData() {
-        restaurantRepository.save(restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323"));
+        restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323");
+        restaurant1.setDefaultMinutesForReservation(180);
+        restaurant1.setMinutesBetweenReservations(15);
+        restaurant1.setMinimumMinutesForReservation(60);
+        restaurant1.setMinPlaces(0);
+        restaurant1.setMaxPlaces(2);
         restaurant1.setRestaurantOwner(restaurateur);
-        restaurantRepository.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333"));
-        restaurantRepository.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "71-372-53-94"));
-        restaurantRepository.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "71-343-14-13"));
+        restaurantRepository.save(restaurant1);
+//        restaurantRepository.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333"));
+//        restaurantRepository.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "71-372-53-94"));
+//        restaurantRepository.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "71-343-14-13"));
     }
 
     @PostConstruct
@@ -133,7 +139,7 @@ public class GenerateSomeData {
         schemaTable4 = new SchemaTable(4, 2);
         schemaTable5 = new SchemaTable(5, 4);
         schemaTable6 = new SchemaTable(6, 4);
-        schemaTable7 = new SchemaTable(7, 6);
+        schemaTable7 = new SchemaTable(7, 20);
         schemaTable1.setRestaurant(restaurant1);
         schemaTable2.setRestaurant(restaurant1);
         schemaTable3.setRestaurant(restaurant1);

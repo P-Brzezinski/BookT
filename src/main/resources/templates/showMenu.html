@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>All schema reservedTables</title>
@@ -18,10 +20,8 @@
             <td th:text="*{meal.price}"/>
         </tr>
     </table>
-    <p><a th:href="@{/showAllRestaurants}">Back</a></p>
-    <div sec:authorize="hasRole('ROLE_USER')"><p><a th:href="@{/showAllRestaurants}">Main menu</a></p></div>
-    <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><p><a th:href="@{/restaurateurPanel}">Main menu</a></p></div>
+    <div sec:authorize="hasRole('ROLE_USER')"><p><a th:href="@{/showAllRestaurants}">Back</a></p></div>
+    <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><p><a th:href="@{/restaurateurPanel/showAllRestaurants}">Back</a></p></div>
 </div>
-
 </body>
 </html>

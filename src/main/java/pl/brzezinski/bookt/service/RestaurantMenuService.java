@@ -34,6 +34,11 @@ public class RestaurantMenuService implements GenericService<Long, RestaurantMen
     }
 
     @Override
+    public void deleteById(Long id) {
+        restaurantMenuRepository.deleteById(id);
+    }
+
+    @Override
     public List<RestaurantMenu> getAll() {
         return restaurantMenuRepository.findAll();
     }

@@ -86,14 +86,15 @@ public class ReservationController {
 
     @GetMapping("/findShortTermTable")
     public String findShortTermTable(@ModelAttribute("reservation") Reservation reservation, Model model) {
+        System.out.println("CHECK _______________________________________");
         //check on which table there is a possibility for short term reservation
         ReservedTable reservedTable = reservationService.findShortTermTable(reservation);
         if (reservedTable == null) {
             model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
             return "failed";
         } else {
-            Long duration = reservationService.checkTimeBetween(reservation.getDateTime(), reservedTable.getDateOfReservation());
-            if (duration < Restaurant.ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES) {
+            Long duration = reservationService.checkTimeBetween(reservation, reservedTable.getDateOfReservation());
+            if (duration < reservation.getRestaurant().getMinimumMinutesForReservation()) {
                 model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
                 return "failed";
             } else {

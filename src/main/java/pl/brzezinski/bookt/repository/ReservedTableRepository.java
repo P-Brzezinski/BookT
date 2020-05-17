@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.Restaurant;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface ReservedTableRepository extends JpaRepository<ReservedTable, Lo
     List<ReservedTable> findAllByRestaurantAndTableNumberAndDateOfReservationIsBefore(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
     List<ReservedTable> findAllByRestaurantAndTableNumberAndDateOfReservationIsAfter(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
     ReservedTable findByRestaurantAndTableNumberAndDateOfReservation(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
+    List<ReservedTable> findAllByRestaurantAndDateOfReservation(Restaurant restaurant, LocalDate localDate);
 
 }
 

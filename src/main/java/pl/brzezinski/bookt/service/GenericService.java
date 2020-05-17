@@ -10,5 +10,7 @@ public interface GenericService<K, T> {
 
     void remove(T obj);
 
+    void deleteById(K id);
+
     List<T> getAll();
 }

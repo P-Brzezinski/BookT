@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="center-content">
-    <h1>Enter new restaurant</h1>
+    <h1>Add new restaurant</h1>
     <form method="post" action="#" th:action="@{/restaurateurPanel/save}" th:object="${restaurant}">
 
         <h2>Name: <input type="text" th:field="*{name}"/></h2>
@@ -36,6 +36,22 @@
         <h5 th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></h5>
         <p>Phone: <input type="text" th:field="*{phoneNumber}"/></p>
         <h5 th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></h5>
+
+        <p>Estimated minutes for one reservation: <input type="number" th:field="*{defaultMinutesForReservation}"/></p>
+        <h5 th:errors="*{defaultMinutesForReservation}"></h5>
+
+        <p>How much minutes needed to prepare table: <input type="number" th:field="*{minutesBetweenReservations}"/></p>
+        <h5 th:errors="*{minutesBetweenReservations}"></h5>
+
+        <p>Minimum minutes for reservation: <input type="number" th:field="*{minimumMinutesForReservation}"/></p>
+        <h5 th:errores="*{minimumMinutesForReservation}"></h5>
+
+        <p>Minimum places at table: <input type="number" th:field="*{minPlaces}"></p>
+        <h5 th:errors="*{minPlaces}"></h5>
+
+        <p>Maximum places at table: <input type="number" th:field="*{maxPlaces}"></p>
+        <h5 th:errores="*{maxPlaces}"></h5>
+
         <p><input type="submit" value="Zapisz"></p>
     </form>
     <p><a th:href="@{/restaurateurPanel}"/>Main menu</p>

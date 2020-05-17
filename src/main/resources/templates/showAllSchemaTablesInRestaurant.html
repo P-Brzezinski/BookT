@@ -12,13 +12,17 @@
         <tr>
             <th>Number</th>
             <th>Places</th>
+            <th colspan="2">Actions</th>
         </tr>
         <tr th:each="schemaTable : ${schemaTables}">
             <td th:text="*{schemaTable.tableNumber}"/>
             <td th:text="*{schemaTable.places}"/>
+            <td><a th:href="@{/restaurateurPanel/editSchemaTableId(schemaTableId=*{schemaTable.id})}">Edit</a></td>
+            <td><a th:href="@{/restaurateurPanel/deleteSchemaTable(schemaTableId=*{schemaTable.id})}">Delete</a></td>
         </tr>
     </table>
-    <p><a th:href="@{/restaurateurPanel}">Main menu</a></p>
+    <p><a th:href="@{/restaurateurPanel/addNewSchemaTable(restaurantId=${restaurantId})}">Add table</a></p>
+    <p><a th:href="@{/restaurateurPanel/showAllRestaurants}">Main menu</a></p>
 </div>
 </body>
 </html>
