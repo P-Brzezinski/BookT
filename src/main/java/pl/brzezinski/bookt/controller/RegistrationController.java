@@ -11,12 +11,12 @@ import pl.brzezinski.bookt.service.UserService;
 import javax.validation.Valid;
 
 @Controller
-public class UserController {
+public class RegistrationController {
 
     private UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
@@ -41,12 +41,4 @@ public class UserController {
         model.addAttribute("user", user);
         return "registerSuccess";
     }
-
-
-    @RequestMapping("/mainMenu")
-    public String mainMenu() {
-        return "mainMenu";
-    }
-
-
 }

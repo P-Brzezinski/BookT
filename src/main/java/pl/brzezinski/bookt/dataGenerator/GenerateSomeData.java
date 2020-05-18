@@ -54,14 +54,15 @@ public class GenerateSomeData {
         this.passwordEncoder = passwordEncoder;
     }
 
-    Restaurant restaurant1;
-    Restaurant restaurant2;
+    Restaurant podFredra;
+    Restaurant cK;
     Restaurant restaurant3;
     Restaurant restaurant4;
 
     User user;
     User admin;
-    User restaurateur;
+    User restaurateurPodFreda;
+    User restaurateurCK;
 
     SchemaTable schemaTable1;
     SchemaTable schemaTable2;
@@ -70,6 +71,11 @@ public class GenerateSomeData {
     SchemaTable schemaTable5;
     SchemaTable schemaTable6;
     SchemaTable schemaTable7;
+    SchemaTable schemaTable8;
+    SchemaTable schemaTable9;
+    SchemaTable schemaTable10;
+    SchemaTable schemaTable11;
+    SchemaTable schemaTable12;
 
 
     @PostConstruct
@@ -96,12 +102,19 @@ public class GenerateSomeData {
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
 
-        restaurateur = new User();
-        restaurateur.setName("Restaurateur");
-        restaurateur.setPassword(passwordEncoder.encode("restaurateurPassword"));
-        restaurateur.setEmail("restaurant@podfreda.com");
-        restaurateur.setRoles(Arrays.asList(restaurateurRole));
-        userRepository.save(restaurateur);
+        restaurateurPodFreda = new User();
+        restaurateurPodFreda.setName("Cecylia Frycz");
+        restaurateurPodFreda.setPassword(passwordEncoder.encode("restaurateurPassword"));
+        restaurateurPodFreda.setEmail("restaurant@podfreda.com");
+        restaurateurPodFreda.setRoles(Arrays.asList(restaurateurRole));
+        userRepository.save(restaurateurPodFreda);
+
+        restaurateurCK = new User();
+        restaurateurCK.setName("Gruby Benek");
+        restaurateurCK.setPassword(passwordEncoder.encode("restaurateurPassword"));
+        restaurateurCK.setEmail("restaurant@ck.com");
+        restaurateurCK.setRoles(Arrays.asList(restaurateurRole));
+        userRepository.save(restaurateurCK);
     }
 
 
@@ -117,15 +130,24 @@ public class GenerateSomeData {
 
     @PostConstruct
     public void createRestaurantData() {
-        restaurant1 = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323");
-        restaurant1.setDefaultMinutesForReservation(180);
-        restaurant1.setMinutesBetweenReservations(15);
-        restaurant1.setMinimumMinutesForReservation(60);
-        restaurant1.setMinPlaces(0);
-        restaurant1.setMaxPlaces(2);
-        restaurant1.setRestaurantOwner(restaurateur);
-        restaurantRepository.save(restaurant1);
-//        restaurantRepository.save(restaurant2 = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333"));
+        podFredra = new Restaurant("Pod Fredra", "Rynek Ratusz 1", "Wroclaw", "54-900", Genre.POLISH, "http://www.podfredra.pl", "restauracja@podfreda.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "899-998-323");
+        podFredra.setDefaultMinutesForReservation(180);
+        podFredra.setMinutesBetweenReservations(15);
+        podFredra.setMinimumMinutesForReservation(60);
+        podFredra.setMinPlaces(0);
+        podFredra.setMaxPlaces(2);
+        podFredra.setRestaurantOwner(restaurateurPodFreda);
+        restaurantRepository.save(podFredra);
+
+        cK = new Restaurant("Cesarsko Królewska", "Rynek 12", "Wroclaw", "32-999", Genre.POLISH, "http://www.ck.pl", "restauracja@ck.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "111-222-333");
+        cK.setDefaultMinutesForReservation(120);
+        cK.setMinutesBetweenReservations(20);
+        cK.setMinimumMinutesForReservation(60);
+        cK.setMinPlaces(0);
+        cK.setMaxPlaces(2);
+        cK.setRestaurantOwner(restaurateurCK);
+        restaurantRepository.save(cK);
+
 //        restaurantRepository.save(restaurant3 = new Restaurant("La Scala", "Rynek 38", "Wroclaw", "50-102", Genre.ITALIAN, "http://www.lascala.pl", "restauracja@lascala.pl", LocalTime.of(12, 0), LocalTime.of(23, 0), "71-372-53-94"));
 //        restaurantRepository.save(restaurant4 = new Restaurant("Akropolis", "Rynek 16/17", "Wroclaw", "50-101", Genre.GREEK, "http://www.akropolis.wroc.pl", "restauracja@akropolis.pl", LocalTime.of(10, 0), LocalTime.of(23, 0), "71-343-14-13"));
     }
@@ -139,13 +161,13 @@ public class GenerateSomeData {
         schemaTable5 = new SchemaTable(5, 4);
         schemaTable6 = new SchemaTable(6, 4);
         schemaTable7 = new SchemaTable(7, 20);
-        schemaTable1.setRestaurant(restaurant1);
-        schemaTable2.setRestaurant(restaurant1);
-        schemaTable3.setRestaurant(restaurant1);
-        schemaTable4.setRestaurant(restaurant1);
-        schemaTable5.setRestaurant(restaurant1);
-        schemaTable6.setRestaurant(restaurant1);
-        schemaTable7.setRestaurant(restaurant1);
+        schemaTable1.setRestaurant(podFredra);
+        schemaTable2.setRestaurant(podFredra);
+        schemaTable3.setRestaurant(podFredra);
+        schemaTable4.setRestaurant(podFredra);
+        schemaTable5.setRestaurant(podFredra);
+        schemaTable6.setRestaurant(podFredra);
+        schemaTable7.setRestaurant(podFredra);
         schemaTableRepository.save(schemaTable1);
         schemaTableRepository.save(schemaTable2);
         schemaTableRepository.save(schemaTable3);
@@ -153,6 +175,23 @@ public class GenerateSomeData {
         schemaTableRepository.save(schemaTable5);
         schemaTableRepository.save(schemaTable6);
         schemaTableRepository.save(schemaTable7);
+
+
+        schemaTable8 = new SchemaTable(1, 2);
+        schemaTable9 = new SchemaTable(2, 4);
+        schemaTable10 = new SchemaTable(3, 6);
+        schemaTable11 = new SchemaTable(4, 8);
+        schemaTable12 = new SchemaTable(5, 10);
+        schemaTable8.setRestaurant(cK);
+        schemaTable9.setRestaurant(cK);
+        schemaTable10.setRestaurant(cK);
+        schemaTable11.setRestaurant(cK);
+        schemaTable12.setRestaurant(cK);
+        schemaTableRepository.save(schemaTable8);
+        schemaTableRepository.save(schemaTable9);
+        schemaTableRepository.save(schemaTable10);
+        schemaTableRepository.save(schemaTable11);
+        schemaTableRepository.save(schemaTable12);
     }
 
     @PostConstruct
@@ -163,7 +202,7 @@ public class GenerateSomeData {
         reservation1.setPhoneNumber("999-000-333");
         reservation1.setNotes("Nice table please");
         reservation1.setDateTime(LocalDateTime.of(2020, 12, 12, 16, 00));
-        reservation1.setRestaurant(restaurant1);
+        reservation1.setRestaurant(podFredra);
 
         ReservedTable reservedTable1 = new ReservedTable(
                 schemaTable1.getTableNumber(),
@@ -182,7 +221,7 @@ public class GenerateSomeData {
         reservation2.setPhoneNumber("222-000-111");
         reservation2.setNotes("By the window please");
         reservation2.setDateTime(LocalDateTime.of(2020, 12, 12, 10, 00));
-        reservation2.setRestaurant(restaurant1);
+        reservation2.setRestaurant(podFredra);
 
         ReservedTable reservedTable2 = new ReservedTable(
                 schemaTable1.getTableNumber(),
@@ -201,7 +240,7 @@ public class GenerateSomeData {
         reservation3.setPhoneNumber("555-000-555");
         reservation3.setNotes("Sweet table please");
         reservation3.setDateTime(LocalDateTime.of(2020, 12, 12, 20, 00));
-        reservation3.setRestaurant(restaurant1);
+        reservation3.setRestaurant(podFredra);
 
         ReservedTable reservedTable3 = new ReservedTable(
                 schemaTable1.getTableNumber(),
@@ -213,6 +252,25 @@ public class GenerateSomeData {
         reservedTableService.add(reservedTable3);
         reservation3.setReservedTable(reservedTable3);
         reservationRepository.save(reservation3);
+
+        Reservation reservation4 = new Reservation();
+        reservation4.setName("Rezerwacja 4");
+        reservation4.setNumberOfPersons(6);
+        reservation4.setPhoneNumber("999-000-333");
+        reservation4.setNotes("Important meeting!");
+        reservation4.setDateTime(LocalDateTime.of(2020, 12, 12, 12, 00));
+        reservation4.setRestaurant(cK);
+
+        ReservedTable reservedTable4 = new ReservedTable(
+                schemaTable10.getTableNumber(),
+                schemaTable10.getPlaces(),
+                reservation4.getDateTime());
+        reservationRepository.save(reservation4);
+        reservedTable4.setReservation(reservation4);
+        reservedTable4.setRestaurant(reservation4.getRestaurant());
+        reservedTableService.add(reservedTable4);
+        reservation4.setReservedTable(reservedTable4);
+        reservationRepository.save(reservation4);
     }
 
     @PostConstruct
@@ -231,10 +289,10 @@ public class GenerateSomeData {
         mealRepository.save(meal3);
 
         restaurantMenu.setMeals(List.of(meal1, meal2, meal3));
-        restaurantMenu.setRestaurant(restaurant1);
+        restaurantMenu.setRestaurant(podFredra);
         restaurantMenuRepository.save(restaurantMenu);
 
-        restaurant1.setRestaurantMenu(restaurantMenu);
-        restaurantRepository.save(restaurant1);
+        podFredra.setRestaurantMenu(restaurantMenu);
+        restaurantRepository.save(podFredra);
     }
 }

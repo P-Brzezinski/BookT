@@ -24,6 +24,7 @@ import static pl.brzezinski.bookt.service.ReservationService.*;
 
 @Controller
 @SessionAttributes("reservation")
+@RequestMapping({"/admin", "/"})
 public class ReservationController {
 
     private RestaurantService restaurantService;
@@ -114,7 +115,7 @@ public class ReservationController {
         return "reservationSuccess";
     }
 
-    @GetMapping("/admin/showAllReservations")
+    @GetMapping("/showAllReservations")
     public String showAlReservations(Model model) {
         List<Reservation> allReservations = reservationService.getAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd LLLL yyyy" );

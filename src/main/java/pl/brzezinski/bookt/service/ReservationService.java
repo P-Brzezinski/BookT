@@ -61,10 +61,12 @@ public class ReservationService implements GenericService<Long, Reservation> {
 
     public String checkIfPossible(Reservation reservation) {
         List<SchemaTable> possibleTables = findPossibleSchemaTables(reservation);
-        List<ReservedTable> tablesReservedThisDay = reservedTableService.findAllByRestaurantAndDate(reservation.getRestaurant(), reservation.getDateTime().toLocalDate());
         if (possibleTables.isEmpty()) {
             return NO_SUCH_TABLE_AVAILABLE_IN_RESTAURANT;
-        } else if (tablesReservedThisDay.isEmpty()) {
+        }
+        //TODO check for reservations only on specifed table number
+        List<ReservedTable> tablesReservedThisDay = reservedTableService.findAllByRestaurantAndDate(reservation.getRestaurant(), reservation.getDateTime().toLocalDate());
+        if (tablesReservedThisDay.isEmpty()) {
             saveReservationOnTable(reservation, possibleTables.get(0));
             return RESERVATION_AVAILABLE;
         } else {
@@ -132,11 +134,11 @@ public class ReservationService implements GenericService<Long, Reservation> {
             if (reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusMinutes(restaurant.getDefaultMinutesForReservation()))) {
                 reservedTable = tableBefore;
             }
-        }else if (findAllBefore.size() != 0 && findAllAfter.size() != 0){
+        } else if (findAllBefore.size() != 0 && findAllAfter.size() != 0) {
             ReservedTable tableAfter = findAllAfter.get(0);
             ReservedTable tableBefore = findAllBefore.get(0);
             if (reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusMinutes(restaurant.getDefaultMinutesForReservation()))
-                && reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(restaurant.getMinimumMinutesForReservation()))){
+                    && reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(restaurant.getMinimumMinutesForReservation()))) {
                 reservedTable = tableAfter;
             }
         }

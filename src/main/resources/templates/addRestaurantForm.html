@@ -8,7 +8,7 @@
 <body>
 <div class="center-content">
     <h1>Add new restaurant</h1>
-    <form method="post" action="#" th:action="@{/restaurateurPanel/save}" th:object="${restaurant}">
+    <form method="post" action="#" th:action="@{/restaurateurPanel/saveRestaurant}" th:object="${restaurant}">
 
         <h2>Name: <input type="text" th:field="*{name}"/></h2>
         <h5 th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></h5>

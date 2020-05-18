@@ -3,8 +3,6 @@ package pl.brzezinski.bookt.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.restaurantMenu.Meal;
 import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
@@ -16,6 +14,7 @@ import java.util.List;
 
 @Controller
 @SessionAttributes("restaurant")
+@RequestMapping({"/restaurateurPanel", "/"})
 public class RestaurantMenuController {
 
     private RestaurantService restaurantService;
@@ -46,7 +45,7 @@ public class RestaurantMenuController {
         return "showMenu";
     }
 
-    @GetMapping("/restaurateurPanel/mealForm")
+    @GetMapping("/mealForm")
     public String mealForm(@ModelAttribute("restaurant") Restaurant restaurant, @RequestParam(required = false) Long mealId, Model model){
         Meal meal;
         if (mealId != null){
@@ -59,7 +58,7 @@ public class RestaurantMenuController {
         return "mealForm";
     }
 
-    @PostMapping("/restaurateurPanel/saveMeal")
+    @PostMapping("/saveMeal")
     public String saveMeal(@ModelAttribute Meal meal){
         mealService.add(meal);
         RestaurantMenu restaurantMenu = meal.getRestaurantMenu();
@@ -68,7 +67,7 @@ public class RestaurantMenuController {
         return "redirect:/restaurateurPanel/showAllRestaurants";
     }
 
-    @GetMapping("/restaurateurPanel/deleteMeal")
+    @GetMapping("/deleteMeal")
     public String deleteMeal(@RequestParam Long mealId){
         mealService.deleteById(mealId);
         return "redirect:/showMenu";
