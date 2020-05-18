@@ -61,16 +61,12 @@ public class ReservationService implements GenericService<Long, Reservation> {
 
     public String checkIfPossible(Reservation reservation) {
         List<SchemaTable> possibleTables = findPossibleSchemaTables(reservation);
-//        List<ReservedTable> tablesReservedThisDay = reservedTableService.findAllByRestaurantAndDate(reservation.getRestaurant(), reservation.getDateTime().toLocalDate());
-        System.out.println("-->START<--- POSSIBLE SCHEMA TABLES " + possibleTables);
-//        System.out.println(" TABLES RESERVED THIS DAY " + tablesReservedThisDay.size());
+        List<ReservedTable> tablesReservedThisDay = reservedTableService.findAllByRestaurantAndDate(reservation.getRestaurant(), reservation.getDateTime().toLocalDate());
         if (possibleTables.isEmpty()) {
             return NO_SUCH_TABLE_AVAILABLE_IN_RESTAURANT;
-            //TODO
-//        } else if (tablesReservedThisDay.isEmpty()) {
-//            saveReservationOnTable(reservation, possibleTables.get(0));
-//            return RESERVATION_AVAILABLE;
-//        }
+        } else if (tablesReservedThisDay.isEmpty()) {
+            saveReservationOnTable(reservation, possibleTables.get(0));
+            return RESERVATION_AVAILABLE;
         } else {
             checkTimeBetweenReservations(possibleTables, reservation);
             if (possibleTables.isEmpty()) {
@@ -92,17 +88,11 @@ public class ReservationService implements GenericService<Long, Reservation> {
 
     private List<SchemaTable> checkTimeBetweenReservations(List<SchemaTable> availableSchemaTables, Reservation reservation) {
         Restaurant restaurant = reservation.getRestaurant();
-        //TODO change allReservations for restaurant and date, not all
-        List<ReservedTable> allReservations = reservedTableService.getAll();
+        List<ReservedTable> allReservations = reservedTableService.findAllByRestaurantAndDate(reservation.getRestaurant(), reservation.getDateTime().toLocalDate());
         List<SchemaTable> tablesNotFree = new ArrayList<>();
 
         for (SchemaTable availableTable : availableSchemaTables) {
             for (ReservedTable reservedTable : allReservations) {
-                System.out.println("SCHEMA TABLE: " + availableTable);
-                System.out.println("RESERVED TABLE: " + reservedTable);
-                System.out.println("COMPARE TABLE NUMBER " + (availableTable.getTableNumber() == reservedTable.getTableNumber()));
-                System.out.println("COMPARE TIME AFTER " + (!reservedTable.getDateOfReservation().isAfter(reservation.getDateTime().plusMinutes(restaurant.getDefaultMinutesForReservation()).minusMinutes(1))));
-                System.out.println("COMPARE TIME BEFORE " + (!reservedTable.getDateOfReservation().isBefore(reservation.getDateTime().minusMinutes(restaurant.getDefaultMinutesForReservation()).plusHours(1))));
                 if ((availableTable.getTableNumber() == reservedTable.getTableNumber())
                         && (!reservedTable.getDateOfReservation().isAfter(reservation.getDateTime().plusMinutes(restaurant.getDefaultMinutesForReservation()).minusMinutes(1))
                         && (!reservedTable.getDateOfReservation().isBefore(reservation.getDateTime().minusMinutes(restaurant.getDefaultMinutesForReservation()).plusHours(1))))) {
@@ -111,14 +101,11 @@ public class ReservationService implements GenericService<Long, Reservation> {
             }
         }
         availableSchemaTables.removeAll(tablesNotFree);
-        System.out.println("---> AVAILABLE SCHEMA TABLES AFTER FILTERING " + availableSchemaTables);
         return availableSchemaTables;
     }
 
     public ReservedTable findShortTermTable(Reservation reservation) {
-        System.out.println("-----> SHORT TERM TABLE <-------");
         List<SchemaTable> schemaTables = findPossibleSchemaTables(reservation);
-        System.out.println("FOUNDED SCHEMA TABLES " + schemaTables.size());
         Restaurant restaurant = reservation.getRestaurant();
         ReservedTable reservedTable = null;
         List<ReservedTable> findAllBefore = null;
@@ -126,37 +113,28 @@ public class ReservationService implements GenericService<Long, Reservation> {
         ReservedTable reservationOnSameTime = null;
 
         for (SchemaTable schemaTable : schemaTables) {
-            System.out.println("----> SCHEMAT TABLE: " + schemaTable);
             findAllBefore = reservedTableService.findAllBefore(reservation, schemaTable.getTableNumber());
             findAllBefore.sort(Comparator.comparing(ReservedTable::getDateOfReservation).reversed());
-            System.out.println("TABLE BEFORE " + findAllBefore);
             findAllAfter = reservedTableService.findAllAfter(reservation, schemaTable.getTableNumber());
             findAllAfter.sort(Comparator.comparing(ReservedTable::getDateOfReservation));
-            System.out.println("TABLE AFTER " + findAllAfter);
             reservationOnSameTime = reservedTableService.findIfAnyOnTheSameTime(reservation, schemaTable.getTableNumber());
-            System.out.println("TABLE ON THE SAME TIME " + reservationOnSameTime);
-
         }
 
         if (reservationOnSameTime != null) {
             return reservedTable;
         } else if (findAllBefore.size() == 0 && findAllAfter.size() != 0) {
             ReservedTable tableAfter = findAllAfter.get(0);
-            System.out.println("TABLE AFTER: " + (reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(restaurant.getMinimumMinutesForReservation()))));
             if (reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(restaurant.getMinimumMinutesForReservation()))) {
                 reservedTable = tableAfter;
             }
         } else if (findAllBefore.size() != 0 && findAllAfter.size() == 0) {
             ReservedTable tableBefore = findAllBefore.get(0);
-            System.out.println("TABLE BEFORE " + reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusMinutes(restaurant.getDefaultMinutesForReservation())));
             if (reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusMinutes(restaurant.getDefaultMinutesForReservation()))) {
                 reservedTable = tableBefore;
             }
         }else if (findAllBefore.size() != 0 && findAllAfter.size() != 0){
             ReservedTable tableAfter = findAllAfter.get(0);
             ReservedTable tableBefore = findAllBefore.get(0);
-            System.out.println("TABLE AFTER: " + (reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(restaurant.getMinimumMinutesForReservation()))));
-            System.out.println("TABLE BEFORE " + reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusMinutes(restaurant.getDefaultMinutesForReservation())));
             if (reservation.getDateTime().isAfter(tableBefore.getDateOfReservation().plusMinutes(restaurant.getDefaultMinutesForReservation()))
                 && reservation.getDateTime().isBefore(tableAfter.getDateOfReservation().plusMinutes(restaurant.getMinimumMinutesForReservation()))){
                 reservedTable = tableAfter;

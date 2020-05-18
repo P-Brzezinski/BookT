@@ -9,17 +9,21 @@
 </head>
 <body>
 <div class="center-content">
-    <h1 th:text="|Menu from ${restaurant.name}|"></h1>
+    <h1 th:text="|Menu ${restaurant.name}|"></h1>
     <table>
         <tr>
             <th>Name</th>
             <th>Price</th>
+            <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><th colspan="2">Action</th></div>
         </tr>
         <tr th:each="meal : ${meals}">
             <td th:text="*{meal.name}"/>
             <td th:text="*{meal.price}"/>
+            <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><td><a th:href="@{restaurateurPanel/mealForm(mealId=${meal.id}, restaurantId=${restaurant.id})}">Edit</a></td></div>
+            <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><td><a th:href="@{restaurateurPanel/deleteMeal(mealId=${meal.id}, restaurantId=${restaurant.id})}">Delete</a></td></div>
         </tr>
     </table>
+    <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><p><a th:href="@{/restaurateurPanel/mealForm(restaurantId=${restaurant.id})}">Add</a></p></div>
     <div sec:authorize="hasRole('ROLE_USER')"><p><a th:href="@{/showAllRestaurants}">Back</a></p></div>
     <div sec:authorize="hasRole('ROLE_RESTAURATEUR')"><p><a th:href="@{/restaurateurPanel/showAllRestaurants}">Back</a></p></div>
 </div>

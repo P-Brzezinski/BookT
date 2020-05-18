@@ -1,5 +1,6 @@
 package pl.brzezinski.bookt.controller;
 
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,8 @@ import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.model.restaurantMenu.Meal;
 import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
 import pl.brzezinski.bookt.model.users.User;
+import pl.brzezinski.bookt.repository.MealRepository;
+import pl.brzezinski.bookt.service.MealService;
 import pl.brzezinski.bookt.service.RestaurantMenuService;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.UserService;
@@ -24,13 +27,10 @@ import java.util.List;
 public class RestaurateurController {
 
     private RestaurantService restaurantService;
-    private RestaurantMenuService restaurantMenuService;
     private UserService userService;
 
-    @Autowired
-    public RestaurateurController(RestaurantService restaurantService, RestaurantMenuService restaurantMenuService, UserService userService) {
+    public RestaurateurController(RestaurantService restaurantService, UserService userService) {
         this.restaurantService = restaurantService;
-        this.restaurantMenuService = restaurantMenuService;
         this.userService = userService;
     }
 

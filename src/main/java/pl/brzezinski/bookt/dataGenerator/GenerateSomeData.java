@@ -18,7 +18,6 @@ import pl.brzezinski.bookt.service.ReservedTableService;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -231,7 +230,7 @@ public class GenerateSomeData {
         mealRepository.save(meal2);
         mealRepository.save(meal3);
 
-        restaurantMenu.setMeals(mealRepository.findAll());
+        restaurantMenu.setMeals(List.of(meal1, meal2, meal3));
         restaurantMenu.setRestaurant(restaurant1);
         restaurantMenuRepository.save(restaurantMenu);
 

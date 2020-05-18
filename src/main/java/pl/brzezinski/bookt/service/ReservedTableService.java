@@ -58,7 +58,11 @@ public class ReservedTableService implements GenericService<Long, ReservedTable>
         return reservedTableRepository.findByRestaurantAndTableNumberAndDateOfReservation(reservation.getRestaurant(), tableNumber, reservation.getDateTime());
     }
 
-    public List<ReservedTable> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate localDate){
-        return reservedTableRepository.findAllByRestaurantAndDateOfReservation(restaurant, localDate);
+    public List<ReservedTable> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date){
+        LocalDateTime timeStart = date.atTime(restaurant.getOpenTime().getHour(), restaurant.getOpenTime().getMinute());
+        System.out.println("TIME START: " + timeStart);
+        LocalDateTime timeEnds = date.atTime(restaurant.getCloseTime().getHour(), restaurant.getCloseTime().getMinute());
+        System.out.println("TIME ENDS: " + timeEnds);
+        return reservedTableRepository.findAllByRestaurantAndDateOfReservationBetween(restaurant, timeStart, timeEnds);
     }
 }

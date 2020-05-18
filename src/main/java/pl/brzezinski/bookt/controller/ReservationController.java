@@ -86,7 +86,6 @@ public class ReservationController {
 
     @GetMapping("/findShortTermTable")
     public String findShortTermTable(@ModelAttribute("reservation") Reservation reservation, Model model) {
-        System.out.println("CHECK _______________________________________");
         //check on which table there is a possibility for short term reservation
         ReservedTable reservedTable = reservationService.findShortTermTable(reservation);
         if (reservedTable == null) {
@@ -108,7 +107,7 @@ public class ReservationController {
     }
 
     @GetMapping("/saveReservation")
-    public String saveReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam int schemaTableNumber, Model model, SessionStatus status) {
+    public String saveReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam int schemaTableNumber, SessionStatus status) {
         SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), schemaTableNumber);
         reservationService.saveReservationOnTable(reservation, schemaTable);
         status.setComplete();

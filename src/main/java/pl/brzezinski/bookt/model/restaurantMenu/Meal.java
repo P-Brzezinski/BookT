@@ -1,6 +1,7 @@
 package pl.brzezinski.bookt.model.restaurantMenu;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 
 @Entity
 public class Meal {
@@ -9,6 +10,7 @@ public class Meal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Digits(integer = 5, fraction = 2)
     private double price;
     @ManyToOne
     private RestaurantMenu restaurantMenu;

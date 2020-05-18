@@ -32,13 +32,5 @@ public class RestaurantController {
         return "showAllRestaurants";
     }
 
-    @GetMapping("/showMenu")
-    public String showMenu(@RequestParam Long restaurantId, Model model) {
-        Restaurant restaurant = restaurantService.get(restaurantId);
-        RestaurantMenu restaurantMenu = restaurantMenuService.findByRestaurant(restaurant);
-        List<Meal> meals = restaurantMenu.getMeals();
-        model.addAttribute("meals", meals);
-        model.addAttribute("restaurant", restaurant);
-        return "showMenu";
-    }
+
 }
