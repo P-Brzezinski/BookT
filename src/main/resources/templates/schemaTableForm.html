@@ -8,6 +8,7 @@
 <body>
 <div class="center-content">
     <form method="post" action="#" th:action="@{/restaurateurPanel/saveSchemaTable}" th:object="${schemaTable}">
+        <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{restaurant}">
         <p>Number: <input type="number" th:field="*{tableNumber}"></p>
         <p>Places: <input type="number" th:field="*{places}"></p>

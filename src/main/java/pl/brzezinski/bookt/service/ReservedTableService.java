@@ -60,9 +60,7 @@ public class ReservedTableService implements GenericService<Long, ReservedTable>
 
     public List<ReservedTable> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date){
         LocalDateTime timeStart = date.atTime(restaurant.getOpenTime().getHour(), restaurant.getOpenTime().getMinute());
-        System.out.println("TIME START: " + timeStart);
         LocalDateTime timeEnds = date.atTime(restaurant.getCloseTime().getHour(), restaurant.getCloseTime().getMinute());
-        System.out.println("TIME ENDS: " + timeEnds);
         return reservedTableRepository.findAllByRestaurantAndDateOfReservationBetween(restaurant, timeStart, timeEnds);
     }
 }

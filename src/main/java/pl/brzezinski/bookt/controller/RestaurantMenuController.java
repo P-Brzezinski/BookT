@@ -60,7 +60,7 @@ public class RestaurantMenuController {
     }
 
     @PostMapping("/restaurateurPanel/saveMeal")
-    public String saveMeal(@ModelAttribute Meal meal, Model model){
+    public String saveMeal(@ModelAttribute Meal meal){
         mealService.add(meal);
         RestaurantMenu restaurantMenu = meal.getRestaurantMenu();
         restaurantMenuService.add(restaurantMenu);
