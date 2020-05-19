@@ -3,10 +3,7 @@ package pl.brzezinski.bookt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.service.RestaurantService;
@@ -15,6 +12,8 @@ import pl.brzezinski.bookt.service.SchemaTableService;
 import java.util.List;
 
 @Controller
+@SessionAttributes("restaurant")
+@RequestMapping("/restaurateurPanel")
 public class SchemaTableController {
 
     private RestaurantService restaurantService;
@@ -26,27 +25,44 @@ public class SchemaTableController {
         this.schemaTableService = schemaTableService;
     }
 
-    @GetMapping("/addNewTableSchema")
-    public String addNewSchemaTable(@RequestParam Long restaurantId, Model model){
-        Restaurant restaurant = restaurantService.get(restaurantId);
-        SchemaTable schemaTable = new SchemaTable();
-        schemaTable.setRestaurant(restaurant);
+    @ModelAttribute
+    public Restaurant restaurant(){
+        return new Restaurant();
+    }
+
+    @GetMapping("/showSchemaTables")
+    public String showSchemaTables(@ModelAttribute("restaurant") Restaurant restaurant, @RequestParam(required = false) Long restaurantId, Model model) {
+        if (restaurant.getId() == null){
+            restaurant = restaurantService.get(restaurantId);
+            model.addAttribute("restaurant", restaurant);
+        }
+        List<SchemaTable> schemaTables = schemaTableService.findAllByRestaurant(restaurant);
+        model.addAttribute("schemaTables", schemaTables);
+        return "showSchemaTables";
+    }
+
+    @GetMapping("/schemaTableForm")
+    public String schemaTableForm(@ModelAttribute("restaurant") Restaurant restaurant, @RequestParam(required = false) Long schemaTableId, Model model) {
+        SchemaTable schemaTable;
+        if (schemaTableId == null){
+            schemaTable = new SchemaTable();
+            schemaTable.setRestaurant(restaurant);
+        }else {
+            schemaTable = schemaTableService.get(schemaTableId);
+        }
         model.addAttribute("schemaTable", schemaTable);
-        return "addNewSchemaTable";
+        return "schemaTableForm";
     }
 
     @PostMapping("/saveSchemaTable")
-    public String saveSchemaTable(@ModelAttribute SchemaTable schemaTable){
+    public String saveSchemaTable(@ModelAttribute SchemaTable schemaTable) {
         schemaTableService.add(schemaTable);
-        return "redirect:/";
+        return "redirect:/restaurateurPanel/showSchemaTables";
     }
 
-
-    @GetMapping("/showSchemaTables")
-    public String showSchemaTables(@RequestParam Long restaurantId, Model model){
-        Restaurant restaurant = restaurantService.get(restaurantId);
-        List<SchemaTable> schemaTables = schemaTableService.findAllByRestaurant(restaurant);
-        model.addAttribute("schemaTables", schemaTables);
-        return "showAllSchemaTablesInRestaurant";
+    @GetMapping("/deleteSchemaTable")
+    public String deleteSchemaTable(@RequestParam Long schemaTableId) {
+        schemaTableService.deleteById(schemaTableId);
+        return "redirect:/restaurateurPanel/showSchemaTables";
     }
 }

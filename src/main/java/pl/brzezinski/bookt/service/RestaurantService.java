@@ -33,6 +33,11 @@ public class RestaurantService implements GenericService<Long, Restaurant> {
     }
 
     @Override
+    public void deleteById(Long id) {
+        restaurantRepository.deleteById(id);
+    }
+
+    @Override
     public List<Restaurant> getAll() {
         return restaurantRepository.findAll();
     }

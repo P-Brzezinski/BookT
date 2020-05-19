@@ -24,6 +24,7 @@ import static pl.brzezinski.bookt.service.ReservationService.*;
 
 @Controller
 @SessionAttributes("reservation")
+@RequestMapping({"/admin", "/"})
 public class ReservationController {
 
     private RestaurantService restaurantService;
@@ -92,8 +93,8 @@ public class ReservationController {
             model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
             return "failed";
         } else {
-            Long duration = reservationService.checkTimeBetween(reservation.getDateTime(), reservedTable.getDateOfReservation());
-            if (duration < Restaurant.ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES) {
+            Long duration = reservationService.checkTimeBetween(reservation, reservedTable.getDateOfReservation());
+            if (duration < reservation.getRestaurant().getMinimumMinutesForReservation()) {
                 model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
                 return "failed";
             } else {
@@ -107,7 +108,7 @@ public class ReservationController {
     }
 
     @GetMapping("/saveReservation")
-    public String saveReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam int schemaTableNumber, Model model, SessionStatus status) {
+    public String saveReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam int schemaTableNumber, SessionStatus status) {
         SchemaTable schemaTable = schemaTableService.findByRestaurantAndTableNumber(reservation.getRestaurant(), schemaTableNumber);
         reservationService.saveReservationOnTable(reservation, schemaTable);
         status.setComplete();

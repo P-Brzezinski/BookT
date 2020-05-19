@@ -14,6 +14,7 @@ public interface ReservedTableRepository extends JpaRepository<ReservedTable, Lo
     List<ReservedTable> findAllByRestaurantAndTableNumberAndDateOfReservationIsBefore(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
     List<ReservedTable> findAllByRestaurantAndTableNumberAndDateOfReservationIsAfter(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
     ReservedTable findByRestaurantAndTableNumberAndDateOfReservation(Restaurant restaurant, int tableNumber, LocalDateTime dateTime);
+    List<ReservedTable> findAllByRestaurantAndDateOfReservationBetween(Restaurant restaurant, LocalDateTime date1, LocalDateTime date2);
 
 }
 

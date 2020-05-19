@@ -14,8 +14,14 @@
         <p th:errors="*{email}">Email Errors</p>
         <input th:field="*{password}" type="password" placeholder="Password"><br>
         <p th:errors="*{password}">Password Errors</p>
-        <input type="checkbox" id="isRestaurateur" name="isRestaurateur" value="yes">
-        <label for="isRestaurateur">Are you a Restaurant Owner?</label>
+        <p>Are you a Restaurant Owner?</p>
+
+        <input type="radio" id="isNotRestaurateur" name="isRestaurateur" value="no ">
+        <label for="isNotRestaurateur" name="isRestaurateur" checked>No</label>
+
+        <input type="radio" id="isRestaurateur" name="isRestaurateur" value="yes" checked>
+        <label for="isRestaurateur">Yes</label>
+
         <input type="submit" value="Register">
     </form>
 </div>

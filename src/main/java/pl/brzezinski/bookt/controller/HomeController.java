@@ -1,13 +1,12 @@
 package pl.brzezinski.bookt.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
 
 @Controller
 public class HomeController {
@@ -18,15 +17,24 @@ public class HomeController {
     }
 
     @RequestMapping("/mainMenu")
-    public String mainMenu() {
+    public String mainMenu(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
         return "mainMenu";
     }
 
+    @RequestMapping("/restaurateurPanel")
+    public String restaurateur(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        return "restaurateurPanel";
+    }
+
     @RequestMapping("/admin")
-    public String admin(){return "admin";}
+    public String admin() {
+        return "admin";
+    }
 
     @RequestMapping("/403")
-    public String error403(){
+    public String error403() {
         return "403";
     }
 }

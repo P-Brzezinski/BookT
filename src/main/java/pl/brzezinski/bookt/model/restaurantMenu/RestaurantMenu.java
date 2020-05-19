@@ -3,6 +3,7 @@ package pl.brzezinski.bookt.model.restaurantMenu;
 import pl.brzezinski.bookt.model.Restaurant;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,7 @@ public class RestaurantMenu {
     @OneToOne
     private Restaurant restaurant;
     @OneToMany(mappedBy = "restaurantMenu")
-    private List<Meal> meals;
+    private List<Meal> meals = new ArrayList<>();
 
     public RestaurantMenu() {
     }
@@ -43,11 +44,4 @@ public class RestaurantMenu {
         this.meals = meal;
     }
 
-    @Override
-    public String toString() {
-        return "RestaurantMenu{" +
-                "id=" + id +
-                ", restaurant=" + restaurant +
-                '}';
-    }
 }

@@ -1,11 +1,11 @@
 package pl.brzezinski.bookt.model;
 
 import org.hibernate.validator.constraints.URL;
-import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.enums.Genre;
 import pl.brzezinski.bookt.model.restaurantMenu.RestaurantMenu;
 import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.model.tables.SchemaTable;
+import pl.brzezinski.bookt.model.users.User;
 import pl.brzezinski.bookt.validation.constraint.OpenHoursForRestaurant;
 import pl.brzezinski.bookt.validation.constraint.Phone;
 
@@ -17,13 +17,8 @@ import java.util.List;
 
 @Entity
 @OpenHoursForRestaurant(message = "{pl.brzezinski.bookt.Restaurant.OpenHoursForRestaurant}")
+@Table(name = "restaurants")
 public class Restaurant {
-
-    public static int ESTIMATED_TIME_FOR_ONE_RESERVATION_IN_MINUTES = 180;
-    public static int ESTIMATED_TIME_BETWEEN_RESERVATIONS_IN_MINUTES = 15;
-    public static int ESTIMATED_MINIMUM_TIME_FOR_ONE_RESERVATION_IN_MINUTES = 60;
-    public static int TABLE_WITH_MINIMUM_PLACES = 0;
-    public static int TABLE_WITH_MAX_PLACES = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +45,21 @@ public class Restaurant {
     private LocalTime closeTime;
     @Phone(message = "{pl.brzezinski.bookt.Restaurant.phoneNumber.Phone}")
     private String phoneNumber;
+    @Min(1)
+    private int defaultMinutesForReservation;
+    @Min(1)
+    private int minutesBetweenReservations;
+    @Min(1)
+    private int minimumMinutesForReservation;
+    //how many places minimum can have table for reservation (possibility to reserve smaller tables)
+    @NotNull
+    private int minPlaces;
+    //how many places maximum can have table for reservation (possibility to block larger tables than necessary)
+    @NotNull
+    private int maxPlaces;
+
+
+
     @OneToMany(mappedBy = "restaurant",
     cascade = CascadeType.PERSIST)
     private List<ReservedTable> reservedTables = new ArrayList<>();
@@ -66,10 +76,9 @@ public class Restaurant {
     cascade = CascadeType.PERSIST)
     private RestaurantMenu restaurantMenu;
 
-    public void addTable(ReservedTable reservedTable){
-        reservedTable.setRestaurant(this);
-        getReservedTables().add(reservedTable);
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User restaurantOwner;
 
     public Restaurant() {
     }
@@ -86,22 +95,6 @@ public class Restaurant {
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.phoneNumber = phoneNumber;
-    }
-
-    public List<SchemaTable> getSchemaTables() {
-        return schemaTables;
-    }
-
-    public void setSchemaTables(List<SchemaTable> schemaTables) {
-        this.schemaTables = schemaTables;
-    }
-
-    public List<ReservedTable> getReservedTables() {
-        return reservedTables;
-    }
-
-    public void setReservedTables(List<ReservedTable> reservedTables) {
-        this.reservedTables = reservedTables;
     }
 
     public Long getId() {
@@ -160,6 +153,14 @@ public class Restaurant {
         this.url = url;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public LocalTime getOpenTime() {
         return openTime;
     }
@@ -184,12 +185,60 @@ public class Restaurant {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
+    public int getDefaultMinutesForReservation() {
+        return defaultMinutesForReservation;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDefaultMinutesForReservation(int minutesForReservation) {
+        this.defaultMinutesForReservation = minutesForReservation;
+    }
+
+    public int getMinutesBetweenReservations() {
+        return minutesBetweenReservations;
+    }
+
+    public void setMinutesBetweenReservations(int minutesBetweenReservations) {
+        this.minutesBetweenReservations = minutesBetweenReservations;
+    }
+
+    public int getMinimumMinutesForReservation() {
+        return minimumMinutesForReservation;
+    }
+
+    public void setMinimumMinutesForReservation(int minimumMinutesForReservation) {
+        this.minimumMinutesForReservation = minimumMinutesForReservation;
+    }
+
+    public int getMinPlaces() {
+        return minPlaces;
+    }
+
+    public void setMinPlaces(int minPlaces) {
+        this.minPlaces = minPlaces;
+    }
+
+    public int getMaxPlaces() {
+        return maxPlaces;
+    }
+
+    public void setMaxPlaces(int maxPlaces) {
+        this.maxPlaces = maxPlaces;
+    }
+
+    public List<ReservedTable> getReservedTables() {
+        return reservedTables;
+    }
+
+    public void setReservedTables(List<ReservedTable> reservedTables) {
+        this.reservedTables = reservedTables;
+    }
+
+    public List<SchemaTable> getSchemaTables() {
+        return schemaTables;
+    }
+
+    public void setSchemaTables(List<SchemaTable> schemaTables) {
+        this.schemaTables = schemaTables;
     }
 
     public List<Reservation> getReservations() {
@@ -208,19 +257,12 @@ public class Restaurant {
         this.restaurantMenu = restaurantMenu;
     }
 
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", genre=" + genre +
-                ", url='" + url + '\'' +
-                ", openTime='" + openTime + '\'' +
-                ", closeTime='" + closeTime + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+    public User getRestaurantOwner() {
+        return restaurantOwner;
     }
+
+    public void setRestaurantOwner(User restaurantOwner) {
+        this.restaurantOwner = restaurantOwner;
+    }
+    
 }

@@ -3,9 +3,12 @@ package pl.brzezinski.bookt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.brzezinski.bookt.model.Reservation;
+import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.tables.ReservedTable;
 import pl.brzezinski.bookt.repository.ReservedTableRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,6 +37,11 @@ public class ReservedTableService implements GenericService<Long, ReservedTable>
     }
 
     @Override
+    public void deleteById(Long id) {
+        reservedTableRepository.deleteById(id);
+    }
+
+    @Override
     public List<ReservedTable> getAll() {
         return reservedTableRepository.findAll();
     }
@@ -48,5 +56,11 @@ public class ReservedTableService implements GenericService<Long, ReservedTable>
 
     public ReservedTable findIfAnyOnTheSameTime(Reservation reservation, int tableNumber) {
         return reservedTableRepository.findByRestaurantAndTableNumberAndDateOfReservation(reservation.getRestaurant(), tableNumber, reservation.getDateTime());
+    }
+
+    public List<ReservedTable> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date){
+        LocalDateTime timeStart = date.atTime(restaurant.getOpenTime().getHour(), restaurant.getOpenTime().getMinute());
+        LocalDateTime timeEnds = date.atTime(restaurant.getCloseTime().getHour(), restaurant.getCloseTime().getMinute());
+        return reservedTableRepository.findAllByRestaurantAndDateOfReservationBetween(restaurant, timeStart, timeEnds);
     }
 }
