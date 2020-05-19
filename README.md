@@ -1,6 +1,6 @@
 BookT - manage your restaurant or reserve table for dinner
 
-Web application which uou can use as a Guest who would like to reserve table at restaurant or as Restaurateur who would like to manage his restaurants.
+Web application which you can use as a Guest who would like to reserve table at restaurant or as Restaurateur who would like to manage his restaurants.
 
 1. Functionality offered:
 
@@ -12,10 +12,7 @@ Web application which uou can use as a Guest who would like to reserve table at 
     For Restaurateur:
     - create your restaurant
     - manage table numbers and places,
-    - you can specify:
-      -time for reservation
-      -time between reservations
-      -minimum and maximum guests at table
+    - you can specify all details and for example estimated time for reservation, estimated time between reservations etc
     - based on input data reservations will be booked
 
     Reservation system:
@@ -28,7 +25,7 @@ Web application which uou can use as a Guest who would like to reserve table at 
 
     Backend:
     - Java 11
-    - Spring (Security, Validation)
+    - Spring
     - Hibernate
   
    Frontend:
