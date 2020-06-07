@@ -2,6 +2,7 @@ package pl.brzezinski.bookt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.brzezinski.bookt.model.Reservation;
 import pl.brzezinski.bookt.model.Restaurant;
 import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.repository.SchemaTableRepository;
@@ -45,18 +46,20 @@ public class SchemaTableService implements GenericService<Long, SchemaTable> {
 
     public List<SchemaTable> findAllByRestaurant(Restaurant restaurant){ return schemaTableRepository.findAllByRestaurant(restaurant);}
 
-    public List<SchemaTable> findAllByPlaces(int places){ return schemaTableRepository.findAllByPlaces(places);}
-
-    public List<SchemaTable> findAllByRestaurantsAndByPlaces(Restaurant restaurant, int places){
-        return schemaTableRepository.findAllByRestaurantAndPlaces(restaurant, places);
-    }
-
     public List<SchemaTable> findAllByRestaurantsAndByPlacesBetween(Restaurant restaurant, int min, int max){
         return schemaTableRepository.findAllByRestaurantAndPlacesBetween(restaurant, min, max);
     }
 
     public SchemaTable findByRestaurantAndTableNumber(Restaurant restaurant, int tableNumber){
         return schemaTableRepository.findByRestaurantAndAndTableNumber(restaurant, tableNumber);
+    }
+
+    public List<SchemaTable> findPossibleSchemaTablesForReservation(Reservation reservation) {
+        Restaurant restaurant = reservation.getRestaurant();
+        int minPlacesAtTable = reservation.getNumberOfPersons() - restaurant.getMinPlaces();
+        int maxTablesAtTable = reservation.getNumberOfPersons() + restaurant.getMaxPlaces();
+        List<SchemaTable> possibleSchemaTables = findAllByRestaurantsAndByPlacesBetween(restaurant, minPlacesAtTable, maxTablesAtTable);
+        return possibleSchemaTables;
     }
 }
 

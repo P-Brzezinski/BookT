@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "restaurant_menus")
 public class RestaurantMenu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_restaurant_menu")
     private Long id;
     @OneToOne
+    @JoinColumn(name = "resaurant_id")
     private Restaurant restaurant;
     @OneToMany(mappedBy = "restaurantMenu")
     private List<Meal> meals = new ArrayList<>();
@@ -40,8 +43,7 @@ public class RestaurantMenu {
         return meals;
     }
 
-    public void setMeals(List<Meal> meal) {
-        this.meals = meal;
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
     }
-
 }

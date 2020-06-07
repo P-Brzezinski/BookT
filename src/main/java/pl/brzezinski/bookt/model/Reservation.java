@@ -38,9 +38,9 @@ public class Reservation {
     @Future(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.dateTime.Future}")
     private LocalDateTime dateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "id_restaurant")
     @NotNull(groups = FirstValidation.class, message = "{pl.brzezinski.bookt.Reservation.restaurant.NotNull}")
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToOne
@@ -48,14 +48,6 @@ public class Reservation {
     private ReservedTable reservedTable;
 
     public Reservation() {
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
     }
 
     public Long getId() {
@@ -98,6 +90,14 @@ public class Reservation {
         this.notes = notes;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }
@@ -120,10 +120,11 @@ public class Reservation {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", numberOfPersons=" + numberOfPersons +
-                ", phoneNumber=" + phoneNumber +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", notes='" + notes + '\'' +
                 ", dateTime=" + dateTime +
                 ", restaurant=" + restaurant.getName() +
+                ", reservedTable=" + reservedTable.getTableNumber() +
                 '}';
     }
 }

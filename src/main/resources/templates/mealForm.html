@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="center-content">
-    <form method="post" action="#" th:action="@{/restaurateurPanel/saveMeal}" th:object="${meal}">
+    <form method="post" action="#" th:action="@{/restaurateurPanel/saveMeal(restaurantId=${restaurantId})}" th:object="${meal}">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{restaurantMenu}">
         <p>Name: <input type="text" th:field="*{name}"></p>

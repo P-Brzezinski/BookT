@@ -22,6 +22,7 @@ public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_restaurant")
     private Long id;
     @NotBlank(message = "{pl.brzezinski.bookt.Restaurant.name.NotBlank}")
     private String name;
@@ -58,22 +59,16 @@ public class Restaurant {
     @NotNull
     private int maxPlaces;
 
-
-
-    @OneToMany(mappedBy = "restaurant",
-    cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "restaurant")
     private List<ReservedTable> reservedTables = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant",
-    cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "restaurant")
     private List<SchemaTable> schemaTables = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant",
-    cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "restaurant")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToOne(mappedBy = "restaurant",
-    cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "restaurant")
     private RestaurantMenu restaurantMenu;
 
     @ManyToOne
@@ -189,8 +184,8 @@ public class Restaurant {
         return defaultMinutesForReservation;
     }
 
-    public void setDefaultMinutesForReservation(int minutesForReservation) {
-        this.defaultMinutesForReservation = minutesForReservation;
+    public void setDefaultMinutesForReservation(int defaultMinutesForReservation) {
+        this.defaultMinutesForReservation = defaultMinutesForReservation;
     }
 
     public int getMinutesBetweenReservations() {
@@ -264,5 +259,31 @@ public class Restaurant {
     public void setRestaurantOwner(User restaurantOwner) {
         this.restaurantOwner = restaurantOwner;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", postCode='" + postCode + '\'' +
+                ", genre=" + genre +
+                ", url='" + url + '\'' +
+                ", email='" + email + '\'' +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", defaultMinutesForReservation=" + defaultMinutesForReservation +
+                ", minutesBetweenReservations=" + minutesBetweenReservations +
+                ", minimumMinutesForReservation=" + minimumMinutesForReservation +
+                ", minPlaces=" + minPlaces +
+                ", maxPlaces=" + maxPlaces +
+                ", reservedTables=" + reservedTables.size() +
+                ", schemaTables=" + schemaTables.size() +
+                ", reservations=" + reservations.size() +
+                ", restaurantMenu=" + restaurantMenu.getMeals().size() + "positions" +
+                ", restaurantOwner=" + restaurantOwner.getName() +
+                '}';
+    }
 }

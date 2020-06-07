@@ -5,14 +5,17 @@ import pl.brzezinski.bookt.model.Restaurant;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "schema_tables")
 public class SchemaTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_schema_table")
     private Long id;
     private int tableNumber;
     private int places;
     @ManyToOne
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     public SchemaTable() {

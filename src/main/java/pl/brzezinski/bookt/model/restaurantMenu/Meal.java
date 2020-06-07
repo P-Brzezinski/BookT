@@ -4,10 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 
 @Entity
+@Table(name = "meals")
 public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_meal")
     private Long id;
     private String name;
     @Digits(integer = 5, fraction = 2)
@@ -55,13 +57,4 @@ public class Meal {
         this.restaurantMenu = restaurantMenu;
     }
 
-    @Override
-    public String toString() {
-        return "Meal{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", restaurantMenu=" + restaurantMenu +
-                '}';
-    }
 }

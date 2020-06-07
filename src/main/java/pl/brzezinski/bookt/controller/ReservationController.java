@@ -1,6 +1,5 @@
 package pl.brzezinski.bookt.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +13,7 @@ import pl.brzezinski.bookt.model.tables.SchemaTable;
 import pl.brzezinski.bookt.service.ReservationService;
 import pl.brzezinski.bookt.service.RestaurantService;
 import pl.brzezinski.bookt.service.SchemaTableService;
+import pl.brzezinski.bookt.service.ShortTermReservationService;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.FirstValidation;
 import pl.brzezinski.bookt.validation.constraint.groupSequences.SecondValidation;
 
@@ -30,12 +30,13 @@ public class ReservationController {
     private RestaurantService restaurantService;
     private ReservationService reservationService;
     private SchemaTableService schemaTableService;
+    private ShortTermReservationService shortTermReservationService;
 
-    @Autowired
-    public ReservationController(RestaurantService restaurantService, ReservationService reservationService, SchemaTableService schemaTableService) {
+    public ReservationController(RestaurantService restaurantService, ReservationService reservationService, SchemaTableService schemaTableService, ShortTermReservationService shortTermReservationService) {
         this.restaurantService = restaurantService;
         this.reservationService = reservationService;
         this.schemaTableService = schemaTableService;
+        this.shortTermReservationService = shortTermReservationService;
     }
 
     @GetMapping("/askForReservation")
@@ -88,7 +89,7 @@ public class ReservationController {
     @GetMapping("/findShortTermTable")
     public String findShortTermTable(@ModelAttribute("reservation") Reservation reservation, Model model) {
         //check on which table there is a possibility for short term reservation
-        ReservedTable reservedTable = reservationService.findShortTermTable(reservation);
+        ReservedTable reservedTable = shortTermReservationService.findShortTermTable(reservation);
         if (reservedTable == null) {
             model.addAttribute("reason", ALL_TABLES_ARE_OCCUPIED_AT_THIS_TIME);
             return "failed";

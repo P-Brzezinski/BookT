@@ -10,11 +10,11 @@ import pl.brzezinski.bookt.service.MealService;
 import pl.brzezinski.bookt.service.RestaurantMenuService;
 import pl.brzezinski.bookt.service.RestaurantService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
-@SessionAttributes("restaurant")
-@RequestMapping({"/restaurateurPanel", "/"})
+@RequestMapping({"/restaurateurPanel", "/", "/admin"})
 public class RestaurantMenuController {
 
     private RestaurantService restaurantService;
@@ -27,49 +27,54 @@ public class RestaurantMenuController {
         this.mealService = mealService;
     }
 
-    @ModelAttribute
-    public Restaurant restaurant(){
-        return new Restaurant();
-    }
-
     @GetMapping("/showMenu")
-    public String showMenu(@ModelAttribute("restaurant") Restaurant restaurant, @RequestParam(required = false) Long restaurantId, Model model) {
-        if (restaurant.getId() == null){
-            restaurant = restaurantService.get(restaurantId);
-            model.addAttribute("restaurant", restaurant);
+    public String showMenu(@RequestParam(required = false) Long restaurantId, Model model) {
+        Restaurant restaurant = restaurantService.get(restaurantId);
+        RestaurantMenu restaurantMenu = restaurant.getRestaurantMenu();
+        List<Meal> meals;
+        if (restaurantMenu == null) {
+            meals = Collections.emptyList();
+        } else {
+            meals = restaurantMenu.getMeals();
         }
-        RestaurantMenu restaurantMenu = restaurantMenuService.findByRestaurant(restaurant);
-        List<Meal> meals = restaurantMenu.getMeals();
         model.addAttribute("meals", meals);
-        model.addAttribute("restaurant", restaurant);
+        model.addAttribute("restaurantId", restaurantId);
+        model.addAttribute("restaurantName", restaurant.getName());
         return "showMenu";
     }
 
     @GetMapping("/mealForm")
-    public String mealForm(@ModelAttribute("restaurant") Restaurant restaurant, @RequestParam(required = false) Long mealId, Model model){
+    public String mealForm(@RequestParam Long restaurantId, @RequestParam(required = false) Long mealId, Model model) {
         Meal meal;
-        if (mealId != null){
+        if (mealId != null) {
             meal = mealService.get(mealId);
-        }else {
+        } else {
             meal = new Meal();
         }
-        meal.setRestaurantMenu(restaurant.getRestaurantMenu());
         model.addAttribute("meal", meal);
+        model.addAttribute("restaurantId", restaurantId);
         return "mealForm";
     }
 
     @PostMapping("/saveMeal")
-    public String saveMeal(@ModelAttribute Meal meal){
-        mealService.add(meal);
-        RestaurantMenu restaurantMenu = meal.getRestaurantMenu();
+    public String saveMeal(@RequestParam Long restaurantId, @ModelAttribute Meal meal) {
+        Restaurant restaurant = restaurantService.get(restaurantId);
+        RestaurantMenu restaurantMenu = restaurant.getRestaurantMenu();
+        if (restaurantMenu == null){
+            restaurantMenu = new RestaurantMenu();
+            restaurantMenu.setRestaurant(restaurant);
+        }
+        meal.setRestaurantMenu(restaurantMenu);
         restaurantMenuService.add(restaurantMenu);
-        restaurantService.add(restaurantMenu.getRestaurant());
-        return "redirect:/restaurateurPanel/showAllRestaurants";
+        mealService.add(meal);
+        restaurant.setRestaurantMenu(restaurantMenu);
+        restaurantService.add(restaurant);
+        return "redirect:/showAllRestaurants";
     }
 
     @GetMapping("/deleteMeal")
-    public String deleteMeal(@RequestParam Long mealId){
+    public String deleteMeal(@RequestParam Long mealId) {
         mealService.deleteById(mealId);
-        return "redirect:/showMenu";
+        return "redirect:/showAllRestaurants";
     }
 }

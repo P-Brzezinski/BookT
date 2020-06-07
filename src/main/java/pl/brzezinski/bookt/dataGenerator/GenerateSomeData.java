@@ -77,9 +77,8 @@ public class GenerateSomeData {
     SchemaTable schemaTable11;
     SchemaTable schemaTable12;
 
-
     @PostConstruct
-    public void createData(){
+    public void createRoleData() {
         createRoleIfNotFound(ROLE_ADMIN);
         createRoleIfNotFound(ROLE_USER);
         createRoleIfNotFound(ROLE_RESTAURATEUR);
@@ -118,9 +117,9 @@ public class GenerateSomeData {
     }
 
 
-    private Role createRoleIfNotFound(String name){
+    private Role createRoleIfNotFound(String name) {
         Role role = roleRepository.findByName(name);
-        if (role == null){
+        if (role == null) {
             role = new Role(name);
             roleRepository.save(role);
         }
@@ -156,10 +155,10 @@ public class GenerateSomeData {
     public void addSchemaTables() {
         schemaTable1 = new SchemaTable(1, 2);
         schemaTable2 = new SchemaTable(2, 2);
-        schemaTable3 = new SchemaTable(3, 2);
-        schemaTable4 = new SchemaTable(4, 2);
-        schemaTable5 = new SchemaTable(5, 4);
-        schemaTable6 = new SchemaTable(6, 4);
+        schemaTable3 = new SchemaTable(3, 4);
+        schemaTable4 = new SchemaTable(4, 4);
+        schemaTable5 = new SchemaTable(5, 8);
+        schemaTable6 = new SchemaTable(6, 10);
         schemaTable7 = new SchemaTable(7, 20);
         schemaTable1.setRestaurant(podFredra);
         schemaTable2.setRestaurant(podFredra);
@@ -203,14 +202,14 @@ public class GenerateSomeData {
         reservation1.setNotes("Nice table please");
         reservation1.setDateTime(LocalDateTime.of(2020, 12, 12, 16, 00));
         reservation1.setRestaurant(podFredra);
-
         ReservedTable reservedTable1 = new ReservedTable(
                 schemaTable1.getTableNumber(),
                 schemaTable1.getPlaces(),
                 reservation1.getDateTime());
+
         reservationRepository.save(reservation1);
         reservedTable1.setReservation(reservation1);
-        reservedTable1.setRestaurant(reservation1.getRestaurant());
+        reservedTable1.setRestaurant(podFredra);
         reservedTableService.add(reservedTable1);
         reservation1.setReservedTable(reservedTable1);
         reservationRepository.save(reservation1);
@@ -274,7 +273,7 @@ public class GenerateSomeData {
     }
 
     @PostConstruct
-    public void addMenu(){
+    public void addMenu() {
         RestaurantMenu restaurantMenu = new RestaurantMenu();
         restaurantMenuRepository.save(restaurantMenu);
 
